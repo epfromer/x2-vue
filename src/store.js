@@ -5,11 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    count: 0
+    // current page of emails
+    emails: [],
+
+    // total emails that match query
+    totalEmails: 0
   },
   mutations: {
-    increment: state => state.count++,
-    decrement: state => state.count--
+    setEmails: (state, emails) => (state.emails = emails),
+    setTotalEmails: (state, totalEmails) => (state.totalEmails = totalEmails)
   },
-  actions: {}
+  actions: {
+    setEmailsAsync: (context, emails) => context.commit('setEmails', emails),
+    setTotalEmailsAsync: (context, totalEmails) => context.commit('setTotalEmails', totalEmails)
+  }
 });

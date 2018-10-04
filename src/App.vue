@@ -30,26 +30,8 @@ export default {
     EmailListComponent,
     SearchComponent
   },
-  data() {
-    return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [
-        {
-          icon: 'bubble_chart',
-          title: 'Inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    };
-  },
   methods: {
     setSearchParams() {
-      console.log('app setSearchParams; yahoo!');
       this.doSearch();
     },
 
@@ -95,11 +77,13 @@ export default {
       // show the loading overlay
       // this.setState({ loading: true });
 
-      console.log('doSearch');
+      const server = process.env.VUE_APP_EMAIL_SERVER;
+      const searchParams = this.getSearchParamsAsEncodedString();
       return (
-        fetch(`${process.env.EMAIL_SERVER}/email/${this.getSearchParamsAsEncodedString()}`)
+        fetch(`${server}/email/${searchParams}`)
           .then(resp => resp.json())
           .then(data => {
+            console.log(`state = ${this.$store.state.emails}`);
             console.log(data);
             //   this.setState({
             //     listEmails: data.listDocs,

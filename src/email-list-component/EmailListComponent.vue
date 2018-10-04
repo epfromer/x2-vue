@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ totalEmails }}
     <v-data-table
       :headers="headers"
       :items="desserts"
@@ -26,6 +27,7 @@ export default {
   },
   data() {
     return {
+      totalEmails: 5,
       headers: [
         {
           text: 'Dessert (100g serving)',
@@ -135,10 +137,16 @@ export default {
   },
   created() {
     console.log('created');
-    console.log(`state = ${this.$store.state.count}`);
-    this.$store.commit('increment');
-    console.log(`state = ${this.$store.state.count}`);
+    console.log(`state = ${this.$store.state.emails}`);
+    this.$store.dispatch('setEmailsAsync', ['foo', 'bar']);
+    console.log(`state = ${this.$store.state.emails}`);
     this.setSearchParams();
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate');
+  },
+  updated() {
+    console.log('updated');
   }
 };
 </script>
