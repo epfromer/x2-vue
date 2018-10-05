@@ -77,13 +77,6 @@ export default {
       // show the loading overlay
       // this.setState({ loading: true });
 
-      console.log(`state = ${this.$store.state.totalEmails}`);
-      this.$store.commit('setEmails', {
-        listEmails: [{ subject: 'foo' }, { subject: 'bar' }],
-        totalEmails: 4
-      });
-      console.log(`state = ${this.$store.state.totalEmails}`);
-
       const server = process.env.VUE_APP_EMAIL_SERVER;
       const searchParams = this.getSearchParamsAsEncodedString();
       return (

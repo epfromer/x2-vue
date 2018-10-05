@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ this.$store.state.totalEmails }}
     <v-data-table
       :headers="headers"
       :items=this.$store.state.listEmails
@@ -8,6 +7,8 @@
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
+        <td>{{ props.item.clientSubmitTime }}</td>
+        <td>{{ props.item.senderName }}</td>
         <td>{{ props.item.subject }}</td>
       </template>
     </v-data-table>
@@ -23,6 +24,18 @@ export default {
   data() {
     return {
       headers: [
+        {
+          text: 'Created',
+          align: 'left',
+          sortable: false,
+          value: 'clientSubmitTime'
+        },
+        {
+          text: 'From',
+          align: 'left',
+          sortable: false,
+          value: 'senderName'
+        },
         {
           text: 'Subject',
           align: 'left',
