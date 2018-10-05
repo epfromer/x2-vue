@@ -6,17 +6,18 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // current page of emails
-    emails: [],
+    listEmails: [],
 
     // total emails that match query
     totalEmails: 0
   },
   mutations: {
-    setEmails: (state, emails) => (state.emails = emails),
-    setTotalEmails: (state, totalEmails) => (state.totalEmails = totalEmails)
+    setEmails(state, emails) {
+      state.listEmails = emails.listEmails;
+      state.totalEmails = emails.totalEmails;
+    }
   },
   actions: {
-    setEmailsAsync: (context, emails) => context.commit('setEmails', emails),
-    setTotalEmailsAsync: (context, totalEmails) => context.commit('setTotalEmails', totalEmails)
+    setEmailsAsync: (context, emails) => context.commit('setEmails', emails)
   }
 });
