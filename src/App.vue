@@ -7,7 +7,7 @@
           <v-flex xs6>
             <SearchComponent msg="hello from SearchComponent"/>
             <EmailListComponent
-              :setSearchParams="setSearchParams"/>
+              :doSearch="doSearch"/>
           </v-flex>
           <v-flex xs6>
             <EmailDetailComponent msg="hello from EmailDetailComponent"/>
@@ -36,6 +36,10 @@ export default {
     },
 
     getSearchParamsAsEncodedString() {
+      const skip = this.$store.state.skip;
+      const limit = this.$store.state.limit;
+      const sortField = this.$store.state.sortField;
+      const sortOrder = this.$store.state.sortOrder;
       // const {
       //   skip,
       //   limit,
@@ -50,7 +54,7 @@ export default {
       //   sortOrder
       // } = this.state;
 
-      // let params = `?skip=${skip}&limit=${limit}`;
+      let params = `?skip=${skip}&limit=${limit}`;
       // params +=
       //  toSearchString ? `&toSearchString=${encodeURIComponent(toSearchString)}` : '';
       // params +=
@@ -65,12 +69,10 @@ export default {
       //  clientSubmitTimeSpan ? `&clientSubmitTimeSpan=${encodeURIComponent(clientSubmitTimeSpan)}` : '';
       // params +=
       //  allTextSearchString ? `&allTextSearchString=${encodeURIComponent(allTextSearchString)}` : '';
-      // params +=
-      //  sortField ? `&sort=${sortField}&order=${sortOrder}` : '';
+      params += sortField ? `&sort=${sortField}&order=${sortOrder}` : '';
 
-      // // console.log(params);
-      // return params;
-      return '';
+      console.log(params);
+      return params;
     },
 
     doSearch() {

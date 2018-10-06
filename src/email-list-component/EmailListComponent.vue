@@ -3,9 +3,23 @@
     <v-data-table
       :headers="headers"
       :items=this.$store.state.listEmails
-      hide-actions
+      :pagination.sync="pagination"
+      :total-items=this.$store.state.totalEmails
       class="elevation-1"
     >
+      <template slot="headers" slot-scope="props">
+        <tr>
+          <th
+            v-for="header in props.headers"
+            :key="header.text"
+            :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+            @click="changeSort(header.value, pagination.descending)"
+          >
+            <v-icon small>arrow_upward</v-icon>
+            {{ header.text }}
+          </th>
+        </tr>
+      </template>
       <template slot="items" slot-scope="props">
         <td>{{ props.item.clientSubmitTime }}</td>
         <td>{{ props.item.senderName }}</td>
@@ -19,10 +33,13 @@
 export default {
   name: 'EmailListComponent',
   props: {
-    setSearchParams: Function
+    doSearch: Function
   },
   data() {
     return {
+      pagination: {
+        sortBy: 'clientSubmitTime'
+      },
       headers: [
         {
           text: 'Created',
@@ -45,16 +62,37 @@ export default {
       ]
     };
   },
+  watch: {
+    pagination: {
+      handler() {
+        console.log('pagination');
+        // const { sortBy, descending, page, rowsPerPage } = this.pagination;
+        const skip = this.pagination.rowsPerPage * (this.pagination.page - 1);
+        this.$store.commit('setSkip', skip);
+        this.$store.commit('setLimit', this.pagination.rowsPerPage);
+        this.loading = true;
+        this.doSearch();
+      },
+      deep: true
+    }
+  },
+  methods: {
+    changeSort(column, descending) {
+      this.$store.commit('setSortField', column);
+      const sortOrder = descending ? 'asc' : 'desc';
+      this.$store.commit('setSortOrder', sortOrder);
+      this.pagination.descending = !this.pagination.descending;
+    }
+  },
   created() {
-    console.log('created');
-    this.setSearchParams();
-  },
-  beforeUpdate() {
-    console.log('beforeUpdate');
-  },
-  updated() {
-    console.log('updated');
+    this.doSearch();
   }
+  // beforeUpdate() {
+  //   console.log('beforeUpdate');
+  // },
+  // updated() {
+  //   console.log('updated');
+  // }
 };
 </script>
 
