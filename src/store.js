@@ -21,7 +21,10 @@ export default new Vuex.Store({
     sortField: 'clientSubmitTime',
 
     // sort order
-    sortOrder: 'asc'
+    sortOrder: 'asc',
+
+    // loading
+    loading: true
 
 
   },
@@ -30,6 +33,7 @@ export default new Vuex.Store({
     setLimit: (state, limit) => (state.limit = limit),
     setSortField: (state, sortField) => (state.sortField = sortField),
     setSortOrder: (state, sortOrder) => (state.sortOrder = sortOrder),
+    setLoading: (state, loading) => (state.loading = loading),
     setEmails(state, emails) {
       state.listEmails = emails.listEmails;
       state.totalEmails = emails.totalEmails;

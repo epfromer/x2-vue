@@ -89,6 +89,7 @@ export default {
               listEmails: data.listDocs,
               totalEmails: data.total
             });
+            this.$store.commit('setLoading', false);
 
             //   // select last in list (used with onPrevious)
             //   if (this.state.selectLast) {
