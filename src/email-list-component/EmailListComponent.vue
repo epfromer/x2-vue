@@ -10,11 +10,10 @@
       must-sort
       class="elevation-1"
     >
-
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.clientSubmitTime }}</td>
-        <td>{{ props.item.senderName }}</td>
-        <td>{{ props.item.subject }}</td>
+        <td @click="select(props.item)">{{ props.item.clientSubmitTime }}</td>
+        <td @click="select(props.item)">{{ props.item.senderName }}</td>
+        <td @click="select(props.item)">{{ props.item.subject }}</td>
       </template>
     </v-data-table>
   </div>
@@ -24,7 +23,13 @@
 export default {
   name: 'EmailListComponent',
   props: {
-    doSearch: Function
+    doSearch: Function,
+    selectEmail: Function
+  },
+  methods: {
+    select(row) {
+      this.selectEmail(row._id);
+    }
   },
   data() {
     return {
@@ -61,7 +66,6 @@ export default {
         this.$store.commit('setSortField', this.pagination.sortBy);
         const sortOrder = this.pagination.descending ? 'asc' : 'desc';
         this.$store.commit('setSortOrder', sortOrder);
-        this.loading = true;
         this.doSearch();
       },
       deep: true
@@ -70,18 +74,9 @@ export default {
   created() {
     this.doSearch();
   }
-  // beforeUpdate() {
-  //   console.log('beforeUpdate');
-  // },
-  // updated() {
-  //   console.log('updated');
-  // }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
-  border: 1px solid blue;
-}
 </style>

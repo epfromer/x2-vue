@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <h1>{{ msg }}</h1>
+  <div v-if=this.$store.state.selectedEmail>
+    {{ this.$store.state.selectedEmail.clientSubmitTime }}
+    <br />
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'EmailDetailComponent',
-  props: {
-    msg: String,
-  },
+  props: {}
 };
 </script>
 

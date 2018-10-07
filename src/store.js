@@ -23,10 +23,11 @@ export default new Vuex.Store({
     // sort order
     sortOrder: 'asc',
 
-    // loading
-    loading: true
+    // email list loading (for progress bar)?
+    loading: true,
 
-
+    // selected email displayed in detail pane
+    selectedEmail: {}
   },
   mutations: {
     setSkip: (state, skip) => (state.skip = skip),
@@ -34,12 +35,15 @@ export default new Vuex.Store({
     setSortField: (state, sortField) => (state.sortField = sortField),
     setSortOrder: (state, sortOrder) => (state.sortOrder = sortOrder),
     setLoading: (state, loading) => (state.loading = loading),
+    setSelectedEmail: (state, email) => (state.selectedEmail = email),
     setEmails(state, emails) {
       state.listEmails = emails.listEmails;
       state.totalEmails = emails.totalEmails;
     }
   },
   actions: {
-    setEmailsAsync: (context, emails) => context.commit('setEmails', emails)
+    setEmailsAsync: (context, emails) => context.commit('setEmails', emails),
+    setSelectedEmailAsync: (context, email) =>
+      context.commit('setSelectedEmail', email)
   }
 });

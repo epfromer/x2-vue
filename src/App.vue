@@ -6,11 +6,10 @@
         <v-layout row wrap>
           <v-flex xs6>
             <SearchComponent msg="hello from SearchComponent"/>
-            <EmailListComponent
-              :doSearch="doSearch"/>
+            <EmailListComponent :doSearch="doSearch" :selectEmail="selectEmail"/>
           </v-flex>
           <v-flex xs6>
-            <EmailDetailComponent msg="hello from EmailDetailComponent"/>
+            <EmailDetailComponent/>
           </v-flex>
         </v-layout>
       </v-container>
@@ -31,10 +30,6 @@ export default {
     SearchComponent
   },
   methods: {
-    setSearchParams() {
-      this.doSearch();
-    },
-
     getSearchParamsAsEncodedString() {
       const skip = this.$store.state.skip;
       const limit = this.$store.state.limit;
@@ -76,8 +71,8 @@ export default {
     },
 
     doSearch() {
-      // show the loading overlay
-      // this.setState({ loading: true });
+      // show the loading progress bar
+      this.$store.commit('setLoading', true);
 
       const server = process.env.VUE_APP_EMAIL_SERVER;
       const searchParams = this.getSearchParamsAsEncodedString();
@@ -100,6 +95,19 @@ export default {
             //   if (this.state.listEmails.length > 0) {
             //     return this.selectEmail(this.state.listEmails[0]._id);
             //   }
+          })
+          // ignore errors
+          .catch(() => {})
+      );
+    },
+
+    selectEmail(id) {
+      const server = process.env.VUE_APP_EMAIL_SERVER;
+      return (
+        fetch(`${server}/email/${id}`)
+          .then(resp => resp.json())
+          .then(data => {
+            this.$store.dispatch('setSelectedEmailAsync', data);
           })
           // ignore errors
           .catch(() => {})
