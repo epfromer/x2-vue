@@ -14,9 +14,14 @@
     <br/>
     <br/>
     <span v-html="formatBody(this.$store.state.selectedEmail.body)"></span>
-    <div style="border: 1px solid red">
+    <div class="previousStyle">
       <v-btn fab dark small color="primary" >
-        <v-icon dark>remove</v-icon>
+        <v-icon dark>&lt;</v-icon>
+      </v-btn>
+    </div>
+    <div class="nextStyle">
+      <v-btn fab dark small color="primary" >
+        <v-icon dark>&gt;</v-icon>
       </v-btn>
     </div>
   </div>
@@ -34,7 +39,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-left {
+.nextStyle {
+  border: 1px solid blue;
+  position: 'fixed';
+  width: '60px';
+  height: '60px';
+  bottom: '40px';
+  right: '40px';
+}
+
+.previousStyle {
   border: 1px solid red;
+  position: 'fixed';
+  width: '60px';
+  height: '60px';
+  bottom: '120px';
+  right: '40px';
 }
 </style>
