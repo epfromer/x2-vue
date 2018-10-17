@@ -12,8 +12,13 @@
     <br/>
     <strong>BCC: </strong>{{ this.$store.state.selectedEmail.displayBCC }}
     <br/>
+    <br/>
     <span v-html="formatBody(this.$store.state.selectedEmail.body)"></span>
-
+    <div style="border: 1px solid red">
+      <v-btn fab dark small color="primary" >
+        <v-icon dark>remove</v-icon>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -29,6 +34,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
+left {
+  border: 1px solid red;
 }
 </style>
