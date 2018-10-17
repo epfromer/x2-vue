@@ -4,11 +4,11 @@
       <v-container fluid grid-list-md>
         <!-- <router-view></router-view> -->
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex xs12 s12 md6>
             <SearchComponent msg="hello from SearchComponent"/>
             <EmailListComponent :doSearch="doSearch" :selectEmail="selectEmail"/>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs12 s12 md6>
             <EmailDetailComponent/>
           </v-flex>
         </v-layout>

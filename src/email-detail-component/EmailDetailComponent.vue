@@ -15,13 +15,13 @@
     <br/>
     <span v-html="formatBody(this.$store.state.selectedEmail.body)"></span>
     <div class="previousStyle">
-      <v-btn fab dark small color="primary" >
-        <v-icon dark>&lt;</v-icon>
+      <v-btn fab dark small color="primary" class="previousStyle">
+        <v-icon dark>keyboard_arrow_left</v-icon>
       </v-btn>
     </div>
     <div class="nextStyle">
       <v-btn fab dark small color="primary" >
-        <v-icon dark>&gt;</v-icon>
+        <v-icon dark>keyboard_arrow_right</v-icon>
       </v-btn>
     </div>
   </div>
