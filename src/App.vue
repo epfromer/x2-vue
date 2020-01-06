@@ -1,118 +1,56 @@
 <template>
   <v-app>
+    <v-app-bar app color="primary" dark>
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
     <v-content>
-      <v-container fluid grid-list-md>
-        <!-- <router-view></router-view> -->
-        <v-layout row wrap>
-          <v-flex xs12 s12 md6>
-            <SearchComponent msg="hello from SearchComponent"/>
-            <EmailListComponent :doSearch="doSearch" :selectEmail="selectEmail"/>
-          </v-flex>
-          <v-flex xs12 s12 md6>
-            <EmailDetailComponent/>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <HelloWorld />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import EmailDetailComponent from './email-detail-component/EmailDetailComponent';
-import EmailListComponent from './email-list-component/EmailListComponent';
-import SearchComponent from './search-component/SearchComponent';
+import HelloWorld from "./components/HelloWorld";
 
 export default {
-  name: 'App',
+  name: "App",
+
   components: {
-    EmailDetailComponent,
-    EmailListComponent,
-    SearchComponent
+    HelloWorld
   },
-  methods: {
-    getSearchParamsAsEncodedString() {
-      const skip = this.$store.state.skip;
-      const limit = this.$store.state.limit;
-      const sortField = this.$store.state.sortField;
-      const sortOrder = this.$store.state.sortOrder;
-      // const {
-      //   skip,
-      //   limit,
-      //   toSearchString,
-      //   senderSearchString,
-      //   subjectSearchString,
-      //   bodySearchString,
-      //   clientSubmitTimeSearchString,
-      //   clientSubmitTimeSpan,
-      //   allTextSearchString,
-      //   sortField,
-      //   sortOrder
-      // } = this.state;
 
-      let params = `?skip=${skip}&limit=${limit}`;
-      // params +=
-      //  toSearchString ? `&toSearchString=${encodeURIComponent(toSearchString)}` : '';
-      // params +=
-      //  senderSearchString ? `&senderSearchString=${encodeURIComponent(senderSearchString)}` : '';
-      // params +=
-      //  subjectSearchString ? `&subjectSearchString=${encodeURIComponent(subjectSearchString)}` : '';
-      // params +=
-      //  bodySearchString ? `&bodySearchString=${encodeURIComponent(bodySearchString)}` : '';
-      // params +=
-      //  clientSubmitTimeSearchString ? `&clientSubmitTimeSearchString=${encodeURIComponent(clientSubmitTimeSearchString)}` : '';
-      // params +=
-      //  clientSubmitTimeSpan ? `&clientSubmitTimeSpan=${encodeURIComponent(clientSubmitTimeSpan)}` : '';
-      // params +=
-      //  allTextSearchString ? `&allTextSearchString=${encodeURIComponent(allTextSearchString)}` : '';
-      params += sortField ? `&sort=${sortField}&order=${sortOrder}` : '';
-
-      console.log(params);
-      return params;
-    },
-
-    doSearch() {
-      // show the loading progress bar
-      this.$store.commit('setLoading', true);
-
-      const server = process.env.VUE_APP_EMAIL_SERVER;
-      const searchParams = this.getSearchParamsAsEncodedString();
-      return (
-        fetch(`${server}/email/${searchParams}`)
-          .then(resp => resp.json())
-          .then(data => {
-            this.$store.dispatch('setEmailsAsync', {
-              listEmails: data.listDocs,
-              totalEmails: data.total
-            });
-            this.$store.commit('setLoading', false);
-
-            //   // select last in list (used with onPrevious)
-            //   if (this.state.selectLast) {
-            //     this.setState({ selectLast: false });
-            // return this.selectEmail(this.state.listEmails[this.state.listEmails.length - 1]._id);
-            //   }
-
-            //   if (this.state.listEmails.length > 0) {
-            //     return this.selectEmail(this.state.listEmails[0]._id);
-            //   }
-          })
-          // ignore errors
-          .catch(() => {})
-      );
-    },
-
-    selectEmail(id) {
-      const server = process.env.VUE_APP_EMAIL_SERVER;
-      return (
-        fetch(`${server}/email/${id}`)
-          .then(resp => resp.json())
-          .then(data => {
-            this.$store.dispatch('setSelectedEmailAsync', data);
-          })
-          // ignore errors
-          .catch(() => {})
-      );
-    }
-  }
+  data: () => ({
+    //
+  })
 };
 </script>
