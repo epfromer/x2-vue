@@ -35,7 +35,6 @@ export default {
   data: () => ({
     drawer: null
   }),
-  methods: {},
   components: {
     NaviListItem
   }
