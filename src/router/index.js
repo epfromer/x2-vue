@@ -1,29 +1,29 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import EmailList from "../views/EmailList.vue";
-import EmailDetail from "../views/EmailDetail.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import EmailList from '../views/EmailList.vue'
+import EmailDetail from '../views/EmailDetail.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/emaillist",
-    alias: "/",
-    name: "EmailList",
+    path: '/emaillist',
+    alias: '/',
+    name: 'EmailList',
     component: EmailList
   },
   {
-    path: "/emaildetail/:id",
-    name: "EmailDetail",
+    path: '/emaildetail/:id',
+    name: 'EmailDetail',
     component: EmailDetail,
     props: true
   }
-];
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
-});
+})
 
-export default router;
+export default router

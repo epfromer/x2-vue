@@ -5,6 +5,16 @@ module.exports = {
   },
   extends: ["plugin:vue/essential", "@vue/prettier"],
   rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "none",
+        "semi": false,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "arrowParens": "avoid"
+      }
+    ],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
   },
