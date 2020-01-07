@@ -30,7 +30,7 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col class="text-center">
-            <p>foo</p>
+            <router-view />
           </v-col>
         </v-row>
       </v-container>
@@ -44,9 +44,6 @@
 <script>
 export default {
   name: "App",
-
-  components: {},
-
   data: () => ({
     drawer: null
   })

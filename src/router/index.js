@@ -1,23 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import EmailList from "../views/EmailList.vue";
+import EmailDetail from "../views/EmailDetail.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    component: Home
+    path: "/emaillist",
+    alias: "/",
+    name: "EmailList",
+    component: EmailList
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/emaildetail/:id",
+    name: "EmailDetail",
+    component: EmailDetail,
+    props: true
   }
 ];
 
