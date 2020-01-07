@@ -9,12 +9,8 @@ export default new Vuex.Store({
     totalEmails: 0
   },
   mutations: {
-    SET_EMAILS: (state, emails) => {
-      state.emails = emails
-    },
-    SET_TOTAL_EMAILS: (state, totalEmails) => {
-      state.totalEmails = totalEmails
-    }
+    SET_EMAILS: (state, emails) => (state.emails = emails),
+    SET_TOTAL_EMAILS: (state, totalEmails) => (state.totalEmails = totalEmails)
   },
   actions: {
     queryEmails: (context, payload) => {
