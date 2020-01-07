@@ -2,25 +2,8 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item
-          link
-          @click="$router.push({ name: 'EmailList' }).catch(err => {})"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <NaviListItem icon="mdi-home" name="Home" route="EmailList" />
+        <NaviListItem icon="mdi-contact-mail" name="Foo" route="Foo" />
       </v-list>
     </v-navigation-drawer>
 
@@ -45,11 +28,16 @@
 </template>
 
 <script>
+import NaviListItem from '@/components/NaviListItem.vue'
+
 export default {
   name: 'App',
   data: () => ({
     drawer: null
   }),
-  methods: {}
+  methods: {},
+  components: {
+    NaviListItem
+  }
 }
 </script>
