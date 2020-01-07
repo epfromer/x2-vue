@@ -26,8 +26,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getEmails: state => state.emails,
-    getTotalEmails: state => state.totalEmails
+    emails: state => state.emails,
+    totalEmails: state => state.totalEmails
   },
   modules: {}
 })

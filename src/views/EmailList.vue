@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="getEmails"
+      :items="emails"
       :items-per-page="25"
       class="elevation-1"
     ></v-data-table>
@@ -16,32 +16,30 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {
-      headers: [
-        {
-          text: 'Created',
-          align: 'left',
-          sortable: false,
-          value: 'clientSubmitTime'
-        },
-        {
-          text: 'From',
-          align: 'left',
-          sortable: false,
-          value: 'senderName'
-        },
-        {
-          text: 'Subject',
-          align: 'left',
-          sortable: false,
-          value: 'subject'
-        }
-      ]
-    }
-  },
+  data: () => ({
+    headers: [
+      {
+        text: 'Created',
+        align: 'left',
+        sortable: false,
+        value: 'clientSubmitTime'
+      },
+      {
+        text: 'From',
+        align: 'left',
+        sortable: false,
+        value: 'senderName'
+      },
+      {
+        text: 'Subject',
+        align: 'left',
+        sortable: false,
+        value: 'subject'
+      }
+    ]
+  }),
   computed: {
-    ...mapGetters(['getEmails', 'getTotalEmails'])
+    ...mapGetters(['emails', 'totalEmails'])
   }
 }
 </script>
