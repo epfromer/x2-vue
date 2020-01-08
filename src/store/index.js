@@ -3,6 +3,49 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const getSearchParamsAsEncodedString = ({
+  skip,
+  limit,
+  toSearchString,
+  senderSearchString,
+  subjectSearchString,
+  bodySearchString,
+  clientSubmitTimeSearchString,
+  clientSubmitTimeSpan,
+  allTextSearchString,
+  sortField,
+  sortOrder
+}) => {
+  let params = `?skip=${skip}&limit=${limit}`
+  params += toSearchString
+    ? `&toSearchString=${encodeURIComponent(toSearchString)}`
+    : ''
+  params += senderSearchString
+    ? `&senderSearchString=${encodeURIComponent(senderSearchString)}`
+    : ''
+  params += subjectSearchString
+    ? `&subjectSearchString=${encodeURIComponent(subjectSearchString)}`
+    : ''
+  params += bodySearchString
+    ? `&bodySearchString=${encodeURIComponent(bodySearchString)}`
+    : ''
+  params += clientSubmitTimeSearchString
+    ? `&clientSubmitTimeSearchString=${encodeURIComponent(
+        clientSubmitTimeSearchString
+      )}`
+    : ''
+  params += clientSubmitTimeSpan
+    ? `&clientSubmitTimeSpan=${encodeURIComponent(clientSubmitTimeSpan)}`
+    : ''
+  params += allTextSearchString
+    ? `&allTextSearchString=${encodeURIComponent(allTextSearchString)}`
+    : ''
+  params += sortField ? `&sort=${sortField}&order=${sortOrder}` : ''
+
+  console.log(params)
+  return params
+}
+
 export default new Vuex.Store({
   state: {
     emails: [],
@@ -14,7 +57,8 @@ export default new Vuex.Store({
   },
   actions: {
     queryEmails: (context, payload) => {
-      fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email`)
+      const params = getSearchParamsAsEncodedString(payload)
+      fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${params}`)
         .then(resp => resp.json())
         .then(data => {
           context.commit('SET_EMAILS', data.listDocs)

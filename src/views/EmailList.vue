@@ -19,7 +19,7 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Created',
+        text: 'Sent',
         align: 'left',
         sortable: false,
         value: 'clientSubmitTime'
@@ -29,6 +29,12 @@ export default {
         align: 'left',
         sortable: false,
         value: 'senderName'
+      },
+      {
+        text: 'To',
+        align: 'left',
+        sortable: false,
+        value: 'displayTo'
       },
       {
         text: 'Subject',
