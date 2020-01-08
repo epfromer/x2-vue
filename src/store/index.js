@@ -68,8 +68,6 @@ export default new Vuex.Store({
       const params = Object.assign({}, payload)
       if (!params.hasOwnProperty('skip')) params.skip = state.skip
       if (!params.hasOwnProperty('limit')) params.limit = state.limit
-      commit('SET_SKIP', params.skip)
-      commit('SET_LIMIT', params.limit)
 
       // convert the params to a query string
       const searchString = getSearchParamsAsEncodedString(params)
@@ -79,6 +77,8 @@ export default new Vuex.Store({
           // commit changes
           commit('SET_EMAILS', data.listDocs)
           commit('SET_TOTAL_EMAILS', data.total)
+          commit('SET_SKIP', params.skip)
+          commit('SET_LIMIT', params.limit)
         })
         // ignore errors
         .catch(() => {})
