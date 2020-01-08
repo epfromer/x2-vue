@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const DEFAULT_SKIP = 0
+const DEFAULT_LIMIT = 5
+
 const getSearchParamsAsEncodedString = ({
   skip,
   limit,
@@ -49,21 +52,33 @@ const getSearchParamsAsEncodedString = ({
 export default new Vuex.Store({
   state: {
     emails: [],
-    totalEmails: 0
+    totalEmails: 0,
+    skip: DEFAULT_SKIP,
+    limit: DEFAULT_LIMIT
   },
   mutations: {
     SET_EMAILS: (state, emails) => (state.emails = emails),
-    SET_TOTAL_EMAILS: (state, totalEmails) => (state.totalEmails = totalEmails)
+    SET_TOTAL_EMAILS: (state, totalEmails) => (state.totalEmails = totalEmails),
+    SET_SKIP: (state, skip) => (state.skip = skip),
+    SET_LIMIT: (state, limit) => (state.limit = limit)
   },
   actions: {
-    queryEmails: (context, payload) => {
-      const params = getSearchParamsAsEncodedString(payload)
-      fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${params}`)
+    queryEmails: ({ commit, state }, payload) => {
+      // don't mutate param, need to get skip and limit in params if not specified
+      const params = Object.assign({}, payload)
+      if (!params.hasOwnProperty('skip')) params.skip = state.skip
+      if (!params.hasOwnProperty('limit')) params.limit = state.limit
+
+      // convert the params to a query string
+      const searchString = getSearchParamsAsEncodedString(params)
+      fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${searchString}`)
         .then(resp => resp.json())
         .then(data => {
-          context.commit('SET_EMAILS', data.listDocs)
-          context.commit('SET_TOTAL_EMAILS', data.total)
-          console.log(this.emails[0])
+          // commit changes
+          commit('SET_EMAILS', data.listDocs)
+          commit('SET_TOTAL_EMAILS', data.total)
+          commit('SET_SKIP', params.skip)
+          commit('SET_LIMIT', params.limit)
         })
         // ignore errors
         .catch(() => {})
@@ -71,7 +86,9 @@ export default new Vuex.Store({
   },
   getters: {
     emails: state => state.emails,
-    totalEmails: state => state.totalEmails
+    totalEmails: state => state.totalEmails,
+    skip: state => state.skip,
+    limit: state => state.limit
   },
   modules: {}
 })

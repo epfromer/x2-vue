@@ -12,7 +12,7 @@ new Vue({
   vuetify,
   created() {
     // prime the pump and get initial set of emails
-    this.$store.dispatch('queryEmails', { skip: 0, limit: 50 })
+    this.$store.dispatch('queryEmails', {})
   },
   render: h => h(App)
 }).$mount('#app')
