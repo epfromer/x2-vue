@@ -59,7 +59,7 @@ export default {
       this.loading = true
       await this.queryEmails({
         skip: (options.page - 1) * this.limit,
-        limit: itemsPerPage
+        limit: options.itemsPerPage
       })
       this.loading = false
     }
