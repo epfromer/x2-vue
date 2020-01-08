@@ -3,11 +3,14 @@
     <v-data-table
       :headers="headers"
       :items="emails"
-      :items-per-page="itemsPerPage"
+      :items-per-page="limit"
       :server-items-length="totalEmails"
-      @update:page="updatePage"
-      @update:items-per-page="updateItemsPerPage"
+      :loading="loading"
+      @update:options="updateOptions"
       class="elevation-1"
+      :footer-props="{
+        itemsPerPageOptions: [5, 10, 25, 50, 100]
+      }"
     ></v-data-table>
     <!-- <router-link :to="{ name: 'EmailDetail', params: { id: 'abc123' } }"
       >abc123</router-link
@@ -20,9 +23,8 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data: () => ({
-    loading: true, // TODO
+    loading: false,
     options: {},
-    itemsPerPage: 5,
     headers: [
       {
         text: 'Sent',
@@ -52,12 +54,14 @@ export default {
   }),
   methods: {
     ...mapActions(['queryEmails']),
-    updatePage(page) {
-      this.queryEmails({ skip: (page - 1) * this.limit })
-    },
-    updateItemsPerPage(itemsPerPage) {
-      console.log(itemsPerPage)
-      this.queryEmails({ skip: 0, limit: itemsPerPage })
+    async updateOptions(options) {
+      // perform query when something changes
+      this.loading = true
+      await this.queryEmails({
+        skip: (options.page - 1) * this.limit,
+        limit: itemsPerPage
+      })
+      this.loading = false
     }
   },
   computed: {

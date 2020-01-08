@@ -63,22 +63,22 @@ export default new Vuex.Store({
     SET_LIMIT: (state, limit) => (state.limit = limit)
   },
   actions: {
-    queryEmails: ({ commit, state }, payload) => {
+    queryEmails: async ({ commit, state }, payload) => {
       // don't mutate param, need to get skip and limit in params if not specified
       const params = Object.assign({}, payload)
       if (!params.hasOwnProperty('skip')) params.skip = state.skip
       if (!params.hasOwnProperty('limit')) params.limit = state.limit
+      commit('SET_SKIP', params.skip)
+      commit('SET_LIMIT', params.limit)
 
       // convert the params to a query string
       const searchString = getSearchParamsAsEncodedString(params)
-      fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${searchString}`)
+      await fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${searchString}`)
         .then(resp => resp.json())
         .then(data => {
           // commit changes
           commit('SET_EMAILS', data.listDocs)
           commit('SET_TOTAL_EMAILS', data.total)
-          commit('SET_SKIP', params.skip)
-          commit('SET_LIMIT', params.limit)
         })
         // ignore errors
         .catch(() => {})
