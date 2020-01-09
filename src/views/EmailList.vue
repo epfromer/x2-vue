@@ -67,9 +67,11 @@ export default {
     totalEmails: 0,
     queryParams: {
       skip: DEFAULT_SKIP,
-      limit: DEFAULT_LIMIT
+      limit: DEFAULT_LIMIT,
+      allTextSearchString: '',
+      sort: '',
+      order: ''
     },
-    allTextSearchString: '',
     searchAllText: '',
     searchFrom: '',
     searchTo: '',
@@ -109,10 +111,10 @@ export default {
     async updateOptions(options) {
       this.queryParams.limit = options.itemsPerPage
       this.queryParams.skip = (options.page - 1) * this.queryParams.limit
-      // if (options.sortBy.length) {
-      //   query.sortField = options.sortBy[0]
-      //   query.sortOrder = options.sortDesc[0] ? -1 : 1
-      // }
+      if (options.sortBy.length) {
+        this.queryParams.sort = options.sortBy[0]
+        this.queryParams.order = options.sortDesc[0] ? -1 : 1
+      }
       await this.doQuery()
     },
     // performs query of database REST interface
@@ -162,8 +164,8 @@ export default {
       params += this.allTextSearchString
         ? `&allTextSearchString=${encodeURIComponent(this.allTextSearchString)}`
         : ''
-      params += this.sortField
-        ? `&sort=${this.sortField}&order=${this.sortOrder}`
+      params += this.queryParams.sort
+        ? `&sort=${this.queryParams.sort}&order=${this.queryParams.order}`
         : ''
       console.log(params)
       return params
