@@ -54,13 +54,22 @@ export default new Vuex.Store({
     emails: [],
     totalEmails: 0,
     skip: DEFAULT_SKIP,
-    limit: DEFAULT_LIMIT
+    limit: DEFAULT_LIMIT,
+    dark: true
+  },
+  getters: {
+    emails: state => state.emails,
+    totalEmails: state => state.totalEmails,
+    skip: state => state.skip,
+    limit: state => state.limit,
+    dark: state => state.dark
   },
   mutations: {
     SET_EMAILS: (state, emails) => (state.emails = emails),
     SET_TOTAL_EMAILS: (state, totalEmails) => (state.totalEmails = totalEmails),
     SET_SKIP: (state, skip) => (state.skip = skip),
-    SET_LIMIT: (state, limit) => (state.limit = limit)
+    SET_LIMIT: (state, limit) => (state.limit = limit),
+    SET_DARK: (state, dark) => (state.dark = dark)
   },
   actions: {
     queryEmails: async ({ commit, state }, payload) => {
@@ -83,12 +92,6 @@ export default new Vuex.Store({
         // ignore errors
         .catch(() => {})
     }
-  },
-  getters: {
-    emails: state => state.emails,
-    totalEmails: state => state.totalEmails,
-    skip: state => state.skip,
-    limit: state => state.limit
   },
   modules: {}
 })

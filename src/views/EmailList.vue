@@ -19,6 +19,12 @@
 </template>
 
 <script>
+// TODO: filtering for each column - https://vuetifyjs.com/en/components/data-tables#custom-filtering
+// TODO: expandable rows - https://vuetifyjs.com/en/components/data-tables#expandable-rows
+// TODO: multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
+// TODO: dense - https://vuetifyjs.com/en/components/data-tables#dense
+// TODO: footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
+// TODO: combine name + email addr into column for both send + received
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -61,8 +67,6 @@ export default {
       }
 
       if (options.sortBy.length) {
-        console.log(options)
-        console.log('sort by')
         query.sortField = options.sortBy[0]
         query.sortOrder = options.sortDesc[0] ? -1 : 1
       }
@@ -74,7 +78,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['emails', 'totalEmails', 'limit'])
+    ...mapGetters(['emails', 'totalEmails', 'limit', 'dark'])
   }
 }
 </script>
