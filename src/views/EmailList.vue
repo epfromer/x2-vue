@@ -29,25 +29,25 @@ export default {
       {
         text: 'Sent',
         align: 'left',
-        sortable: false,
+        sortable: true,
         value: 'clientSubmitTime'
       },
       {
         text: 'From',
         align: 'left',
-        sortable: false,
+        sortable: true,
         value: 'senderName'
       },
       {
         text: 'To',
         align: 'left',
-        sortable: false,
+        sortable: true,
         value: 'displayTo'
       },
       {
         text: 'Subject',
         align: 'left',
-        sortable: false,
+        sortable: true,
         value: 'subject'
       }
     ]
@@ -55,12 +55,21 @@ export default {
   methods: {
     ...mapActions(['queryEmails']),
     async updateOptions(options) {
-      // perform query when something changes
-      this.loading = true
-      await this.queryEmails({
+      const query = {
         skip: (options.page - 1) * this.limit,
         limit: options.itemsPerPage
-      })
+      }
+
+      if (options.sortBy.length) {
+        console.log(options)
+        console.log('sort by')
+        query.sortField = options.sortBy[0]
+        query.sortOrder = options.sortDesc[0] ? -1 : 1
+      }
+
+      // perform query when something changes
+      this.loading = true
+      await this.queryEmails(query)
       this.loading = false
     }
   },

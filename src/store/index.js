@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const DEFAULT_SKIP = 0
-const DEFAULT_LIMIT = 5
+const DEFAULT_LIMIT = 25
 
 const getSearchParamsAsEncodedString = ({
   skip,
