@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const DEFAULT_SKIP = 0
-const DEFAULT_LIMIT = 25
+const DEFAULT_LIMIT = 5
 
 const getSearchParamsAsEncodedString = ({
   skip,
@@ -55,6 +55,7 @@ export default new Vuex.Store({
     totalEmails: 0,
     skip: DEFAULT_SKIP,
     limit: DEFAULT_LIMIT,
+    allTextSearchString: '',
     dark: true
   },
   getters: {
@@ -62,6 +63,7 @@ export default new Vuex.Store({
     totalEmails: state => state.totalEmails,
     skip: state => state.skip,
     limit: state => state.limit,
+    allTextSearchString: state => state.allTextSearchString,
     dark: state => state.dark
   },
   mutations: {
@@ -69,6 +71,8 @@ export default new Vuex.Store({
     SET_TOTAL_EMAILS: (state, totalEmails) => (state.totalEmails = totalEmails),
     SET_SKIP: (state, skip) => (state.skip = skip),
     SET_LIMIT: (state, limit) => (state.limit = limit),
+    SET_ALL_TEXT_SEARCH_STRING: (state, allTextSearchString) =>
+      (state.allTextSearchString = allTextSearchString),
     SET_DARK: (state, dark) => (state.dark = dark)
   },
   actions: {
@@ -88,6 +92,7 @@ export default new Vuex.Store({
           commit('SET_TOTAL_EMAILS', data.total)
           commit('SET_SKIP', params.skip)
           commit('SET_LIMIT', params.limit)
+          commit('SET_ALL_TEXT_SEARCH_STRING', params.allTextSearchString)
         })
         // ignore errors
         .catch(() => {})
