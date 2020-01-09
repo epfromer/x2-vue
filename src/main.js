@@ -10,9 +10,5 @@ new Vue({
   router,
   store,
   vuetify,
-  created() {
-    // prime the pump and get initial set of emails
-    this.$store.dispatch('queryEmails', {})
-  },
   render: h => h(App)
 }).$mount('#app')
