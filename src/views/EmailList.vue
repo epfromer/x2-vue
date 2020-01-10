@@ -19,18 +19,21 @@
             <v-text-field
               v-model="queryParams.senderSearchString"
               label="Search From"
+              clearable
             ></v-text-field>
           </td>
           <td>
             <v-text-field
               v-model="queryParams.toSearchString"
               label="Search To"
+              clearable
             ></v-text-field>
           </td>
           <td>
             <v-text-field
               v-model="queryParams.subjectSearchString"
               label="Search Subject"
+              clearable
             ></v-text-field>
           </td>
         </tr>
