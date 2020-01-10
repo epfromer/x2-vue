@@ -8,7 +8,7 @@
         <div>To: {{ email.displayTo }}</div>
         <div>CC: {{ email.displayCC }}</div>
         <p></p>
-        <p>{{ email.body }}</p>
+        <span v-html="formattedBody"></span>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="() => this.$router.go(-1)" text>
@@ -50,6 +50,11 @@ export default {
         // ignore errors
         .catch(() => {})
       this.loading = false
+    }
+  },
+  computed: {
+    formattedBody() {
+      return this.email.body.replace(/\n/g, '<br />')
     }
   }
 }

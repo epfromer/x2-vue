@@ -149,7 +149,6 @@ export default {
       this.loading = false
     },
     rowClick(details) {
-      console.log(details._id)
       this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
     }
   },
