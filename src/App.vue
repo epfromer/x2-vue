@@ -21,6 +21,7 @@
         </v-row>
       </v-container>
     </v-content>
+
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2020</span>
     </v-footer>
@@ -28,6 +29,9 @@
 </template>
 
 <script>
+// TODO login/out, as with bikes
+// TODO dark mode toggle
+
 import NaviListItem from '@/components/NaviListItem.vue'
 
 export default {

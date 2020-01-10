@@ -1,63 +1,63 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="emails"
-      :items-per-page="queryParams.limit"
-      :server-items-length="totalEmails"
-      :loading="loading"
-      @update:options="updateOptions"
-      class="elevation-1"
-      show-expand
-      item-key="_id"
-      :single-expand="true"
-      :expanded.sync="expanded"
-      :footer-props="{
-        itemsPerPageOptions: [5, 10, 25, 50, 100]
-      }"
-    >
-      <template v-slot:body.prepend>
-        <tr>
-          <td colspan="2"></td>
-          <td>
-            <v-text-field
-              v-model="queryParams.senderSearchString"
-              label="Search From"
-              clearable
-            ></v-text-field>
-          </td>
-          <td>
-            <v-text-field
-              v-model="queryParams.toSearchString"
-              label="Search To"
-              clearable
-            ></v-text-field>
-          </td>
-          <td>
-            <v-text-field
-              v-model="queryParams.subjectSearchString"
-              label="Search Subject"
-              clearable
-            ></v-text-field>
-          </td>
-        </tr>
-      </template>
-      <template v-slot:top>
-        <v-text-field
-          v-model="queryParams.allTextSearchString"
-          label="Search (all text fields)"
-          clearable
-          class="mx-4"
-        ></v-text-field>
-      </template>
-      <template v-slot:expanded-item="{ headers }">
-        <td :colspan="headers.length">{{ expandedBody }}</td>
-      </template>
-    </v-data-table>
-    <!-- <router-link :to="{ name: 'EmailDetail', params: { id: 'abc123' } }"
+  <!-- https://vuetifyjs.com/en/components/data-tables#data-tables -->
+  <v-data-table
+    :headers="headers"
+    :items="emails"
+    :items-per-page="queryParams.limit"
+    :server-items-length="totalEmails"
+    :loading="loading"
+    @update:options="updateOptions"
+    @click:row="rowClick"
+    class="elevation-1"
+    show-expand
+    item-key="_id"
+    :single-expand="true"
+    :expanded.sync="expanded"
+    :footer-props="{
+      itemsPerPageOptions: [5, 10, 25, 50, 100]
+    }"
+  >
+    <template v-slot:body.prepend>
+      <tr>
+        <td colspan="2"></td>
+        <td>
+          <v-text-field
+            v-model="queryParams.senderSearchString"
+            label="Search From"
+            clearable
+          ></v-text-field>
+        </td>
+        <td>
+          <v-text-field
+            v-model="queryParams.toSearchString"
+            label="Search To"
+            clearable
+          ></v-text-field>
+        </td>
+        <td>
+          <v-text-field
+            v-model="queryParams.subjectSearchString"
+            label="Search Subject"
+            clearable
+          ></v-text-field>
+        </td>
+      </tr>
+    </template>
+    <template v-slot:top>
+      <v-text-field
+        v-model="queryParams.allTextSearchString"
+        label="Search (all text fields)"
+        clearable
+        class="mx-4"
+      ></v-text-field>
+    </template>
+    <template v-slot:expanded-item="{ headers }">
+      <td :colspan="headers.length">{{ expandedBody }}</td>
+    </template>
+  </v-data-table>
+  <!-- <router-link :to="{ name: 'EmailDetail', params: { id: 'abc123' } }"
       >abc123</router-link
     > -->
-  </div>
 </template>
 
 <script>
@@ -147,6 +147,10 @@ export default {
         // ignore errors
         .catch(() => {})
       this.loading = false
+    },
+    rowClick(details) {
+      console.log(details._id)
+      this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
     }
   },
   computed: {
