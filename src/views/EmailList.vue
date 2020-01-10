@@ -18,7 +18,7 @@
     >
       <template v-slot:body.prepend>
         <tr>
-          <td></td>
+          <td colspan="2"></td>
           <td>
             <v-text-field
               v-model="queryParams.senderSearchString"
