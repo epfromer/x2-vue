@@ -51,7 +51,6 @@
 </template>
 
 <script>
-// TODO: filtering for each column - https://vuetifyjs.com/en/components/data-tables#custom-filtering
 // TODO: expandable rows - https://vuetifyjs.com/en/components/data-tables#expandable-rows
 // TODO: multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 // TODO: dense - https://vuetifyjs.com/en/components/data-tables#dense
@@ -62,6 +61,7 @@ import _ from 'lodash'
 
 const DEFAULT_SKIP = 0
 const DEFAULT_LIMIT = 10
+const DEBOUNCE_MS = 500
 
 export default {
   data: () => ({
@@ -113,6 +113,7 @@ export default {
     this.doQuery()
   },
   methods: {
+    // process events from data table
     async updateOptions(options) {
       this.queryParams.limit = options.itemsPerPage
       this.queryParams.skip = (options.page - 1) * this.queryParams.limit
@@ -125,7 +126,6 @@ export default {
     // performs query of database REST interface
     async doQuery() {
       this.loading = true
-
       await fetch(
         `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
       )
@@ -136,7 +136,6 @@ export default {
         })
         // ignore errors
         .catch(() => {})
-
       this.loading = false
     }
   },
@@ -144,17 +143,15 @@ export default {
     // encodes params as string
     encodedParams() {
       let params = ''
-      const keys = Object.keys(this.queryParams)
-      keys.forEach(f => {
+      Object.keys(this.queryParams).forEach(key => {
         if (
-          (typeof this.queryParams[f] == 'string' && this.queryParams[f]) ||
-          typeof this.queryParams[f] == 'number'
+          (typeof this.queryParams[key] == 'string' && this.queryParams[key]) ||
+          typeof this.queryParams[key] == 'number'
         ) {
-          params += '&' + f + '=' + this.queryParams[f]
+          params += '&' + key + '=' + this.queryParams[key]
         }
       })
-      params = '?' + params.slice(1)
-      return params
+      return '?' + params.slice(1)
     }
   },
   watch: {
@@ -175,7 +172,7 @@ export default {
     }
   },
   created() {
-    this.debouncedQuery = _.debounce(() => this.doQuery(), 500)
+    this.debouncedQuery = _.debounce(() => this.doQuery(), DEBOUNCE_MS)
   }
 }
 </script>
