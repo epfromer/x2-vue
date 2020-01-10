@@ -17,16 +17,19 @@
           <td></td>
           <td>
             <v-text-field
-              v-model="searchFrom"
+              v-model="queryParams.senderSearchString"
               label="Search From"
             ></v-text-field>
           </td>
           <td>
-            <v-text-field v-model="searchTo" label="Search To"></v-text-field>
+            <v-text-field
+              v-model="queryParams.toSearchString"
+              label="Search To"
+            ></v-text-field>
           </td>
           <td>
             <v-text-field
-              v-model="searchSubject"
+              v-model="queryParams.subjectSearchString"
               label="Search Subject"
             ></v-text-field>
           </td>
@@ -34,7 +37,7 @@
       </template>
       <template v-slot:top>
         <v-text-field
-          v-model="searchAllText"
+          v-model="queryParams.allTextSearchString"
           label="Search (all text fields)"
           clearable
           class="mx-4"
@@ -70,12 +73,14 @@ export default {
       limit: DEFAULT_LIMIT,
       allTextSearchString: '',
       sort: '',
-      order: ''
+      order: '',
+      toSearchString: '',
+      senderSearchString: '',
+      subjectSearchString: '',
+      bodySearchString: '',
+      clientSubmitTimeSearchString: '',
+      clientSubmitTimeSpan: ''
     },
-    searchAllText: '',
-    searchFrom: '',
-    searchTo: '',
-    searchSubject: '',
     headers: [
       {
         text: 'Sent',
@@ -139,59 +144,66 @@ export default {
     // encodes params as string
     encodedParams() {
       let params = `?skip=${this.queryParams.skip}&limit=${this.queryParams.limit}`
-      params += this.toSearchString
-        ? `&toSearchString=${encodeURIComponent(this.toSearchString)}`
+      params += this.queryParams.toSearchString
+        ? `&toSearchString=${encodeURIComponent(
+            this.queryParams.toSearchString
+          )}`
         : ''
-      params += this.senderSearchString
-        ? `&senderSearchString=${encodeURIComponent(this.senderSearchString)}`
+      params += this.queryParams.senderSearchString
+        ? `&senderSearchString=${encodeURIComponent(
+            this.queryParams.senderSearchString
+          )}`
         : ''
-      params += this.subjectSearchString
-        ? `&subjectSearchString=${encodeURIComponent(this.subjectSearchString)}`
+      params += this.queryParams.subjectSearchString
+        ? `&subjectSearchString=${encodeURIComponent(
+            this.queryParams.subjectSearchString
+          )}`
         : ''
-      params += this.bodySearchString
-        ? `&bodySearchString=${encodeURIComponent(this.bodySearchString)}`
+      params += this.queryParams.bodySearchString
+        ? `&bodySearchString=${encodeURIComponent(
+            this.queryParams.bodySearchString
+          )}`
         : ''
-      params += this.clientSubmitTimeSearchString
+      params += this.queryParams.clientSubmitTimeSearchString
         ? `&clientSubmitTimeSearchString=${encodeURIComponent(
-            this.clientSubmitTimeSearchString
+            this.queryParams.clientSubmitTimeSearchString
           )}`
         : ''
-      params += this.clientSubmitTimeSpan
+      params += this.queryParams.clientSubmitTimeSpan
         ? `&clientSubmitTimeSpan=${encodeURIComponent(
-            this.clientSubmitTimeSpan
+            this.queryParams.clientSubmitTimeSpan
           )}`
         : ''
-      params += this.allTextSearchString
-        ? `&allTextSearchString=${encodeURIComponent(this.allTextSearchString)}`
+      params += this.queryParams.allTextSearchString
+        ? `&allTextSearchString=${encodeURIComponent(
+            this.queryParams.allTextSearchString
+          )}`
         : ''
       params += this.queryParams.sort
         ? `&sort=${this.queryParams.sort}&order=${this.queryParams.order}`
         : ''
-      console.log(params)
       return params
     }
   },
   watch: {
-    searchAllText(newValue, oldValue) {
-      this.debouncedSearchAllText()
+    'queryParams.allTextSearchString'(newValue, oldValue) {
+      this.debouncedQuery()
     },
-    searchFrom(newValue, oldValue) {
-      this.debouncedSearchFrom()
+    'queryParams.toSearchString'(newValue, oldValue) {
+      this.debouncedQuery()
+    },
+    'queryParams.senderSearchString'(newValue, oldValue) {
+      this.debouncedQuery()
+    },
+    'queryParams.subjectSearchString'(newValue, oldValue) {
+      this.debouncedQuery()
+    },
+    'queryParams.bodySearchString'(newValue, oldValue) {
+      this.debouncedQuery()
     }
   },
   created() {
-    this.debouncedSearchAllText = _.debounce(
-      () => this.doQuery({ skip: 0, allTextSearchString: this.searchAllText }),
-      500
-    )
-    this.debouncedSearchFrom = _.debounce(() => {
-      this.searchAllText = ''
-      this.doQuery({
-        skip: 0,
-        allTextSearchString: '',
-        senderSearchString: this.searchFrom
-      })
-    }, 500)
+    this.debouncedQuery = _.debounce(() => this.doQuery(), 500)
   }
 }
 </script>
