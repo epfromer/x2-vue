@@ -143,45 +143,17 @@ export default {
   computed: {
     // encodes params as string
     encodedParams() {
-      let params = `?skip=${this.queryParams.skip}&limit=${this.queryParams.limit}`
-      params += this.queryParams.toSearchString
-        ? `&toSearchString=${encodeURIComponent(
-            this.queryParams.toSearchString
-          )}`
-        : ''
-      params += this.queryParams.senderSearchString
-        ? `&senderSearchString=${encodeURIComponent(
-            this.queryParams.senderSearchString
-          )}`
-        : ''
-      params += this.queryParams.subjectSearchString
-        ? `&subjectSearchString=${encodeURIComponent(
-            this.queryParams.subjectSearchString
-          )}`
-        : ''
-      params += this.queryParams.bodySearchString
-        ? `&bodySearchString=${encodeURIComponent(
-            this.queryParams.bodySearchString
-          )}`
-        : ''
-      params += this.queryParams.clientSubmitTimeSearchString
-        ? `&clientSubmitTimeSearchString=${encodeURIComponent(
-            this.queryParams.clientSubmitTimeSearchString
-          )}`
-        : ''
-      params += this.queryParams.clientSubmitTimeSpan
-        ? `&clientSubmitTimeSpan=${encodeURIComponent(
-            this.queryParams.clientSubmitTimeSpan
-          )}`
-        : ''
-      params += this.queryParams.allTextSearchString
-        ? `&allTextSearchString=${encodeURIComponent(
-            this.queryParams.allTextSearchString
-          )}`
-        : ''
-      params += this.queryParams.sort
-        ? `&sort=${this.queryParams.sort}&order=${this.queryParams.order}`
-        : ''
+      let params = ''
+      const keys = Object.keys(this.queryParams)
+      keys.forEach(f => {
+        if (
+          (typeof this.queryParams[f] == 'string' && this.queryParams[f]) ||
+          typeof this.queryParams[f] == 'number'
+        ) {
+          params += '&' + f + '=' + this.queryParams[f]
+        }
+      })
+      params = '?' + params.slice(1)
       return params
     }
   },
