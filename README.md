@@ -1,34 +1,17 @@
 # x2-vue
 
-## Project setup
-```
-yarn install
-```
+A simple Vue front-end for x2-server <https://github.com/epfromer/x2-server>
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Served at <https://x2-vue.herokuapp.com/>  
 
-### Compiles and minifies for production
-```
-yarn build
-```
+This may take a minute or so to launch as app is brought out of hibernation.
 
-### Run your unit tests
-```
-yarn test:unit
-```
+## Goals
 
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- initial scaffold with vue create
+- Vuetify: grid, drawer, header, footer, data table
+- explore Vuetify data table in detail
+- routing: default route to email grid, route to individual email
+- Vue SFCs using several options: created, mounted, watchers, computed, data
+- async/await fetch X2 REST server with searching, pagination
+- Unit tests driving 90%+ code coverage via Jest
