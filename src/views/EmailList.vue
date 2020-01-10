@@ -8,6 +8,10 @@
       :loading="loading"
       @update:options="updateOptions"
       class="elevation-1"
+      show-expand
+      item-key="_id"
+      :single-expand="true"
+      :expanded.sync="expanded"
       :footer-props="{
         itemsPerPageOptions: [5, 10, 25, 50, 100]
       }"
@@ -46,6 +50,9 @@
           class="mx-4"
         ></v-text-field>
       </template>
+      <template v-slot:expanded-item="{ headers }">
+        <td :colspan="headers.length">{{ expandedBody }}</td>
+      </template>
     </v-data-table>
     <!-- <router-link :to="{ name: 'EmailDetail', params: { id: 'abc123' } }"
       >abc123</router-link
@@ -54,7 +61,6 @@
 </template>
 
 <script>
-// TODO: expandable rows - https://vuetifyjs.com/en/components/data-tables#expandable-rows
 // TODO: multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 // TODO: dense - https://vuetifyjs.com/en/components/data-tables#dense
 // TODO: footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
@@ -62,17 +68,18 @@
 import { mapGetters, mapActions } from 'vuex'
 import _ from 'lodash'
 
-const DEFAULT_SKIP = 0
-const DEFAULT_LIMIT = 10
+const DEFAULT_LIMIT = 5
 const DEBOUNCE_MS = 500
+const EXPANDED_BODY_LENGTH = 1000
 
 export default {
   data: () => ({
     loading: false,
     emails: [],
     totalEmails: 0,
+    expanded: [],
     queryParams: {
-      skip: DEFAULT_SKIP,
+      skip: 0,
       limit: DEFAULT_LIMIT,
       allTextSearchString: '',
       sort: '',
@@ -155,6 +162,13 @@ export default {
         }
       })
       return '?' + params.slice(1)
+    },
+    // row is expanded, display a portion of email body
+    expandedBody() {
+      if (this.expanded.length) {
+        return this.expanded[0].body.slice(0, EXPANDED_BODY_LENGTH)
+      }
+      return ''
     }
   },
   watch: {
