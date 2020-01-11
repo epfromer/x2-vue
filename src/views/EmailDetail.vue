@@ -18,7 +18,7 @@
         <v-btn @click="previousEmail" icon :disabled="idx <= 0">
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
-        <v-btn @click="nextEmail" icon :disabled="idx >= getNumEmails - 1">
+        <v-btn @click="nextEmail" icon :disabled="idx >= getNumSavedEmails - 1">
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </v-card-actions>
@@ -44,7 +44,7 @@ export default {
   }),
   mounted() {
     this.idx = Number(this.i)
-    this.email = this.getEmail(this.idx)
+    this.email = this.getSavedEmail(this.idx)
 
     // if came here by bookmarked route, then go back to email list
     // so that results list is populated
@@ -54,20 +54,20 @@ export default {
   },
   methods: {
     nextEmail() {
-      if (this.idx < this.getNumEmails - 1) {
+      if (this.idx < this.getNumSavedEmails - 1) {
         this.idx++
-        this.email = this.getEmail(this.idx)
+        this.email = this.getSavedEmail(this.idx)
       }
     },
     previousEmail() {
       if (this.idx > 0) {
         this.idx--
-        this.email = this.getEmail(this.idx)
+        this.email = this.getSavedEmail(this.idx)
       }
     }
   },
   computed: {
-    ...mapGetters(['getEmail', 'getNumEmails']),
+    ...mapGetters(['getSavedEmail', 'getNumSavedEmails']),
     formattedBody() {
       return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
     }

@@ -3,10 +3,11 @@
   <v-data-table
     :headers="headers"
     :items="emails"
-    :items-per-page="queryParams.limit"
+    :items-per-page="query.limit"
     :server-items-length="totalEmails"
     :loading="loading"
-    @update:options="updateOptions"
+    :options.sync="options"
+    @update:options="queryChanged"
     @click:row="rowClick"
     class="elevation-1"
     show-expand
@@ -22,21 +23,21 @@
         <td colspan="2"></td>
         <td>
           <v-text-field
-            v-model="queryParams.senderSearchString"
+            v-model="query.senderSearchString"
             label="Search From"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
-            v-model="queryParams.toSearchString"
+            v-model="query.toSearchString"
             label="Search To"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
-            v-model="queryParams.subjectSearchString"
+            v-model="query.subjectSearchString"
             label="Search Subject"
             clearable
           ></v-text-field>
@@ -45,7 +46,7 @@
     </template>
     <template v-slot:top>
       <v-text-field
-        v-model="queryParams.allTextSearchString"
+        v-model="query.allTextSearchString"
         label="Search (all text fields)"
         clearable
         class="mx-4"
@@ -61,11 +62,13 @@
 </template>
 
 <script>
-// TODO: multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
-// TODO: dense - https://vuetifyjs.com/en/components/data-tables#dense
-// TODO: footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
-// TODO: combine name + email addr into column for both send + received
-import { mapMutations } from 'vuex'
+// TODO currently selected email
+// TODO persist query in Vuex
+// TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
+// TODO dense - https://vuetifyjs.com/en/components/data-tables#dense
+// TODO footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
+// TODO combine name + email addr into column for both send + received
+import { mapMutations, mapGetters, mapState } from 'vuex'
 import _ from 'lodash'
 
 const DEFAULT_LIMIT = 5
@@ -75,10 +78,11 @@ const EXPANDED_BODY_LENGTH = 1000
 export default {
   data: () => ({
     loading: false,
+    options: {},
     emails: [],
     totalEmails: 0,
     expanded: [],
-    queryParams: {
+    query: {
       skip: 0,
       limit: DEFAULT_LIMIT,
       allTextSearchString: '',
@@ -118,19 +122,15 @@ export default {
       }
     ]
   }),
-  mounted() {
-    // prime the pump and get initial set of emails
-    this.doQuery()
-  },
   methods: {
-    ...mapMutations(['setEmails']),
+    ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions']),
     // process events from data table
-    async updateOptions(options) {
-      this.queryParams.limit = options.itemsPerPage
-      this.queryParams.skip = (options.page - 1) * this.queryParams.limit
-      if (options.sortBy.length) {
-        this.queryParams.sort = options.sortBy[0]
-        this.queryParams.order = options.sortDesc[0] ? -1 : 1
+    async queryChanged() {
+      this.query.limit = this.options.itemsPerPage
+      this.query.skip = (this.options.page - 1) * this.query.limit
+      if (this.options.sortBy.length) {
+        this.query.sort = this.options.sortBy[0]
+        this.query.order = this.options.sortDesc[0] ? -1 : 1
       }
       await this.doQuery()
     },
@@ -143,28 +143,45 @@ export default {
         .then(resp => resp.json())
         .then(data => {
           this.emails = data.listDocs
-          this.setEmails(this.emails) // to walk list
           this.totalEmails = data.total
         })
         // ignore errors
         .catch(() => {})
       this.loading = false
     },
+    saveState() {
+      // saves state to Vuex store
+      this.saveQuery(this.query)
+      this.saveEmails(this.emails)
+      this.saveOptions(this.options)
+    },
+    restoreState() {
+      // restores state from Vuex store
+      this.query = { ...this.savedQuery }
+      this.emails = this.savedEmails.map(email => ({ ...email }))
+      this.options = { ...this.savedOptions }
+    },
     rowClick(details) {
+      this.saveState()
       const i = this.emails.findIndex(email => email._id === details._id)
       this.$router.push({ name: 'EmailDetail', params: { i } })
+    },
+    resetPage() {
+      this.options.page = 1
+      this.queryChanged()
     }
   },
   computed: {
+    ...mapState(['savedEmails', 'savedQuery', 'savedOptions']),
     // encodes params as string
     encodedParams() {
       let params = ''
-      Object.keys(this.queryParams).forEach(key => {
+      Object.keys(this.query).forEach(key => {
         if (
-          (typeof this.queryParams[key] == 'string' && this.queryParams[key]) ||
-          typeof this.queryParams[key] == 'number'
+          (typeof this.query[key] == 'string' && this.query[key]) ||
+          typeof this.query[key] == 'number'
         ) {
-          params += '&' + key + '=' + this.queryParams[key]
+          params += '&' + key + '=' + this.query[key]
         }
       })
       return '?' + params.slice(1)
@@ -178,24 +195,28 @@ export default {
     }
   },
   watch: {
-    'queryParams.allTextSearchString'(newValue, oldValue) {
+    'query.allTextSearchString'(newValue, oldValue) {
       this.debouncedQuery()
     },
-    'queryParams.toSearchString'(newValue, oldValue) {
+    'query.toSearchString'(newValue, oldValue) {
       this.debouncedQuery()
     },
-    'queryParams.senderSearchString'(newValue, oldValue) {
+    'query.senderSearchString'(newValue, oldValue) {
       this.debouncedQuery()
     },
-    'queryParams.subjectSearchString'(newValue, oldValue) {
+    'query.subjectSearchString'(newValue, oldValue) {
       this.debouncedQuery()
     },
-    'queryParams.bodySearchString'(newValue, oldValue) {
+    'query.bodySearchString'(newValue, oldValue) {
       this.debouncedQuery()
     }
   },
   created() {
-    this.debouncedQuery = _.debounce(() => this.doQuery(), DEBOUNCE_MS)
+    this.debouncedQuery = _.debounce(() => this.resetPage(), DEBOUNCE_MS)
+    if (this.savedQuery.hasOwnProperty('skip')) {
+      // been here before - just restore settings
+      this.restoreState()
+    }
   }
 }
 </script>
