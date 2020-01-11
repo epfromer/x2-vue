@@ -56,9 +56,6 @@
       <td :colspan="headers.length">{{ expandedBody }}</td>
     </template>
   </v-data-table>
-  <!-- <router-link :to="{ name: 'EmailDetail', params: { id: 'abc123' } }"
-      >abc123</router-link
-    > -->
 </template>
 
 <script>

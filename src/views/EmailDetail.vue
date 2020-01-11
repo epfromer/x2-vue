@@ -43,6 +43,7 @@ export default {
     email: {}
   }),
   mounted() {
+    console.log('mounted')
     this.idx = Number(this.i)
     this.email = this.getSavedEmail(this.idx)
 
@@ -52,17 +53,20 @@ export default {
       this.$router.push({ name: 'EmailList' })
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    this.idx = to.params.i
+    this.email = this.getSavedEmail(this.idx)
+    next()
+  },
   methods: {
     nextEmail() {
       if (this.idx < this.getNumSavedEmails - 1) {
-        this.idx++
-        this.email = this.getSavedEmail(this.idx)
+        this.$router.push({ name: 'EmailDetail', params: { i: this.idx + 1 } })
       }
     },
     previousEmail() {
       if (this.idx > 0) {
-        this.idx--
-        this.email = this.getSavedEmail(this.idx)
+        this.$router.push({ name: 'EmailDetail', params: { i: this.idx - 1 } })
       }
     }
   },
