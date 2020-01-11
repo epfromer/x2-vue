@@ -15,10 +15,18 @@
           Back to list
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn @click="previousEmail" icon :disabled="idx <= 0">
+        <v-btn
+          @click="() => setSelected(selected - 1)"
+          icon
+          :disabled="idx <= 0"
+        >
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
-        <v-btn @click="nextEmail" icon :disabled="idx >= getNumSavedEmails - 1">
+        <v-btn
+          @click="() => setSelected(selected + 1)"
+          icon
+          :disabled="idx >= getNumSavedEmails - 1"
+        >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </v-card-actions>
@@ -27,7 +35,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 
 export default {
   props: {
@@ -43,7 +51,6 @@ export default {
     email: {}
   }),
   mounted() {
-    console.log('mounted')
     this.idx = Number(this.i)
     this.email = this.getSavedEmail(this.idx)
 
@@ -59,21 +66,18 @@ export default {
     next()
   },
   methods: {
-    nextEmail() {
-      if (this.idx < this.getNumSavedEmails - 1) {
-        this.$router.push({ name: 'EmailDetail', params: { i: this.idx + 1 } })
-      }
-    },
-    previousEmail() {
-      if (this.idx > 0) {
-        this.$router.push({ name: 'EmailDetail', params: { i: this.idx - 1 } })
-      }
-    }
+    ...mapMutations(['setSelected'])
   },
   computed: {
+    ...mapState(['selected']),
     ...mapGetters(['getSavedEmail', 'getNumSavedEmails']),
     formattedBody() {
       return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
+    }
+  },
+  watch: {
+    selected(newValue, oldValue) {
+      this.$router.push({ name: 'EmailDetail', params: { i: this.selected } })
     }
   }
 }

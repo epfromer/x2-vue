@@ -4,13 +4,12 @@ import _ from 'lodash'
 
 Vue.use(Vuex)
 
-// NEED TO CLONE THESE OBJECTS
-
 export default new Vuex.Store({
   state: {
     savedEmails: [],
     savedQuery: {},
-    savedOptions: {}
+    savedOptions: {},
+    selected: 0
   },
   getters: {
     getNumSavedEmails: state => state.savedEmails.length,
@@ -21,7 +20,8 @@ export default new Vuex.Store({
     saveEmails: (state, emails) =>
       (state.savedEmails = emails.map(email => ({ ...email }))),
     saveQuery: (state, query) => (state.savedQuery = { ...query }),
-    saveOptions: (state, options) => (state.savedOptions = { ...options })
+    saveOptions: (state, options) => (state.savedOptions = { ...options }),
+    setSelected: (state, value) => (state.selected = value)
   },
   actions: {},
   modules: {}

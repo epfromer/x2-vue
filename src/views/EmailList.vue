@@ -60,7 +60,6 @@
 
 <script>
 // TODO currently selected email
-// TODO persist query in Vuex
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 // TODO dense - https://vuetifyjs.com/en/components/data-tables#dense
 // TODO footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
@@ -120,7 +119,7 @@ export default {
     ]
   }),
   methods: {
-    ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions']),
+    ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions', 'setSelected']),
     // process events from data table
     async queryChanged() {
       this.query.limit = this.options.itemsPerPage
@@ -161,6 +160,7 @@ export default {
     rowClick(details) {
       this.saveState()
       const i = this.emails.findIndex(email => email._id === details._id)
+      this.setSelected(i)
       this.$router.push({ name: 'EmailDetail', params: { i } })
     },
     resetPage() {
