@@ -15,10 +15,10 @@
           Back to list
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <v-btn @click="previousEmail" icon :disabled="idx <= 0">
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn @click="nextEmail" icon :disabled="idx >= getNumEmails - 1">
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </v-card-actions>
@@ -27,40 +27,50 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
-    id: {
-      type: String,
-      required: true
+    i: {
+      type: [Number, String], // could come in as string from route
+      required: true,
+      default: 0
     }
   },
   data: () => ({
     loading: false,
+    idx: 0,
     email: {}
   }),
   mounted() {
-    // prime the pump and get initial set of emails
-    this.doQuery()
+    this.idx = Number(this.i)
+    this.email = this.getEmail(this.idx)
+
+    // if came here by bookmarked route, then go back to email list
+    // so that results list is populated
+    if (!this.email._id) {
+      this.$router.push({ name: 'EmailList' })
+    }
   },
   methods: {
-    async doQuery() {
-      this.loading = true
-      await fetch(`${process.env.VUE_APP_EMAIL_SERVER}/email/${this.id}`)
-        .then(resp => resp.json())
-        .then(data => {
-          this.email = data
-        })
-        // ignore errors
-        .catch(() => {})
-      this.loading = false
+    nextEmail() {
+      if (this.idx < this.getNumEmails - 1) {
+        this.idx++
+        this.email = this.getEmail(this.idx)
+      }
+    },
+    previousEmail() {
+      if (this.idx > 0) {
+        this.idx--
+        this.email = this.getEmail(this.idx)
+      }
     }
   },
   computed: {
+    ...mapGetters(['getEmail', 'getNumEmails']),
     formattedBody() {
-      return this.email.body.replace(/\n/g, '<br />')
+      return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
     }
   }
 }
 </script>
-
-<style scoped></style>

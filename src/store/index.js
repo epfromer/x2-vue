@@ -5,19 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    emailIds: []
+    emails: []
   },
   getters: {
-    previousEmailId: state => id => {
-      const i = state.emailIds.indexOf(id)
-      console.log('')
-    }
+    getEmail: state => i =>
+      i >= 0 && i < state.emails.length ? state.emails[i] : {},
+    getNumEmails: state => state.emails.length
   },
   mutations: {
-    setEmailIds: (state, emails) => {
-      const ids = []
-      emails.forEach(email => ids.push(email._id))
-      state.emailIds = ids
+    setEmails: (state, emails) => {
+      state.emails = emails
     }
   },
   actions: {},

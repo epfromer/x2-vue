@@ -123,7 +123,7 @@ export default {
     this.doQuery()
   },
   methods: {
-    ...mapMutations(['setEmailIds']),
+    ...mapMutations(['setEmails']),
     // process events from data table
     async updateOptions(options) {
       this.queryParams.limit = options.itemsPerPage
@@ -143,7 +143,7 @@ export default {
         .then(resp => resp.json())
         .then(data => {
           this.emails = data.listDocs
-          this.setEmailIds(this.emails) // to walk list
+          this.setEmails(this.emails) // to walk list
           this.totalEmails = data.total
         })
         // ignore errors
@@ -151,7 +151,8 @@ export default {
       this.loading = false
     },
     rowClick(details) {
-      this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
+      const i = this.emails.findIndex(email => email._id === details._id)
+      this.$router.push({ name: 'EmailDetail', params: { i } })
     }
   },
   computed: {
