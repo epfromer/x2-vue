@@ -65,7 +65,7 @@
 // TODO: dense - https://vuetifyjs.com/en/components/data-tables#dense
 // TODO: footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
 // TODO: combine name + email addr into column for both send + received
-import { mapGetters, mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
 import _ from 'lodash'
 
 const DEFAULT_LIMIT = 5
@@ -123,6 +123,7 @@ export default {
     this.doQuery()
   },
   methods: {
+    ...mapMutations(['setEmailIds']),
     // process events from data table
     async updateOptions(options) {
       this.queryParams.limit = options.itemsPerPage
@@ -142,6 +143,7 @@ export default {
         .then(resp => resp.json())
         .then(data => {
           this.emails = data.listDocs
+          this.setEmailIds(this.emails) // to walk list
           this.totalEmails = data.total
         })
         // ignore errors

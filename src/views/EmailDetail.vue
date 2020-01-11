@@ -14,16 +14,19 @@
         <v-btn @click="() => this.$router.go(-1)" text>
           Back to list
         </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon>mdi-arrow-left-bold</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-arrow-right-bold</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
-// make this into a local filter
-// const formatBody = body => ({ __html: body.replace(/\n/g, '<br />') });
-// <CardText align="left" dangerouslySetInnerHTML={formatBody(props.body)} />
-
 export default {
   props: {
     id: {
