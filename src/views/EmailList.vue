@@ -62,7 +62,6 @@
 </template>
 
 <script>
-// TODO currently selected email
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 // TODO dense - https://vuetifyjs.com/en/components/data-tables#dense
 // TODO footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
