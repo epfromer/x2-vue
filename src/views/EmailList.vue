@@ -14,6 +14,9 @@
     item-key="_id"
     :single-expand="true"
     :expanded.sync="expanded"
+    single-select
+    show-select
+    v-model="emailSelected"
     :footer-props="{
       itemsPerPageOptions: [5, 10, 25, 50, 100]
     }"
@@ -78,6 +81,7 @@ export default {
     emails: [],
     totalEmails: 0,
     expanded: [],
+    emailSelected: [],
     query: {
       skip: 0,
       limit: DEFAULT_LIMIT,
@@ -145,8 +149,9 @@ export default {
         .catch(() => {})
       this.loading = false
     },
-    saveState() {
+    saveState(sel) {
       // saves state to Vuex store
+      this.setSelected(sel)
       this.saveQuery(this.query)
       this.saveEmails(this.emails)
       this.saveOptions(this.options)
@@ -156,12 +161,12 @@ export default {
       this.query = { ...this.savedQuery }
       this.emails = this.savedEmails.map(email => ({ ...email }))
       this.options = { ...this.savedOptions }
+      this.emailSelected[0] = this.emails[this.selected]
     },
     rowClick(details) {
-      this.saveState()
-      const i = this.emails.findIndex(email => email._id === details._id)
-      this.setSelected(i)
-      this.$router.push({ name: 'EmailDetail', params: { i } })
+      const sel = this.emails.findIndex(email => email._id === details._id)
+      this.saveState(sel)
+      this.$router.push({ name: 'EmailDetail', params: { i: sel } })
     },
     resetPage() {
       this.options.page = 1
@@ -169,7 +174,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['savedEmails', 'savedQuery', 'savedOptions']),
+    ...mapState(['savedEmails', 'savedQuery', 'savedOptions', 'selected']),
     // encodes params as string
     encodedParams() {
       let params = ''
@@ -206,6 +211,11 @@ export default {
     },
     'query.bodySearchString'(newValue, oldValue) {
       this.debouncedQuery()
+    },
+    emailSelected(newValue, oldValue) {
+      const sel = this.emails.findIndex(email => email._id === newValue[0]._id)
+      this.saveState(sel)
+      this.$router.push({ name: 'EmailDetail', params: { i: sel } })
     }
   },
   created() {

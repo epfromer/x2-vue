@@ -18,14 +18,14 @@
         <v-btn
           @click="() => setSelected(selected - 1)"
           icon
-          :disabled="idx <= 0"
+          :disabled="selected <= 0"
         >
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
         <v-btn
           @click="() => setSelected(selected + 1)"
           icon
-          :disabled="idx >= getNumSavedEmails - 1"
+          :disabled="selected >= getNumSavedEmails - 1"
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
@@ -47,12 +47,10 @@ export default {
   },
   data: () => ({
     loading: false,
-    idx: 0,
     email: {}
   }),
   mounted() {
-    this.idx = Number(this.i)
-    this.email = this.getSavedEmail(this.idx)
+    this.email = this.getSavedEmail(this.selected)
 
     // if came here by bookmarked route, then go back to email list
     // so that results list is populated
@@ -61,8 +59,7 @@ export default {
     }
   },
   beforeRouteUpdate(to, from, next) {
-    this.idx = to.params.i
-    this.email = this.getSavedEmail(this.idx)
+    this.email = this.getSavedEmail(to.params.i)
     next()
   },
   methods: {
