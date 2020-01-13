@@ -3,13 +3,14 @@
   <v-data-table
     :headers="headers"
     :items="emails"
-    :items-per-page="query.limit"
     :server-items-length="totalEmails"
     :loading="loading"
-    :options.sync="options"
-    @update:options="queryChanged"
     @click:row="rowClick"
     class="elevation-1"
+    :items-per-page.sync="options.itemsPerPage"
+    :page.sync="options.page"
+    :sort-by.sync="options.sortBy"
+    :sort-desc.sync="options.sortDesc"
     show-expand
     item-key="_id"
     :single-expand="true"
@@ -69,6 +70,7 @@
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import _ from 'lodash'
 
+const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 5
 const DEBOUNCE_MS = 500
 const EXPANDED_BODY_LENGTH = 1000
@@ -76,11 +78,16 @@ const EXPANDED_BODY_LENGTH = 1000
 export default {
   data: () => ({
     loading: false,
-    options: {},
     emails: [],
     totalEmails: 0,
     expanded: [],
     emailSelected: [],
+    options: {
+      page: DEFAULT_PAGE,
+      itemsPerPage: DEFAULT_LIMIT,
+      sortBy: [],
+      sortDesc: []
+    },
     query: {
       skip: 0,
       limit: DEFAULT_LIMIT,
@@ -123,18 +130,15 @@ export default {
   }),
   methods: {
     ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions', 'setSelected']),
-    // process events from data table
-    async queryChanged() {
-      this.query.limit = this.options.itemsPerPage
+    // performs query of database REST interface
+    async doQuery() {
       this.query.skip = (this.options.page - 1) * this.query.limit
+      this.query.limit = this.options.itemsPerPage
       if (this.options.sortBy.length) {
         this.query.sort = this.options.sortBy[0]
         this.query.order = this.options.sortDesc[0] ? -1 : 1
       }
-      await this.doQuery()
-    },
-    // performs query of database REST interface
-    async doQuery() {
+
       this.loading = true
       await fetch(
         `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
@@ -168,14 +172,15 @@ export default {
       this.$router.push({ name: 'EmailDetail', params: { i: sel } })
     },
     resetPage() {
-      this.options.page = 1
-      this.queryChanged()
+      this.options.page = DEFAULT_PAGE
+      this.doQuery()
     }
   },
   computed: {
     ...mapState(['savedEmails', 'savedQuery', 'savedOptions', 'selected']),
     // encodes params as string
     encodedParams() {
+      console.log('encodedParams')
       let params = ''
       Object.keys(this.query).forEach(key => {
         if (
@@ -189,6 +194,7 @@ export default {
     },
     // row is expanded, display a portion of email body
     expandedBody() {
+      console.log('expandedBody')
       if (this.expanded.length) {
         return this.expanded[0].body.slice(0, EXPANDED_BODY_LENGTH)
       }
@@ -196,6 +202,18 @@ export default {
     }
   },
   watch: {
+    'options.itemsPerPage'() {
+      this.doQuery()
+    },
+    'options.page'() {
+      this.doQuery()
+    },
+    'options.sortBy'() {
+      this.doQuery()
+    },
+    'options.sortDesc'() {
+      this.doQuery()
+    },
     'query.allTextSearchString'(newValue, oldValue) {
       this.debouncedQuery()
     },
@@ -219,10 +237,12 @@ export default {
   },
   created() {
     this.debouncedQuery = _.debounce(() => this.resetPage(), DEBOUNCE_MS)
-    if (this.savedQuery && this.savedQuery.hasOwnProperty('skip')) {
-      // been here before - just restore settings
-      this.restoreState()
-    }
+
+    this.doQuery()
+    // if (this.savedQuery && this.savedQuery.hasOwnProperty('skip')) {
+    //   // been here before - just restore settings
+    //   this.restoreState()
+    // }
   }
 }
 </script>

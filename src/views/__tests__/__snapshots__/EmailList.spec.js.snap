@@ -1,84 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EmailList toMatchSnapshot 1`] = `
-<v-data-table-stub
-  class="elevation-1"
-  customfilter="function defaultFilter(value, search, item) {
-  return value != null && search != null && typeof value !== 'boolean' && value.toString().toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) !== -1;
-}"
-  customgroup="function groupItems(items, groupBy, groupDesc) {
-  var key = groupBy[0];
-  return items.reduce(function (rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-}"
-  customsort="function sortItems(items, sortBy, sortDesc, locale, customSorters) {
-  if (sortBy === null || !sortBy.length) return items;
-  var stringCollator = new Intl.Collator(locale, {
-    sensitivity: 'accent',
-    usage: 'sort'
-  });
-  return items.sort(function (a, b) {
-    var _a, _b;
-
-    for (var i = 0; i < sortBy.length; i++) {
-      var sortKey = sortBy[i];
-      var sortA = getObjectValueByPath(a, sortKey);
-      var sortB = getObjectValueByPath(b, sortKey);
-
-      if (sortDesc[i]) {
-        _a = __read([sortB, sortA], 2), sortA = _a[0], sortB = _a[1];
-      }
-
-      if (customSorters && customSorters[sortKey]) {
-        var customResult = customSorters[sortKey](sortA, sortB);
-        if (!customResult) continue;
-        return customResult;
-      } // Check if both cannot be evaluated
-
-
-      if (sortA === null && sortB === null) {
-        continue;
-      }
-
-      _b = __read([sortA, sortB].map(function (s) {
-        return (s || '').toString().toLocaleLowerCase();
-      }), 2), sortA = _b[0], sortB = _b[1];
-
-      if (sortA !== sortB) {
-        if (!isNaN(sortA) && !isNaN(sortB)) return Number(sortA) - Number(sortB);
-        return stringCollator.compare(sortA, sortB);
-      }
-    }
-
-    return 0;
-  });
-}"
-  expanded=""
-  expandicon="$expand"
-  footerprops="[object Object]"
-  groupby=""
-  groupdesc=""
-  headers="[object Object],[object Object],[object Object],[object Object]"
-  itemkey="_id"
-  items=""
-  itemsperpage="5"
-  loadingtext="$vuetify.dataIterator.loadingText"
-  locale="en-US"
-  mobilebreakpoint="600"
-  nodatatext="$vuetify.noDataText"
-  noresultstext="$vuetify.dataIterator.noResultsText"
-  options="[object Object]"
-  page="1"
-  selectablekey="isSelectable"
-  serveritemslength="0"
-  showexpand="true"
-  showselect="true"
-  singleexpand="true"
-  singleselect="true"
-  sortby=""
-  sortdesc=""
-  value=""
-/>
+exports[`EmailList should match snapshot 1`] = `
+<div class="v-data-table elevation-1 theme--light">
+  <div class="v-input mx-4 theme--light v-text-field">
+    <div class="v-input__control">
+      <div class="v-input__slot">
+        <div class="v-text-field__slot"><label for="input-8" class="v-label theme--light" style="left: 0px; position: absolute;">Search (all text fields)</label><input id="input-8" type="text"></div>
+        <div class="v-input__append-inner">
+          <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+        </div>
+      </div>
+      <div class="v-text-field__details">
+        <div class="v-messages theme--light">
+          <div class="v-messages__wrapper"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="v-data-table__wrapper">
+    <table>
+      <colgroup>
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+      </colgroup>
+      <thead class="v-data-table-header">
+        <tr>
+          <th role="columnheader" scope="col" aria-label="" aria-sort="none" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
+          <th role="columnheader" scope="col" aria-label="" aria-sort="none" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
+          <th role="columnheader" scope="col" aria-label="Sent: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>Sent</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
+          <th role="columnheader" scope="col" aria-label="From: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>From</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
+          <th role="columnheader" scope="col" aria-label="To: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>To</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
+          <th role="columnheader" scope="col" aria-label="Subject: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>Subject</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
+        </tr>
+      </thead>
+      <thead>
+        <tr class="v-data-table__progress">
+          <th colspan="6" class="column">
+            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-linear theme--light" style="height: 2px;">
+              <div class="v-progress-linear__background primary" style="opacity: 0.3; left: 0%; width: 100%;"></div>
+              <div class="v-progress-linear__buffer"></div>
+              <div class="v-progress-linear__indeterminate v-progress-linear__indeterminate--active">
+                <div class="v-progress-linear__indeterminate long primary"></div>
+                <div class="v-progress-linear__indeterminate short primary"></div>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2"></td>
+          <td>
+            <div class="v-input theme--light v-text-field">
+              <div class="v-input__control">
+                <div class="v-input__slot">
+                  <div class="v-text-field__slot"><label for="input-19" class="v-label theme--light" style="left: 0px; position: absolute;">Search From</label><input id="input-19" type="text"></div>
+                  <div class="v-input__append-inner">
+                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                  </div>
+                </div>
+                <div class="v-text-field__details">
+                  <div class="v-messages theme--light">
+                    <div class="v-messages__wrapper"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="v-input theme--light v-text-field">
+              <div class="v-input__control">
+                <div class="v-input__slot">
+                  <div class="v-text-field__slot"><label for="input-23" class="v-label theme--light" style="left: 0px; position: absolute;">Search To</label><input id="input-23" type="text"></div>
+                  <div class="v-input__append-inner">
+                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                  </div>
+                </div>
+                <div class="v-text-field__details">
+                  <div class="v-messages theme--light">
+                    <div class="v-messages__wrapper"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="v-input theme--light v-text-field">
+              <div class="v-input__control">
+                <div class="v-input__slot">
+                  <div class="v-text-field__slot"><label for="input-27" class="v-label theme--light" style="left: 0px; position: absolute;">Search Subject</label><input id="input-27" type="text"></div>
+                  <div class="v-input__append-inner">
+                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                  </div>
+                </div>
+                <div class="v-text-field__details">
+                  <div class="v-messages theme--light">
+                    <div class="v-messages__wrapper"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr class="v-data-table__empty-wrapper">
+          <td colspan="6">Loading items...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="v-data-footer">
+    <div class="v-data-footer__select">Rows per page:<div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-select">
+        <div class="v-input__control">
+          <div role="button" aria-haspopup="listbox" aria-expanded="false" aria-owns="list-32" class="v-input__slot">
+            <div class="v-select__slot">
+              <div class="v-select__selections">
+                <div class="v-select__selection v-select__selection--comma">5</div><input aria-label="$vuetify.dataTable.itemsPerPageText" id="input-32" readonly="readonly" type="text" aria-readonly="true" autocomplete="off">
+              </div>
+              <div class="v-input__append-inner">
+                <div class="v-input__icon v-input__icon--append"><i aria-hidden="true" class="v-icon notranslate mdi mdi-menu-down theme--light"></i></div>
+              </div><input type="hidden" value="5">
+            </div>
+            <div class="v-menu">
+              <div class="v-menu__content theme--light " style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 0; display: none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="v-data-footer__pagination">–</div>
+    <div class="v-data-footer__icons-before"><button type="button" disabled="disabled" class="v-btn v-btn--disabled v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default" aria-label="Previous page"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-left theme--light"></i></span></button></div>
+    <div class="v-data-footer__icons-after"><button type="button" disabled="disabled" class="v-btn v-btn--disabled v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default" aria-label="Next page"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-right theme--light"></i></span></button></div>
+  </div>
+</div>
 `;
