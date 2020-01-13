@@ -219,7 +219,7 @@ export default {
   },
   created() {
     this.debouncedQuery = _.debounce(() => this.resetPage(), DEBOUNCE_MS)
-    if (this.savedQuery.hasOwnProperty('skip')) {
+    if (this.savedQuery && this.savedQuery.hasOwnProperty('skip')) {
       // been here before - just restore settings
       this.restoreState()
     }
