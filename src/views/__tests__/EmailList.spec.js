@@ -104,4 +104,9 @@ describe('EmailList', () => {
     expect(wrapper.vm.selected).toEqual(state.selected)
     expect(wrapper.vm.emails).toEqual(state.savedEmails)
   })
+
+  it('encoded params', () => {
+    const wrapper = doMount(shallowMount)
+    expect(wrapper.vm.encodedParams).toEqual('?skip=0&limit=5')
+  })
 })

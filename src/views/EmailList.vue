@@ -180,7 +180,6 @@ export default {
     ...mapState(['savedEmails', 'savedQuery', 'savedOptions', 'selected']),
     // encodes params as string
     encodedParams() {
-      console.log('encodedParams')
       let params = ''
       Object.keys(this.query).forEach(key => {
         if (
@@ -194,7 +193,6 @@ export default {
     },
     // row is expanded, display a portion of email body
     expandedBody() {
-      console.log('expandedBody')
       if (this.expanded.length) {
         return this.expanded[0].body.slice(0, EXPANDED_BODY_LENGTH)
       }
