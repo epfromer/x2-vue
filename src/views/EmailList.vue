@@ -212,19 +212,19 @@ export default {
     'options.sortDesc'() {
       this.doQuery()
     },
-    'query.allTextSearchString'(newValue, oldValue) {
+    'query.allTextSearchString'() {
       this.debouncedQuery()
     },
-    'query.toSearchString'(newValue, oldValue) {
+    'query.toSearchString'() {
       this.debouncedQuery()
     },
-    'query.senderSearchString'(newValue, oldValue) {
+    'query.senderSearchString'() {
       this.debouncedQuery()
     },
-    'query.subjectSearchString'(newValue, oldValue) {
+    'query.subjectSearchString'() {
       this.debouncedQuery()
     },
-    'query.bodySearchString'(newValue, oldValue) {
+    'query.bodySearchString'() {
       this.debouncedQuery()
     },
     emailSelected(newValue, oldValue) {
