@@ -1,5 +1,6 @@
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest',
-  collectCoverage: true
-  // setupFiles: ['./jest.dropmultivueinstancewarning.js']
+  collectCoverage: true,
+  automock: false,
+  setupFiles: ['./setupJest.js']
 }

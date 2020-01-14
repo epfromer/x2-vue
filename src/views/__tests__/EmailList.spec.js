@@ -72,6 +72,7 @@ describe('EmailList', () => {
       getters,
       mutations
     })
+    fetch.resetMocks()
   })
 
   function doMount(mountType) {
@@ -109,4 +110,11 @@ describe('EmailList', () => {
     const wrapper = doMount(shallowMount)
     expect(wrapper.vm.encodedParams).toEqual('?skip=0&limit=5')
   })
+
+  it('encoded params', () => {
+    const wrapper = doMount(shallowMount)
+    expect(wrapper.vm.encodedParams).toEqual('?skip=0&limit=5')
+  })
+
+  // https://www.npmjs.com/package/jest-fetch-mock
 })
