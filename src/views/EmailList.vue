@@ -169,7 +169,7 @@ export default {
     rowClick(details) {
       const sel = this.emails.findIndex(email => email._id === details._id)
       this.saveState(sel)
-      this.$router.push({ name: 'EmailDetail', params: { i: sel } })
+      this.$router.push({ name: 'EmailDetail' })
     },
     resetPage() {
       this.options.page = DEFAULT_PAGE
@@ -230,7 +230,7 @@ export default {
     emailSelected(newValue) {
       const sel = this.emails.findIndex(email => email._id === newValue[0]._id)
       this.saveState(sel)
-      this.$router.push({ name: 'EmailDetail', params: { i: sel } })
+      this.$router.push({ name: 'EmailDetail' })
     }
   },
   created() {

@@ -22,7 +22,7 @@
         <v-btn
           @click="() => setSelected(selected + 1)"
           icon
-          :disabled="selected >= getNumSavedEmails - 1"
+          :disabled="selected >= savedEmails.length - 1"
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
@@ -63,8 +63,7 @@ export default {
     ...mapMutations(['setSelected'])
   },
   computed: {
-    ...mapState(['selected']),
-    ...mapGetters(['getNumSavedEmails'])
+    ...mapState(['selected', 'savedEmails'])
   }
 }
 </script>

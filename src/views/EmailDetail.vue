@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card :loading="loading" class="elevation-1 ">
+    <v-card class="elevation-1 ">
       <v-card-title>{{ email.subject }}</v-card-title>
       <v-card-text class="text--primary">
         <div>Sent: {{ email.clientSubmitTime }}</div>
@@ -25,7 +25,7 @@
         <v-btn
           @click="() => setSelected(selected + 1)"
           icon
-          :disabled="selected >= getNumSavedEmails - 1"
+          :disabled="selected >= savedEmails.length - 1"
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
@@ -38,43 +38,24 @@
 import { mapGetters, mapState, mapMutations } from 'vuex'
 
 export default {
-  props: {
-    i: {
-      type: [Number, String], // could come in as string from route
-      required: true,
-      default: 0
-    }
-  },
   data: () => ({
-    loading: false,
     email: {}
   }),
   mounted() {
-    this.email = this.getSavedEmail(this.selected)
-
-    // if came here by bookmarked route, then go back to email list
-    // so that results list is populated
-    if (!this.email._id) {
-      this.$router.push({ name: 'EmailList' })
-    }
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.email = this.getSavedEmail(to.params.i)
-    next()
+    this.email = { ...this.savedEmails[this.selected] }
   },
   methods: {
     ...mapMutations(['setSelected'])
   },
   computed: {
-    ...mapState(['selected']),
-    ...mapGetters(['getSavedEmail', 'getNumSavedEmails']),
+    ...mapState(['selected', 'savedEmails']),
     formattedBody() {
       return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
     }
   },
   watch: {
-    selected(newValue, oldValue) {
-      this.$router.push({ name: 'EmailDetail', params: { i: this.selected } })
+    selected(newVal) {
+      this.email = { ...this.savedEmails[this.selected] }
     }
   }
 }
