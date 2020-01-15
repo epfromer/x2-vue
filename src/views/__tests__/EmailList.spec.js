@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
 import EmailList from '@/views/EmailList.vue'
-import VueRouter from 'vue-router'
+import router from '@/router'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import Vue from 'vue'
@@ -83,13 +83,24 @@ describe('EmailList', () => {
     return mountType(EmailList, {
       localVue,
       vuetify,
-      store
+      store,
+      router
     })
   }
 
   it('should match snapshot', () => {
     const wrapper = doMount(mount)
     expect(wrapper.html()).toMatchSnapshot()
+  })
+
+  it('does query', () => {
+    const wrapper = doMount(mount)
+    fetch.mockResponseOnce(JSON.stringify({ emails, totalEmails: 2 }))
+    wrapper.vm.doQuery()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
   })
 
   it('saves state', () => {
@@ -152,5 +163,76 @@ describe('EmailList', () => {
     expect(fetch.mock.calls[1][0]).toEqual(
       'https://x2-server-mongodb.herokuapp.com/email/?skip=5&limit=5'
     )
+  })
+
+  it('query.toSearchString', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.setData({ query: { toSearchString: 'foo' } })
+    wrapper.vm.doQuery()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[0][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&toSearchString=foo'
+    )
+  })
+
+  it('query.senderSearchString', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.setData({ query: { senderSearchString: 'foo' } })
+    wrapper.vm.doQuery()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[0][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&senderSearchString=foo'
+    )
+  })
+
+  it('query.subjectSearchString', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.setData({ query: { subjectSearchString: 'foo' } })
+    wrapper.vm.doQuery()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[0][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&subjectSearchString=foo'
+    )
+  })
+
+  it('query.bodySearchString', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.setData({ query: { bodySearchString: 'foo' } })
+    wrapper.vm.doQuery()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[0][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&bodySearchString=foo'
+    )
+  })
+
+  it('resetPage', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.vm.resetPage()
+    expect(fetch.mock.calls.length).toEqual(2)
+    expect(fetch.mock.calls[0][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+    expect(fetch.mock.calls[1][0]).toEqual(
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
+    )
+  })
+
+  it('rowClick', () => {
+    const wrapper = doMount(shallowMount)
+    wrapper.vm.restoreState()
+    wrapper.vm.rowClick(emails[0])
+    expect(wrapper.vm.$route.name).toBe('EmailDetail')
   })
 })

@@ -227,7 +227,7 @@ export default {
     'query.bodySearchString'() {
       this.debouncedQuery()
     },
-    emailSelected(newValue, oldValue) {
+    emailSelected(newValue) {
       const sel = this.emails.findIndex(email => email._id === newValue[0]._id)
       this.saveState(sel)
       this.$router.push({ name: 'EmailDetail', params: { i: sel } })
