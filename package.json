@@ -16,16 +16,6 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {
-    "core-js": "^3.6.4",
-    "express": "^4.17.1",
-    "lodash": "^4.17.15",
-    "serve-static": "^1.14.1",
-    "vue": "^2.6.11",
-    "vue-router": "^3.1.5",
-    "vuetify": "^2.2.4",
-    "vuex": "^3.1.2"
-  },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.2",
     "@vue/cli-plugin-e2e-cypress": "^4.1.2",
@@ -47,5 +37,46 @@
     "vue-cli-plugin-vuetify": "^2.0.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.4.3"
-  }
+  },
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "serve-static": "^1.14.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.5",
+    "vuetify": "^2.2.4",
+    "vuex": "^3.1.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/prettier"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "babel": {
+    "presets": ["@vue/cli-plugin-babel/preset"]
+  },
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest",
+    "collectCoverage": true,
+    "automock": false,
+    "setupFiles": ["./jest.setup.js"]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
