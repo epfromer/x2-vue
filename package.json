@@ -62,6 +62,9 @@
       "parser": "babel-eslint"
     }
   },
+  "vue": {
+    "transpileDependencies": ["vuetify"]
+  },
   "prettier": {
     "semi": false,
     "singleQuote": true
