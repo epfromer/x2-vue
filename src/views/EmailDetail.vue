@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="elevation-1 ">
+    <v-card class="elevation-1">
       <v-card-title>{{ email.subject }}</v-card-title>
       <v-card-text class="text--primary">
         <div>Sent: {{ email.clientSubmitTime }}</div>
@@ -39,24 +39,24 @@ import { mapGetters, mapState, mapMutations } from 'vuex'
 
 export default {
   data: () => ({
-    email: {}
+    email: {},
   }),
   mounted() {
     this.email = { ...this.savedEmails[this.selected] }
   },
   methods: {
-    ...mapMutations(['setSelected'])
+    ...mapMutations(['setSelected']),
   },
   computed: {
     ...mapState(['selected', 'savedEmails']),
     formattedBody() {
       return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
-    }
+    },
   },
   watch: {
     selected(newVal) {
       this.email = { ...this.savedEmails[this.selected] }
-    }
-  }
+    },
+  },
 }
 </script>
