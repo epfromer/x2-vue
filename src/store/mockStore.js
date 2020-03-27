@@ -8,7 +8,7 @@ const emails = [
     displayTo: 'Samuel Behrends',
     senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
     senderName: 'Nettelton  Marcus',
-    subject: 'RE: Draft of Market rate filing'
+    subject: 'RE: Draft of Market rate filing',
   },
   {
     _id: '5ccedc7214a5b6cd9203206f',
@@ -19,8 +19,8 @@ const emails = [
     displayTo: 'Samuel Behrends',
     senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
     senderName: 'Nettelton  Marcus',
-    subject: 'RE: Draft of Market rate filing'
-  }
+    subject: 'RE: Draft of Market rate filing',
+  },
 ]
 const state = {
   savedEmails: emails,
@@ -35,21 +35,21 @@ const state = {
     subjectSearchString: '',
     bodySearchString: '',
     clientSubmitTimeSearchString: '',
-    clientSubmitTimeSpan: ''
+    clientSubmitTimeSpan: '',
   },
   savedOptions: {
     page: 1,
     itemsPerPage: 5,
     sortBy: ['toSearchString'],
-    sortDesc: [false]
+    sortDesc: [false],
   },
-  selected: 0
+  selected: 0,
 }
 const mutations = {
   saveEmails: jest.fn(),
   saveQuery: jest.fn(),
   saveOptions: jest.fn(),
-  setSelected: jest.fn()
+  setSelected: jest.fn(),
 }
 
 export { emails, state, mutations }

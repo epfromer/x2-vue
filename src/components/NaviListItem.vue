@@ -14,21 +14,21 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     route: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     goToRoute() {
-      this.$router.push({ name: this.route }).catch(err => {})
-    }
-  }
+      this.$router.push({ name: this.route }).catch((err) => {})
+    },
+  },
 }
 </script>

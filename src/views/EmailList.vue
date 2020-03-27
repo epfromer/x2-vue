@@ -19,7 +19,7 @@
     show-select
     v-model="emailSelected"
     :footer-props="{
-      itemsPerPageOptions: [5, 10, 25, 50, 100]
+      itemsPerPageOptions: [5, 10, 25, 50, 100],
     }"
   >
     <template v-slot:body.prepend>
@@ -86,7 +86,7 @@ export default {
       page: DEFAULT_PAGE,
       itemsPerPage: DEFAULT_LIMIT,
       sortBy: [],
-      sortDesc: []
+      sortDesc: [],
     },
     query: {
       skip: 0,
@@ -99,34 +99,34 @@ export default {
       subjectSearchString: '',
       bodySearchString: '',
       clientSubmitTimeSearchString: '',
-      clientSubmitTimeSpan: ''
+      clientSubmitTimeSpan: '',
     },
     headers: [
       {
         text: 'Sent',
         align: 'left',
         sortable: true,
-        value: 'clientSubmitTime'
+        value: 'clientSubmitTime',
       },
       {
         text: 'From',
         align: 'left',
         sortable: true,
-        value: 'senderName'
+        value: 'senderName',
       },
       {
         text: 'To',
         align: 'left',
         sortable: true,
-        value: 'displayTo'
+        value: 'displayTo',
       },
       {
         text: 'Subject',
         align: 'left',
         sortable: true,
-        value: 'subject'
-      }
-    ]
+        value: 'subject',
+      },
+    ],
   }),
   methods: {
     ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions', 'setSelected']),
@@ -143,8 +143,8 @@ export default {
       await fetch(
         `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
       )
-        .then(resp => resp.json())
-        .then(data => {
+        .then((resp) => resp.json())
+        .then((data) => {
           this.emails = data.listDocs
           this.totalEmails = data.total
         })
@@ -162,26 +162,26 @@ export default {
     restoreState() {
       // restores state from Vuex store
       this.query = { ...this.savedQuery }
-      this.emails = this.savedEmails.map(email => ({ ...email }))
+      this.emails = this.savedEmails.map((email) => ({ ...email }))
       this.options = { ...this.savedOptions }
       this.emailSelected[0] = this.emails[this.selected]
     },
     rowClick(details) {
-      const sel = this.emails.findIndex(email => email._id === details._id)
+      const sel = this.emails.findIndex((email) => email._id === details._id)
       this.saveState(sel)
       this.$router.push({ name: 'EmailDetail' })
     },
     resetPage() {
       this.options.page = DEFAULT_PAGE
       this.doQuery()
-    }
+    },
   },
   computed: {
     ...mapState(['savedEmails', 'savedQuery', 'savedOptions', 'selected']),
     // encodes params as string
     encodedParams() {
       let params = ''
-      Object.keys(this.query).forEach(key => {
+      Object.keys(this.query).forEach((key) => {
         if (
           (typeof this.query[key] == 'string' && this.query[key]) ||
           typeof this.query[key] == 'number'
@@ -197,7 +197,7 @@ export default {
         return this.expanded[0].body.slice(0, EXPANDED_BODY_LENGTH)
       }
       return ''
-    }
+    },
   },
   watch: {
     'options.itemsPerPage'() {
@@ -228,10 +228,12 @@ export default {
       this.debouncedQuery()
     },
     emailSelected(newValue) {
-      const sel = this.emails.findIndex(email => email._id === newValue[0]._id)
+      const sel = this.emails.findIndex(
+        (email) => email._id === newValue[0]._id
+      )
       this.saveState(sel)
       this.$router.push({ name: 'EmailDetail' })
-    }
+    },
   },
   created() {
     this.debouncedQuery = _.debounce(() => this.resetPage(), DEBOUNCE_MS)
@@ -241,6 +243,6 @@ export default {
     //   // been here before - just restore settings
     //   this.restoreState()
     // }
-  }
+  },
 }
 </script>

@@ -54,16 +54,16 @@ import NaviListItem from '@/components/NaviListItem.vue'
 export default {
   name: 'App',
   data: () => ({
-    drawer: null
+    drawer: null,
   }),
   components: {
-    NaviListItem
+    NaviListItem,
   },
   methods: {
-    ...mapMutations(['setSelected'])
+    ...mapMutations(['setSelected']),
   },
   computed: {
-    ...mapState(['selected', 'savedEmails'])
-  }
+    ...mapState(['selected', 'savedEmails']),
+  },
 }
 </script>

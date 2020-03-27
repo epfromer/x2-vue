@@ -9,15 +9,15 @@ export default new Vuex.Store({
     savedEmails: [],
     savedQuery: {},
     savedOptions: {},
-    selected: 0
+    selected: 0,
   },
   mutations: {
     saveEmails: (state, emails) =>
-      (state.savedEmails = emails.map(email => ({ ...email }))),
+      (state.savedEmails = emails.map((email) => ({ ...email }))),
     saveQuery: (state, query) => (state.savedQuery = { ...query }),
     saveOptions: (state, options) => (state.savedOptions = { ...options }),
-    setSelected: (state, value) => (state.selected = value)
+    setSelected: (state, value) => (state.selected = value),
   },
   actions: {},
-  modules: {}
+  modules: {},
 })
