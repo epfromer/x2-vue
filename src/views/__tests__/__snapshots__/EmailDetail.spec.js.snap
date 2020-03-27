@@ -2,7 +2,7 @@
 
 exports[`EmailDetail should match snapshot 1`] = `
 <div>
-  <div class="elevation-1  v-card v-sheet theme--light">
+  <div class="elevation-1 v-card v-sheet theme--light">
     <div class="v-card__title"></div>
     <div class="v-card__text text--primary">
       <div>Sent: </div>

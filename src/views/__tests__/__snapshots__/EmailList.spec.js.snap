@@ -7,13 +7,11 @@ exports[`EmailList should match snapshot 1`] = `
       <div class="v-input__slot">
         <div class="v-text-field__slot"><label for="input-8" class="v-label theme--light" style="left: 0px; position: absolute;">Search (all text fields)</label><input id="input-8" type="text"></div>
         <div class="v-input__append-inner">
-          <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+          <div class="v-input__icon v-input__icon--clear"><button disabled="disabled" type="button" aria-label="clear icon" class="v-icon notranslate v-icon--disabled v-icon--link mdi mdi-close theme--light"></button></div>
         </div>
       </div>
       <div class="v-text-field__details">
-        <div class="v-messages theme--light">
-          <div class="v-messages__wrapper"></div>
-        </div>
+        <div class="v-messages theme--light"><span name="message-transition" tag="div" class="v-messages__wrapper"></span></div>
       </div>
     </div>
   </div>
@@ -29,8 +27,8 @@ exports[`EmailList should match snapshot 1`] = `
       </colgroup>
       <thead class="v-data-table-header">
         <tr>
-          <th role="columnheader" scope="col" aria-label="" aria-sort="none" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
-          <th role="columnheader" scope="col" aria-label="" aria-sort="none" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
+          <th role="columnheader" scope="col" aria-label="" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
+          <th role="columnheader" scope="col" aria-label="" class="text-start" style="width: 1px; min-width: 1px;"><span></span></th>
           <th role="columnheader" scope="col" aria-label="Sent: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>Sent</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
           <th role="columnheader" scope="col" aria-label="From: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>From</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
           <th role="columnheader" scope="col" aria-label="To: Not sorted. Activate to sort ascending." aria-sort="none" class="text-left sortable"><span>To</span><i aria-hidden="true" class="v-icon notranslate v-data-table-header__icon mdi mdi-arrow-up theme--light" style="font-size: 18px;"></i></th>
@@ -60,13 +58,11 @@ exports[`EmailList should match snapshot 1`] = `
                 <div class="v-input__slot">
                   <div class="v-text-field__slot"><label for="input-19" class="v-label theme--light" style="left: 0px; position: absolute;">Search From</label><input id="input-19" type="text"></div>
                   <div class="v-input__append-inner">
-                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                    <div class="v-input__icon v-input__icon--clear"><button disabled="disabled" type="button" aria-label="clear icon" class="v-icon notranslate v-icon--disabled v-icon--link mdi mdi-close theme--light"></button></div>
                   </div>
                 </div>
                 <div class="v-text-field__details">
-                  <div class="v-messages theme--light">
-                    <div class="v-messages__wrapper"></div>
-                  </div>
+                  <div class="v-messages theme--light"><span name="message-transition" tag="div" class="v-messages__wrapper"></span></div>
                 </div>
               </div>
             </div>
@@ -77,13 +73,11 @@ exports[`EmailList should match snapshot 1`] = `
                 <div class="v-input__slot">
                   <div class="v-text-field__slot"><label for="input-23" class="v-label theme--light" style="left: 0px; position: absolute;">Search To</label><input id="input-23" type="text"></div>
                   <div class="v-input__append-inner">
-                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                    <div class="v-input__icon v-input__icon--clear"><button disabled="disabled" type="button" aria-label="clear icon" class="v-icon notranslate v-icon--disabled v-icon--link mdi mdi-close theme--light"></button></div>
                   </div>
                 </div>
                 <div class="v-text-field__details">
-                  <div class="v-messages theme--light">
-                    <div class="v-messages__wrapper"></div>
-                  </div>
+                  <div class="v-messages theme--light"><span name="message-transition" tag="div" class="v-messages__wrapper"></span></div>
                 </div>
               </div>
             </div>
@@ -94,13 +88,11 @@ exports[`EmailList should match snapshot 1`] = `
                 <div class="v-input__slot">
                   <div class="v-text-field__slot"><label for="input-27" class="v-label theme--light" style="left: 0px; position: absolute;">Search Subject</label><input id="input-27" type="text"></div>
                   <div class="v-input__append-inner">
-                    <div class="v-input__icon v-input__icon--"><i role="button" class="v-icon notranslate v-icon--link material-icons theme--light"></i></div>
+                    <div class="v-input__icon v-input__icon--clear"><button disabled="disabled" type="button" aria-label="clear icon" class="v-icon notranslate v-icon--disabled v-icon--link mdi mdi-close theme--light"></button></div>
                   </div>
                 </div>
                 <div class="v-text-field__details">
-                  <div class="v-messages theme--light">
-                    <div class="v-messages__wrapper"></div>
-                  </div>
+                  <div class="v-messages theme--light"><span name="message-transition" tag="div" class="v-messages__wrapper"></span></div>
                 </div>
               </div>
             </div>
@@ -118,14 +110,14 @@ exports[`EmailList should match snapshot 1`] = `
           <div role="button" aria-haspopup="listbox" aria-expanded="false" aria-owns="list-32" class="v-input__slot">
             <div class="v-select__slot">
               <div class="v-select__selections">
-                <div class="v-select__selection v-select__selection--comma">5</div><input aria-label="$vuetify.dataTable.itemsPerPageText" id="input-32" readonly="readonly" type="text" aria-readonly="true" autocomplete="off">
+                <div class="v-select__selection v-select__selection--comma">5</div><input aria-label="$vuetify.dataTable.itemsPerPageText" id="input-32" readonly="readonly" type="text" aria-readonly="false" autocomplete="off">
               </div>
               <div class="v-input__append-inner">
                 <div class="v-input__icon v-input__icon--append"><i aria-hidden="true" class="v-icon notranslate mdi mdi-menu-down theme--light"></i></div>
               </div><input type="hidden" value="5">
             </div>
             <div class="v-menu">
-              <div class="v-menu__content theme--light " style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 0; display: none;"></div>
+              <!---->
             </div>
           </div>
         </div>
