@@ -148,9 +148,8 @@ export default {
           this.emails = data.listDocs
           this.totalEmails = data.total
         })
-        // ignore errors
-        .catch(() => {})
-      this.loading = false
+        .catch(() => {}) // TODO: handle errors
+        .then(() => (this.loading = false))
     },
     saveState(sel) {
       // saves state to Vuex store
