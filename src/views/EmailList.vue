@@ -3,12 +3,12 @@
   <v-data-table
     :headers="headers"
     :items="emails"
-    :server-items-length="totalEmails"
+    :server-items-length="total"
     :loading="loading"
     @click:row="rowClick"
     class="elevation-1"
-    :items-per-page.sync="options.itemsPerPage"
-    :page.sync="options.page"
+    :page.sync="page"
+    :items-per-page.sync="emailListItemsPerPage"
     :sort-by.sync="options.sortBy"
     :sort-desc.sync="options.sortDesc"
     show-expand
@@ -81,8 +81,6 @@ export default {
     expanded: [],
     emailSelected: [],
     options: {
-      page: DEFAULT_PAGE,
-      itemsPerPage: DEFAULT_LIMIT,
       sortBy: [],
       sortDesc: [],
     },
@@ -125,16 +123,16 @@ export default {
   methods: {
     ...mapMutations([
       'saveQuery',
-      'setEmails',
       'saveOptions',
       'setSelected',
-      'setTotalEmails',
+      'setEmailListItemsPerPage',
+      'setVuexState',
     ]),
     // performs query of database REST interface
     async doQuery() {
       // todo: move this to separate file like react
-      this.query.skip = (this.options.page - 1) * this.query.limit
-      this.query.limit = this.options.itemsPerPage
+      this.query.skip = (this.page - 1) * this.emailListItemsPerPage
+      this.query.limit = this.emailListItemsPerPage
       if (this.options.sortBy.length) {
         this.query.sort = this.options.sortBy[0]
         this.query.order = this.options.sortDesc[0] ? -1 : 1
@@ -147,25 +145,11 @@ export default {
       resp
         .json()
         .then((resp) => {
-          this.setEmails(resp.listDocs)
-          this.setTotalEmails(resp.total)
+          this.emailList = resp.listDocs
+          this.total = resp.total
         })
         .catch(() => {}) // TODO: handle errors
         .then(() => (this.loading = false))
-    },
-    saveState(sel) {
-      // saves state to Vuex store
-      this.setSelected(sel)
-      this.saveQuery(this.query)
-      // this.saveEmails(this.emails)
-      this.saveOptions(this.options)
-    },
-    restoreState() {
-      // restores state from Vuex store
-      this.query = { ...this.savedQuery }
-      // this.emails = this.savedEmails.map((email) => ({ ...email }))
-      this.options = { ...this.savedOptions }
-      this.emailSelected[0] = this.emails[this.selected]
     },
     rowClick(details) {
       const sel = this.emails.findIndex((email) => email._id === details._id)
@@ -184,6 +168,8 @@ export default {
       'selected',
       'emails',
       'totalEmails',
+      'emailListPage',
+      'emailListItemsPerPage',
     ]),
     // encodes params as string
     encodedParams() {
@@ -205,12 +191,36 @@ export default {
       }
       return ''
     },
+    emailList: {
+      get() {
+        return this.emails
+      },
+      set(v) {
+        this.setVuexState({ k: 'emails', v })
+      },
+    },
+    total: {
+      get() {
+        return this.totalEmails
+      },
+      set(v) {
+        this.setVuexState({ k: 'totalEmails', v })
+      },
+    },
+    page: {
+      get() {
+        return this.emailListPage
+      },
+      set(v) {
+        this.setVuexState({ k: 'emailListPage', v })
+      },
+    },
   },
   watch: {
     'options.itemsPerPage'() {
       this.doQuery()
     },
-    'options.page'() {
+    page() {
       this.doQuery()
     },
     'options.sortBy'() {

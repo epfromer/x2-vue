@@ -8,13 +8,46 @@ export default new Vuex.Store({
   state: {
     emails: [],
     totalEmails: 0,
-    savedQuery: {},
-    savedOptions: {},
-    selected: 0,
+    savedQuery: {}, // todo remove
+    savedOptions: {}, // todo remove
+    selected: 0, // todo remove
+    // email list
+    emailListPage: 1,
+    emailListItemsPerPage: 5,
+    // query
+    querySort: 'sent',
+    queryOrder: 1,
+    sent: '',
+    timeSpan: 0,
+    from: '',
+    to: '',
+    subject: '',
+    allText: '',
+    // app settings
+    densePadding:
+      localStorage.getItem('densePadding') === 'false' ? false : true,
+    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
+    themePrimaryColor: localStorage.getItem('themePrimaryColor')
+      ? localStorage.getItem('themePrimaryColor')
+      : '#2196f3',
+    themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
+      ? localStorage.getItem('themeSecondaryColor')
+      : '#f50057',
   },
   mutations: {
-    setEmails: (state, emails) => (state.emails = _.cloneDeep(emails)),
-    setTotalEmails: (state, totalEmails) => (state.totalEmails = totalEmails),
+    setVuexState: (state, { k, v }) => {
+      if (k === 'emails') {
+        state.emails = _.cloneDeep(v)
+      } else {
+        state[k] = v
+      }
+    },
+    setTotalEmails: (state, v) => (state.totalEmails = v),
+    setEmailListPage: (state, v) => {
+      console.log(v)
+      state.emailListPage = v
+    },
+    setEmailListItemsPerPage: (state, v) => (state.emailListItemsPerPage = v),
     saveQuery: (state, query) => (state.savedQuery = { ...query }),
     saveOptions: (state, options) => (state.savedOptions = { ...options }),
     setSelected: (state, value) => (state.selected = value),
