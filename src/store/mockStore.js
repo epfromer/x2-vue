@@ -27,10 +27,10 @@ const state = {
   savedQuery: {
     skip: 20,
     limit: 100,
-    allTextSearchString: null,
+    allText: null,
     sort: '',
     order: '',
-    toSearchString: '',
+    to: '',
     senderSearchString: '',
     subjectSearchString: '',
     bodySearchString: '',
@@ -40,7 +40,7 @@ const state = {
   savedOptions: {
     page: 1,
     itemsPerPage: 5,
-    sortBy: ['toSearchString'],
+    sortBy: ['to'],
     sortDesc: [false],
   },
   selected: 0,

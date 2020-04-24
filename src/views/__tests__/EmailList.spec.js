@@ -77,7 +77,7 @@ describe('EmailList', () => {
       'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
     )
     expect(fetch.mock.calls[1][0]).toEqual(
-      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&sort=toSearchString&order=1'
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&sort=to&order=1'
     )
   })
 
@@ -107,16 +107,16 @@ describe('EmailList', () => {
     )
   })
 
-  it('query.toSearchString', () => {
+  it('query.to', () => {
     const wrapper = doMount(shallowMount)
-    wrapper.setData({ query: { toSearchString: 'foo' } })
+    wrapper.setData({ query: { to: 'foo' } })
     wrapper.vm.doQuery()
     expect(fetch.mock.calls.length).toEqual(2)
     expect(fetch.mock.calls[0][0]).toEqual(
       'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5'
     )
     expect(fetch.mock.calls[1][0]).toEqual(
-      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&toSearchString=foo'
+      'https://x2-server-mongodb.herokuapp.com/email/?skip=0&limit=5&to=foo'
     )
   })
 

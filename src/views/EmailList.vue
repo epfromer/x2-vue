@@ -34,7 +34,7 @@
         </td>
         <td>
           <v-text-field
-            v-model="query.toSearchString"
+            v-model="query.to"
             label="Search To"
             clearable
           ></v-text-field>
@@ -50,7 +50,7 @@
     </template>
     <template v-slot:top>
       <v-text-field
-        v-model="query.allTextSearchString"
+        v-model="query.allText"
         label="Search (all text fields)"
         clearable
         class="mx-4"
@@ -78,8 +78,6 @@ const EXPANDED_BODY_LENGTH = 1000
 export default {
   data: () => ({
     loading: false,
-    emails: [],
-    totalEmails: 0,
     expanded: [],
     emailSelected: [],
     options: {
@@ -91,10 +89,10 @@ export default {
     query: {
       skip: 0,
       limit: DEFAULT_LIMIT,
-      allTextSearchString: '',
+      allText: '',
       sort: '',
       order: '',
-      toSearchString: '',
+      to: '',
       senderSearchString: '',
       subjectSearchString: '',
       bodySearchString: '',
@@ -104,34 +102,37 @@ export default {
     headers: [
       {
         text: 'Sent',
-        align: 'left',
         sortable: true,
-        value: 'clientSubmitTime',
+        value: 'sent',
       },
       {
         text: 'From',
-        align: 'left',
         sortable: true,
-        value: 'senderName',
+        value: 'from',
       },
       {
         text: 'To',
-        align: 'left',
         sortable: true,
-        value: 'displayTo',
+        value: 'to',
       },
       {
         text: 'Subject',
-        align: 'left',
         sortable: true,
         value: 'subject',
       },
     ],
   }),
   methods: {
-    ...mapMutations(['saveQuery', 'saveEmails', 'saveOptions', 'setSelected']),
+    ...mapMutations([
+      'saveQuery',
+      'setEmails',
+      'saveOptions',
+      'setSelected',
+      'setTotalEmails',
+    ]),
     // performs query of database REST interface
     async doQuery() {
+      // todo: move this to separate file like react
       this.query.skip = (this.options.page - 1) * this.query.limit
       this.query.limit = this.options.itemsPerPage
       if (this.options.sortBy.length) {
@@ -140,13 +141,14 @@ export default {
       }
 
       this.loading = true
-      await fetch(
-        `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
-      )
-        .then((resp) => resp.json())
-        .then((data) => {
-          this.emails = data.listDocs
-          this.totalEmails = data.total
+      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
+      console.log(url)
+      const resp = await fetch(url)
+      resp
+        .json()
+        .then((resp) => {
+          this.setEmails(resp.listDocs)
+          this.setTotalEmails(resp.total)
         })
         .catch(() => {}) // TODO: handle errors
         .then(() => (this.loading = false))
@@ -155,13 +157,13 @@ export default {
       // saves state to Vuex store
       this.setSelected(sel)
       this.saveQuery(this.query)
-      this.saveEmails(this.emails)
+      // this.saveEmails(this.emails)
       this.saveOptions(this.options)
     },
     restoreState() {
       // restores state from Vuex store
       this.query = { ...this.savedQuery }
-      this.emails = this.savedEmails.map((email) => ({ ...email }))
+      // this.emails = this.savedEmails.map((email) => ({ ...email }))
       this.options = { ...this.savedOptions }
       this.emailSelected[0] = this.emails[this.selected]
     },
@@ -176,7 +178,13 @@ export default {
     },
   },
   computed: {
-    ...mapState(['savedEmails', 'savedQuery', 'savedOptions', 'selected']),
+    ...mapState([
+      'savedQuery',
+      'savedOptions',
+      'selected',
+      'emails',
+      'totalEmails',
+    ]),
     // encodes params as string
     encodedParams() {
       let params = ''
@@ -211,10 +219,10 @@ export default {
     'options.sortDesc'() {
       this.doQuery()
     },
-    'query.allTextSearchString'() {
+    'query.allText'() {
       this.debouncedQuery()
     },
-    'query.toSearchString'() {
+    'query.to'() {
       this.debouncedQuery()
     },
     'query.senderSearchString'() {
