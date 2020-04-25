@@ -28,22 +28,29 @@
         <td colspan="2"></td>
         <td>
           <v-text-field
+            v-model="querySent"
+            label="Filter Sent"
+            clearable
+          ></v-text-field>
+        </td>
+        <td>
+          <v-text-field
             v-model="query.senderSearchString"
-            label="Search From"
+            label="Filter From"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
             v-model="query.to"
-            label="Search To"
+            label="Filter To"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
             v-model="query.subjectSearchString"
-            label="Search Subject"
+            label="Filter Subject"
             clearable
           ></v-text-field>
         </td>
@@ -51,8 +58,8 @@
     </template>
     <template v-slot:top>
       <v-text-field
-        v-model="query.allText"
-        label="Search (all text fields)"
+        v-model="queryAllText"
+        label="Filter (all text fields)"
         clearable
         class="mx-4"
       ></v-text-field>
@@ -139,11 +146,9 @@ export default {
         sort: this.querySort,
         order: this.queryOrder,
       }
-      // console.log(this.options.sortBy[0], this.options.sortDesc[0])
-      // if (this.options.sortBy.length) {
-      //   this.query.sort = this.options.sortBy[0]
-      //   this.query.order = this.options.sortDesc[0] ? -1 : 1
-      // }
+
+      if (this.allText) query.allText = this.allText
+      if (this.sent) query.sent = this.sent
 
       const encodedQuery = this.encodeQuery(query)
 
@@ -170,8 +175,7 @@ export default {
       this.$router.push({ name: 'EmailDetail' })
     },
     resetPage() {
-      this.options.page = DEFAULT_PAGE
-      this.doQuery()
+      this.page = 1
     },
   },
   computed: {
@@ -182,6 +186,14 @@ export default {
       'emailListItemsPerPage',
       'querySort',
       'queryOrder',
+      'sent',
+      'timeSpan',
+      'from',
+      'to',
+      'subject',
+      'allText',
+      'densePadding',
+      'darkMode',
     ]),
 
     // row is expanded, display a portion of email body
@@ -225,12 +237,10 @@ export default {
     },
     sortBy: {
       get() {
-        console.log('sortby', this.querySort) // this
         return [this.querySort]
       },
       set(arr) {
-        console.log('sortby', arr[0]) // this
-        // this.setVuexState({ k: 'querySort', v })
+        this.setVuexState({ k: 'querySort', v: arr[0] })
       },
     },
     sortOrder: {
@@ -238,8 +248,23 @@ export default {
         return [this.queryOrder > 0 ? false : true]
       },
       set(arr) {
-        console.log('sortorder', arr[0]) // this
         this.setVuexState({ k: 'queryOrder', v: arr[0] ? -1 : 1 })
+      },
+    },
+    queryAllText: {
+      get() {
+        return this.allText
+      },
+      set(v) {
+        this.setVuexState({ k: 'allText', v })
+      },
+    },
+    querySent: {
+      get() {
+        return this.sent
+      },
+      set(v) {
+        this.setVuexState({ k: 'sent', v })
       },
     },
   },
@@ -250,16 +275,16 @@ export default {
     page() {
       this.doQuery()
     },
-    'options.sortBy'() {
+    sortBy() {
       this.doQuery()
     },
     sortOrder() {
       this.doQuery()
     },
-    'query.allText'() {
+    queryAllText() {
       this.debouncedQuery()
     },
-    'query.to'() {
+    querySent() {
       this.debouncedQuery()
     },
     'query.senderSearchString'() {
@@ -280,7 +305,7 @@ export default {
     },
   },
   created() {
-    this.debouncedQuery = _.debounce(() => this.resetPage(), DEBOUNCE_MS)
+    this.debouncedQuery = _.debounce(() => this.doQuery(), DEBOUNCE_MS)
 
     this.doQuery()
     // if (this.savedQuery && this.savedQuery.hasOwnProperty('skip')) {
