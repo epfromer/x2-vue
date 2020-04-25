@@ -8,7 +8,7 @@
     @click:row="rowClick"
     class="elevation-1"
     :page.sync="page"
-    :items-per-page.sync="emailListItemsPerPage"
+    :items-per-page.sync="itemsPerPage"
     :sort-by.sync="options.sortBy"
     :sort-desc.sync="options.sortDesc"
     show-expand
@@ -70,7 +70,6 @@
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import _ from 'lodash'
 
-const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 5
 const DEBOUNCE_MS = 500
 const EXPANDED_BODY_LENGTH = 1000
@@ -125,7 +124,6 @@ export default {
       'saveQuery',
       'saveOptions',
       'setSelected',
-      'setEmailListItemsPerPage',
       'setVuexState',
     ]),
     // performs query of database REST interface
@@ -215,9 +213,17 @@ export default {
         this.setVuexState({ k: 'emailListPage', v })
       },
     },
+    itemsPerPage: {
+      get() {
+        return this.emailListItemsPerPage
+      },
+      set(v) {
+        this.setVuexState({ k: 'emailListItemsPerPage', v })
+      },
+    },
   },
   watch: {
-    'options.itemsPerPage'() {
+    itemsPerPage() {
       this.doQuery()
     },
     page() {
