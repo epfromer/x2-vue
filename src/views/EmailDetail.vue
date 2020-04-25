@@ -3,7 +3,7 @@
     <v-card class="elevation-1">
       <v-card-title>{{ id }}</v-card-title>
       <v-card-text class="text--primary">
-        foo
+        {{ email }}
       </v-card-text>
       <!-- <v-card-title>{{ email.subject }}</v-card-title>
       <v-card-text class="text--primary">
@@ -41,21 +41,6 @@
 <script>
 import { mapGetters, mapState, mapMutations } from 'vuex'
 
-async function doFetch(setLoading, setEmail, id) {
-  setLoading(true)
-  const url = `${process.env.REACT_APP_EMAIL_SERVER}/email/${id}`
-  console.log(url)
-  const resp = await fetch(url)
-  resp
-    .json()
-    .then((resp) => {
-      setEmail(resp)
-    })
-    .catch(() => {}) // TODO: handle errors
-    .then(() => setLoading(false))
-  // .then(() => console.log('fetch complete'))
-}
-
 export default {
   data() {
     return {
@@ -65,11 +50,22 @@ export default {
     }
   },
   mounted() {
-    console.log(this)
-    // this.email = { ...this.savedEmails[this.selected] }
+    this.doFetch()
   },
   methods: {
     // ...mapMutations(['setSelected']),
+    async doFetch() {
+      this.loading = true
+      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.id}`
+      console.log(url)
+      const resp = await fetch(url)
+      resp
+        .json()
+        .then((resp) => (this.email = resp))
+        .catch(() => {}) // TODO: handle errors
+        .then(() => (this.loading = false))
+      // .then(() => console.log('fetch complete'))
+    },
   },
   computed: {
     // ...mapState(['selected', 'savedEmails']),
