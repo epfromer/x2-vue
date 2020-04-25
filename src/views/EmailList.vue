@@ -120,24 +120,36 @@ export default {
     ],
   }),
   methods: {
-    ...mapMutations([
-      'saveQuery',
-      'saveOptions',
-      'setSelected',
-      'setVuexState',
-    ]),
-    // performs query of database REST interface
+    ...mapMutations(['setVuexState']),
+    encodeQuery(q) {
+      // encode query for URL
+      let params = ''
+      Object.keys(q).forEach((key) => {
+        if (
+          (typeof q[key] == 'string' && q[key]) ||
+          typeof q[key] == 'number'
+        ) {
+          params += '&' + key + '=' + q[key]
+        }
+      })
+      return '?' + params.slice(1)
+    },
     async doQuery() {
       // todo: move this to separate file like react
-      this.query.skip = (this.page - 1) * this.emailListItemsPerPage
-      this.query.limit = this.emailListItemsPerPage
-      if (this.options.sortBy.length) {
-        this.query.sort = this.options.sortBy[0]
-        this.query.order = this.options.sortDesc[0] ? -1 : 1
+      const query = {
+        skip: (this.page - 1) * this.emailListItemsPerPage,
+        limit: this.emailListItemsPerPage,
       }
+      console.log(this.options.sortBy[0], this.options.sortDesc[0])
+      // if (this.options.sortBy.length) {
+      //   this.query.sort = this.options.sortBy[0]
+      //   this.query.order = this.options.sortDesc[0] ? -1 : 1
+      // }
+
+      const encodedQuery = this.encodeQuery(query)
 
       this.loading = true
-      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.encodedParams}`
+      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${encodedQuery}`
       console.log(url)
       const resp = await fetch(url)
       resp
@@ -161,27 +173,14 @@ export default {
   },
   computed: {
     ...mapState([
-      'savedQuery',
-      'savedOptions',
-      'selected',
       'emails',
       'totalEmails',
       'emailListPage',
       'emailListItemsPerPage',
+      'querySort',
+      'queryOrder',
     ]),
-    // encodes params as string
-    encodedParams() {
-      let params = ''
-      Object.keys(this.query).forEach((key) => {
-        if (
-          (typeof this.query[key] == 'string' && this.query[key]) ||
-          typeof this.query[key] == 'number'
-        ) {
-          params += '&' + key + '=' + this.query[key]
-        }
-      })
-      return '?' + params.slice(1)
-    },
+
     // row is expanded, display a portion of email body
     expandedBody() {
       if (this.expanded.length) {
