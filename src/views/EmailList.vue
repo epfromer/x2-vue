@@ -78,38 +78,39 @@
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import _ from 'lodash'
 
-const DEFAULT_LIMIT = 5
 const DEBOUNCE_MS = 500
 const EXPANDED_BODY_LENGTH = 1000
 
 export default {
-  data: () => ({
-    loading: false,
-    expanded: [],
-    emailSelected: [],
-    headers: [
-      {
-        text: 'Sent',
-        sortable: true,
-        value: 'sent',
-      },
-      {
-        text: 'From',
-        sortable: true,
-        value: 'from',
-      },
-      {
-        text: 'To',
-        sortable: true,
-        value: 'to',
-      },
-      {
-        text: 'Subject',
-        sortable: true,
-        value: 'subject',
-      },
-    ],
-  }),
+  data() {
+    return {
+      loading: false,
+      expanded: [],
+      emailSelected: [],
+      headers: [
+        {
+          text: 'Sent',
+          sortable: true,
+          value: 'sent',
+        },
+        {
+          text: 'From',
+          sortable: true,
+          value: 'from',
+        },
+        {
+          text: 'To',
+          sortable: true,
+          value: 'to',
+        },
+        {
+          text: 'Subject',
+          sortable: true,
+          value: 'subject',
+        },
+      ],
+    }
+  },
   methods: {
     ...mapMutations(['setVuexState']),
     encodeQuery(q) {
@@ -160,9 +161,7 @@ export default {
         .then(() => (this.loading = false))
     },
     rowClick(details) {
-      const sel = this.emails.findIndex((email) => email._id === details._id)
-      this.saveState(sel)
-      this.$router.push({ name: 'EmailDetail' })
+      this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
     },
     resetPage() {
       this.page = 1
@@ -314,18 +313,12 @@ export default {
       const sel = this.emails.findIndex(
         (email) => email._id === newValue[0]._id
       )
-      this.saveState(sel)
       this.$router.push({ name: 'EmailDetail' })
     },
   },
   created() {
     this.debouncedQuery = _.debounce(() => this.doQuery(), DEBOUNCE_MS)
-
     this.doQuery()
-    // if (this.savedQuery && this.savedQuery.hasOwnProperty('skip')) {
-    //   // been here before - just restore settings
-    //   this.restoreState()
-    // }
   },
 }
 </script>

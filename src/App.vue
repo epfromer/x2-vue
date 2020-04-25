@@ -11,7 +11,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>X2</v-toolbar-title>
       <v-spacer></v-spacer>
-      <template v-if="$route.name === 'EmailDetail'">
+      <!-- <template v-if="$route.name === 'EmailDetail'">
         <v-btn
           @click="() => setSelected(selected - 1)"
           icon
@@ -26,7 +26,7 @@
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
-      </template>
+      </template> -->
     </v-app-bar>
 
     <v-content>

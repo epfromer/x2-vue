@@ -1,7 +1,11 @@
 <template>
   <div>
     <v-card class="elevation-1">
-      <v-card-title>{{ email.subject }}</v-card-title>
+      <v-card-title>{{ id }}</v-card-title>
+      <v-card-text class="text--primary">
+        foo
+      </v-card-text>
+      <!-- <v-card-title>{{ email.subject }}</v-card-title>
       <v-card-text class="text--primary">
         <div>Sent: {{ email.clientSubmitTime }}</div>
         <div>From: {{ email.senderName }} ({{ email.senderEmailAddress }})</div>
@@ -29,7 +33,7 @@
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </div>
 </template>
@@ -37,26 +41,46 @@
 <script>
 import { mapGetters, mapState, mapMutations } from 'vuex'
 
+async function doFetch(setLoading, setEmail, id) {
+  setLoading(true)
+  const url = `${process.env.REACT_APP_EMAIL_SERVER}/email/${id}`
+  console.log(url)
+  const resp = await fetch(url)
+  resp
+    .json()
+    .then((resp) => {
+      setEmail(resp)
+    })
+    .catch(() => {}) // TODO: handle errors
+    .then(() => setLoading(false))
+  // .then(() => console.log('fetch complete'))
+}
+
 export default {
-  data: () => ({
-    email: {},
-  }),
+  data() {
+    return {
+      id: this.$route.params.id,
+      loading: false,
+      email: {},
+    }
+  },
   mounted() {
-    this.email = { ...this.savedEmails[this.selected] }
+    console.log(this)
+    // this.email = { ...this.savedEmails[this.selected] }
   },
   methods: {
-    ...mapMutations(['setSelected']),
+    // ...mapMutations(['setSelected']),
   },
   computed: {
-    ...mapState(['selected', 'savedEmails']),
-    formattedBody() {
-      return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
-    },
+    // ...mapState(['selected', 'savedEmails']),
+    // formattedBody() {
+    //   return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
+    // },
   },
   watch: {
-    selected(newVal) {
-      this.email = { ...this.savedEmails[this.selected] }
-    },
+    // selected(newVal) {
+    //   this.email = { ...this.savedEmails[this.selected] }
+    // },
   },
 }
 </script>

@@ -13,9 +13,10 @@ const routes = [
     component: EmailList,
   },
   {
-    path: '/emaildetail',
+    path: '/emaildetail/:id',
     name: 'EmailDetail',
     component: EmailDetail,
+    props: true,
   },
 ]
 
