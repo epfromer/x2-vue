@@ -9,8 +9,9 @@
     class="elevation-1"
     :page.sync="page"
     :items-per-page.sync="itemsPerPage"
-    :sort-by.sync="options.sortBy"
-    :sort-desc.sync="options.sortDesc"
+    must-sort
+    :sort-by.sync="sortBy"
+    :sort-desc.sync="sortOrder"
     show-expand
     item-key="_id"
     :single-expand="true"
@@ -79,10 +80,6 @@ export default {
     loading: false,
     expanded: [],
     emailSelected: [],
-    options: {
-      sortBy: [],
-      sortDesc: [],
-    },
     query: {
       skip: 0,
       limit: DEFAULT_LIMIT,
@@ -139,8 +136,10 @@ export default {
       const query = {
         skip: (this.page - 1) * this.emailListItemsPerPage,
         limit: this.emailListItemsPerPage,
+        sort: this.querySort,
+        order: this.queryOrder,
       }
-      console.log(this.options.sortBy[0], this.options.sortDesc[0])
+      // console.log(this.options.sortBy[0], this.options.sortDesc[0])
       // if (this.options.sortBy.length) {
       //   this.query.sort = this.options.sortBy[0]
       //   this.query.order = this.options.sortDesc[0] ? -1 : 1
@@ -155,7 +154,11 @@ export default {
       resp
         .json()
         .then((resp) => {
-          this.emailList = resp.listDocs
+          // prettify email sent dates
+          this.emailList = resp.listDocs.map((email) => ({
+            ...email,
+            sent: email.sent.slice(0, 10) + ' ' + email.sent.slice(11, 19),
+          }))
           this.total = resp.total
         })
         .catch(() => {}) // TODO: handle errors
@@ -220,6 +223,25 @@ export default {
         this.setVuexState({ k: 'emailListItemsPerPage', v })
       },
     },
+    sortBy: {
+      get() {
+        console.log('sortby', this.querySort) // this
+        return [this.querySort]
+      },
+      set(arr) {
+        console.log('sortby', arr[0]) // this
+        // this.setVuexState({ k: 'querySort', v })
+      },
+    },
+    sortOrder: {
+      get() {
+        return [this.queryOrder > 0 ? false : true]
+      },
+      set(arr) {
+        console.log('sortorder', arr[0]) // this
+        this.setVuexState({ k: 'queryOrder', v: arr[0] ? -1 : 1 })
+      },
+    },
   },
   watch: {
     itemsPerPage() {
@@ -231,7 +253,7 @@ export default {
     'options.sortBy'() {
       this.doQuery()
     },
-    'options.sortDesc'() {
+    sortOrder() {
       this.doQuery()
     },
     'query.allText'() {
