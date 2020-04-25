@@ -35,21 +35,21 @@
         </td>
         <td>
           <v-text-field
-            v-model="query.senderSearchString"
+            v-model="queryFrom"
             label="Filter From"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
-            v-model="query.to"
+            v-model="queryTo"
             label="Filter To"
             clearable
           ></v-text-field>
         </td>
         <td>
           <v-text-field
-            v-model="query.subjectSearchString"
+            v-model="querySubject"
             label="Filter Subject"
             clearable
           ></v-text-field>
@@ -87,19 +87,6 @@ export default {
     loading: false,
     expanded: [],
     emailSelected: [],
-    query: {
-      skip: 0,
-      limit: DEFAULT_LIMIT,
-      allText: '',
-      sort: '',
-      order: '',
-      to: '',
-      senderSearchString: '',
-      subjectSearchString: '',
-      bodySearchString: '',
-      clientSubmitTimeSearchString: '',
-      clientSubmitTimeSpan: '',
-    },
     headers: [
       {
         text: 'Sent',
@@ -149,6 +136,9 @@ export default {
 
       if (this.allText) query.allText = this.allText
       if (this.sent) query.sent = this.sent
+      if (this.from) query.from = this.from
+      if (this.to) query.to = this.to
+      if (this.subject) query.subject = this.subject
 
       const encodedQuery = this.encodeQuery(query)
 
@@ -267,6 +257,30 @@ export default {
         this.setVuexState({ k: 'sent', v })
       },
     },
+    queryFrom: {
+      get() {
+        return this.from
+      },
+      set(v) {
+        this.setVuexState({ k: 'from', v })
+      },
+    },
+    queryTo: {
+      get() {
+        return this.to
+      },
+      set(v) {
+        this.setVuexState({ k: 'to', v })
+      },
+    },
+    querySubject: {
+      get() {
+        return this.subject
+      },
+      set(v) {
+        this.setVuexState({ k: 'subject', v })
+      },
+    },
   },
   watch: {
     itemsPerPage() {
@@ -287,13 +301,13 @@ export default {
     querySent() {
       this.debouncedQuery()
     },
-    'query.senderSearchString'() {
+    queryFrom() {
       this.debouncedQuery()
     },
-    'query.subjectSearchString'() {
+    queryTo() {
       this.debouncedQuery()
     },
-    'query.bodySearchString'() {
+    querySubject() {
       this.debouncedQuery()
     },
     emailSelected(newValue) {
