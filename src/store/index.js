@@ -5,6 +5,30 @@ import _ from 'lodash'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  getters: {
+    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
+    getNextEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
+    },
+    getPreviousEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i > 0 ? state.emails[i - 1] : undefined
+    },
+    getEmailIndex: (state) => (id) =>
+      state.emails.findIndex((e) => e._id === id) + 1,
+  },
+  mutations: {
+    setVuexState: (state, { k, v }) => {
+      if (k === 'emails') {
+        state.emails = _.cloneDeep(v)
+      } else {
+        state[k] = v
+      }
+    },
+  },
   state: {
     emails: [],
     totalEmails: 0,
@@ -33,34 +57,5 @@ export default new Vuex.Store({
     themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
       ? localStorage.getItem('themeSecondaryColor')
       : '#f50057',
-  },
-  mutations: {
-    setVuexState: (state, { k, v }) => {
-      if (k === 'emails') {
-        state.emails = _.cloneDeep(v)
-      } else {
-        state[k] = v
-      }
-    },
-    setEmailListPage: (state, v) => {
-      console.log(v)
-      state.emailListPage = v
-    },
-    setEmailListItemsPerPage: (state, v) => (state.emailListItemsPerPage = v),
-  },
-  getters: {
-    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
-    getNextEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
-    },
-    getPreviousEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i > 0 ? state.emails[i - 1] : undefined
-    },
-    getEmailIndex: (state) => (id) =>
-      state.emails.findIndex((e) => e._id === id) + 1,
   },
 })
