@@ -1,25 +1,22 @@
 <template>
   <div>
     <v-card class="elevation-1">
-      <v-card-title>{{ id }}</v-card-title>
+      <v-card-title>{{ email.subject }}</v-card-title>
       <v-card-text class="text--primary">
-        {{ email }}
-      </v-card-text>
-      <!-- <v-card-title>{{ email.subject }}</v-card-title>
-      <v-card-text class="text--primary">
-        <div>Sent: {{ email.clientSubmitTime }}</div>
-        <div>From: {{ email.senderName }} ({{ email.senderEmailAddress }})</div>
-        <div>To: {{ email.displayTo }}</div>
-        <div>CC: {{ email.displayCC }}</div>
+        <div>Sent: {{ email.sent }}</div>
+        <div>From: {{ email.from }}</div>
+        <div>To: {{ email.to }}</div>
+        <div>CC: {{ email.cc }}</div>
+        <div>BCC: {{ email.bcc }}</div>
         <p></p>
         <span v-html="formattedBody"></span>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="() => this.$router.go(-1)" text>
+        <v-btn @click="() => this.$router.push('/emaillist')" text>
           Back to list
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
+        <!-- <v-btn
           @click="() => setSelected(selected - 1)"
           icon
           :disabled="selected <= 0"
@@ -32,14 +29,14 @@
           :disabled="selected >= savedEmails.length - 1"
         >
           <v-icon>mdi-arrow-right-bold</v-icon>
-        </v-btn>
-      </v-card-actions> -->
+        </v-btn> -->
+      </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   data() {
@@ -50,10 +47,15 @@ export default {
     }
   },
   mounted() {
-    this.doFetch()
+    const email = this.getEmailById(this.$route.params.id)
+    if (email) {
+      this.email = email
+    } else {
+      this.doFetch()
+    }
   },
   methods: {
-    // ...mapMutations(['setSelected']),
+    // ...mapMutations(['setelected']),
     async doFetch() {
       this.loading = true
       const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.id}`
@@ -68,10 +70,11 @@ export default {
     },
   },
   computed: {
-    // ...mapState(['selected', 'savedEmails']),
-    // formattedBody() {
-    //   return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
-    // },
+    ...mapGetters(['getEmailById']),
+    ...mapState(['emails']),
+    formattedBody() {
+      return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
+    },
   },
   watch: {
     // selected(newVal) {

@@ -48,6 +48,19 @@ export default new Vuex.Store({
     },
     setEmailListItemsPerPage: (state, v) => (state.emailListItemsPerPage = v),
   },
-  actions: {},
-  modules: {},
+  getters: {
+    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
+    getNextEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
+    },
+    getPreviousEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i > 0 ? state.emails[i - 1] : undefined
+    },
+    getEmailIndex: (state) => (id) =>
+      state.emails.findIndex((e) => e._id === id) + 1,
+  },
 })
