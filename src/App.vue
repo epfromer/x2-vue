@@ -1,15 +1,9 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list dense>
-        <NaviListItem icon="mdi-home" name="List" route="EmailList" />
-        <NaviListItem icon="mdi-contact-mail" name="Foo" route="Foo" />
-      </v-list>
-    </v-navigation-drawer>
-
+    <AppDrawer :open="drawerOpen" :setOpen="(v) => (drawerOpen = v)" />
     <v-app-bar app color="indigo" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>X2</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawerOpen = !drawerOpen" />
+      <v-toolbar-title>X2 Vue</v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- <template v-if="$route.name === 'EmailDetail'">
         <v-btn
@@ -28,7 +22,6 @@
         </v-btn>
       </template> -->
     </v-app-bar>
-
     <v-content>
       <v-container fluid>
         <v-row align="start">
@@ -49,15 +42,15 @@
 // TODO login/out, as with bikes
 // TODO dark mode toggle
 import { mapGetters, mapState, mapMutations } from 'vuex'
-import NaviListItem from '@/components/NaviListItem.vue'
+import AppDrawer from './components/AppDrawer'
 
 export default {
   name: 'App',
   data: () => ({
-    drawer: null,
+    drawerOpen: false,
   }),
   components: {
-    NaviListItem,
+    AppDrawer,
   },
   methods: {
     ...mapMutations(['setSelected']),
