@@ -9,17 +9,11 @@
       <span>Back to list</span>
     </v-tooltip>
     <v-spacer></v-spacer>
-    <span v-if="totalEmails">{{emailIndex}} of {{totalEmails}}</span>
+    <span v-if="totalEmails">{{ emailIndex }} of {{ totalEmails }}</span>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="
-            () =>
-              $router.push({
-                name: 'EmailDetail',
-                params: { id: previousEmailId },
-              })
-          "
+          @click="() => $router.push(`/emaillist/${previousEmailId}`)"
           v-on="on"
           text
           :disabled="!previousEmailId"
@@ -27,18 +21,12 @@
           <v-icon>mdi-menu-left</v-icon>
         </v-btn>
       </template>
-      <span>Prior email</span>
+      <span>Previous email</span>
     </v-tooltip>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="
-            () =>
-              $router.push({
-                name: 'EmailDetail',
-                params: { id: nextEmailId },
-              })
-          "
+          @click="() => $router.push(`/emaillist/${nextEmailId}`)"
           v-on="on"
           text
           :disabled="!nextEmailId"

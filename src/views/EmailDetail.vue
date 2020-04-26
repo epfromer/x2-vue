@@ -12,7 +12,7 @@
         <p></p>
         <span v-html="formattedBody"></span>
       </v-card-text>
-      <EmailCardActions />
+      <EmailCardActions :id="email._id" />
     </v-card>
   </div>
 </template>
