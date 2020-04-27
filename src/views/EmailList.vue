@@ -20,7 +20,11 @@
   >
     <template v-slot:body.prepend>
       <tr>
-        <td colspan="1"></td>
+        <td colspan="1">
+          <v-btn @click="openDateDialog" text>
+            <v-icon>mdi-calendar-range</v-icon>
+          </v-btn>
+        </td>
         <td>
           <v-text-field
             v-model="querySent"
@@ -157,8 +161,8 @@ export default {
     rowClick(details) {
       this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
     },
-    resetPage() {
-      this.page = 1
+    openDateDialog() {
+      console.log('foo')
     },
   },
   computed: {
