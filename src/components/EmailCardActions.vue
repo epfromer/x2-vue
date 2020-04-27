@@ -13,7 +13,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="() => $router.push(`/emaillist/${previousEmailId}`)"
+          @click="() => $router.push(`/emaildetail/${previousEmailId}`)"
           v-on="on"
           text
           :disabled="!previousEmailId"
@@ -26,7 +26,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="() => $router.push(`/emaillist/${nextEmailId}`)"
+          @click="() => $router.push(`/emaildetail/${nextEmailId}`)"
           v-on="on"
           text
           :disabled="!nextEmailId"

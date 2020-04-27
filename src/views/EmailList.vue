@@ -2,7 +2,7 @@
   <!-- https://vuetifyjs.com/en/components/data-tables#data-tables -->
   <v-data-table
     :headers="headers"
-    :items="emails"
+    :items="emailList"
     :server-items-length="total"
     :loading="loading"
     @click:row="rowClick"
@@ -125,19 +125,31 @@ export default {
       return '?' + params.slice(1)
     },
     async doQuery() {
-      // todo: move this to separate file like react
-      const query = {
-        skip: (this.page - 1) * this.emailListItemsPerPage,
-        limit: this.emailListItemsPerPage,
-        sort: this.querySort,
-        order: this.queryOrder,
-      }
+      const {
+        emailListPage,
+        emailListItemsPerPage,
+        querySort,
+        queryOrder,
+        sent,
+        timeSpan,
+        from,
+        to,
+        subject,
+        allText,
+      } = this
 
-      if (this.allText) query.allText = this.allText
-      if (this.sent) query.sent = this.sent
-      if (this.from) query.from = this.from
-      if (this.to) query.to = this.to
-      if (this.subject) query.subject = this.subject
+      const query = {
+        skip: (emailListPage - 1) * emailListItemsPerPage,
+        limit: emailListItemsPerPage,
+        sort: querySort,
+        order: queryOrder,
+      }
+      if (sent) query.sent = sent
+      if (timeSpan) query.timeSpan = timeSpan
+      if (from) query.from = from
+      if (to) query.to = to
+      if (subject) query.subject = subject
+      if (allText) query.allText = allText
 
       const encodedQuery = this.encodeQuery(query)
 

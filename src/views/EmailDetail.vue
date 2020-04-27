@@ -70,10 +70,5 @@ export default {
       return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
     },
   },
-  watch: {
-    // selected(newVal) {
-    //   this.email = { ...this.savedEmails[this.selected] }
-    // },
-  },
 }
 </script>
