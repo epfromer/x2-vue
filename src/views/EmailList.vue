@@ -16,16 +16,11 @@
     item-key="_id"
     :single-expand="true"
     :expanded.sync="expanded"
-    single-select
-    show-select
-    v-model="emailSelected"
-    :footer-props="{
-      itemsPerPageOptions: [5, 10, 25, 50, 100],
-    }"
+    :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
   >
     <template v-slot:body.prepend>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="1"></td>
         <td>
           <v-text-field
             v-model="querySent"
@@ -86,7 +81,6 @@ export default {
     return {
       loading: false,
       expanded: [],
-      emailSelected: [],
       headers: [
         {
           text: 'Sent',
@@ -308,12 +302,6 @@ export default {
     },
     querySubject() {
       this.debouncedQuery()
-    },
-    emailSelected(newValue) {
-      const sel = this.emails.findIndex(
-        (email) => email._id === newValue[0]._id
-      )
-      this.$router.push({ name: 'EmailDetail' })
     },
   },
   created() {
