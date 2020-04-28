@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="display-1">Settings</div>
-    <v-switch
-      v-model="dense"
-      class="mx-2"
-      label="Dense padding for email list"
-    ></v-switch>
+    <v-switch v-model="dense" class="mx-2" label="Dense padding"></v-switch>
     <div class="headline">Interface element colors</div>
     <v-switch v-model="dark" class="mx-2" label="Dark mode"></v-switch>
   </div>
