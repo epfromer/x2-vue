@@ -1,79 +1,102 @@
 <template>
   <!-- https://vuetifyjs.com/en/components/data-tables#data-tables -->
-  <v-data-table
-    :headers="headers"
-    :items="emailList"
-    :server-items-length="total"
-    :loading="loading"
-    @click:row="rowClick"
-    class="elevation-1"
-    :page.sync="page"
-    :items-per-page.sync="itemsPerPage"
-    must-sort
-    :sort-by.sync="sortBy"
-    :sort-desc.sync="sortOrder"
-    show-expand
-    item-key="_id"
-    :single-expand="true"
-    :expanded.sync="expanded"
-    :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
-  >
-    <template v-slot:body.prepend>
-      <tr>
-        <td colspan="1">
-          <v-btn @click="openDateDialog" text>
-            <v-icon>mdi-calendar-range</v-icon>
-          </v-btn>
-        </td>
-        <td>
-          <v-text-field
-            v-model="querySent"
-            label="Filter Sent"
-            clearable
-          ></v-text-field>
-        </td>
-        <td>
-          <v-text-field
-            v-model="queryFrom"
-            label="Filter From"
-            clearable
-          ></v-text-field>
-        </td>
-        <td>
-          <v-text-field
-            v-model="queryTo"
-            label="Filter To"
-            clearable
-          ></v-text-field>
-        </td>
-        <td>
-          <v-text-field
-            v-model="querySubject"
-            label="Filter Subject"
-            clearable
-          ></v-text-field>
-        </td>
-      </tr>
-    </template>
-    <template v-slot:top>
-      <v-text-field
-        v-model="queryAllText"
-        label="Filter (all text fields)"
-        clearable
-        class="mx-4"
-      ></v-text-field>
-    </template>
-    <template v-slot:expanded-item="{ headers }">
-      <td :colspan="headers.length">{{ expandedBody }}</td>
-    </template>
-  </v-data-table>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="emailList"
+      :server-items-length="total"
+      :loading="loading"
+      @click:row="rowClick"
+      class="elevation-1"
+      :page.sync="page"
+      :items-per-page.sync="itemsPerPage"
+      must-sort
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortOrder"
+      show-expand
+      item-key="_id"
+      :single-expand="true"
+      :expanded.sync="expanded"
+      :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
+    >
+      <template v-slot:body.prepend>
+        <tr>
+          <td colspan="1">
+            <v-btn @click="() => (openFilterDate = true)" text>
+              <v-icon>mdi-calendar-range</v-icon>
+            </v-btn>
+          </td>
+          <td>
+            <v-text-field
+              v-model="querySent"
+              label="Filter Sent"
+              clearable
+            ></v-text-field>
+          </td>
+          <td>
+            <v-text-field
+              v-model="queryFrom"
+              label="Filter From"
+              clearable
+            ></v-text-field>
+          </td>
+          <td>
+            <v-text-field
+              v-model="queryTo"
+              label="Filter To"
+              clearable
+            ></v-text-field>
+          </td>
+          <td>
+            <v-text-field
+              v-model="querySubject"
+              label="Filter Subject"
+              clearable
+            ></v-text-field>
+          </td>
+        </tr>
+      </template>
+      <template v-slot:top>
+        <v-text-field
+          v-model="queryAllText"
+          label="Filter (all text fields)"
+          clearable
+          class="mx-4"
+        ></v-text-field>
+      </template>
+      <template v-slot:expanded-item="{ headers }">
+        <td :colspan="headers.length">{{ expandedBody }}</td>
+      </template>
+    </v-data-table>
+    <FilterDate
+      :open="openFilterDate"
+      :date="sent ? sent : '2000-10-04'"
+      :span="timeSpan"
+      :onClear="
+        () => {
+          openFilterDate = false
+          querySent = ''
+          queryTimeSpan = 0
+        }
+      "
+      :onClose="
+        (d, s) => {
+          openFilterDate = false
+          querySent = d
+          queryTimeSpan = s
+        }
+      "
+    />
+  </div>
 </template>
+// :date="sent ? sent : FILTER_DATE"
 
 <script>
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 // TODO dense - https://vuetifyjs.com/en/components/data-tables#dense
 // TODO footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
 import { mapMutations, mapGetters, mapState } from 'vuex'
+import FilterDate from '../components/FilterDate'
 import _ from 'lodash'
 
 const DEBOUNCE_MS = 500
@@ -83,6 +106,7 @@ export default {
   data() {
     return {
       loading: false,
+      openFilterDate: false,
       expanded: [],
       headers: [
         {
@@ -107,6 +131,9 @@ export default {
         },
       ],
     }
+  },
+  components: {
+    FilterDate,
   },
   methods: {
     ...mapMutations(['setVuexState']),
@@ -171,9 +198,6 @@ export default {
     },
     rowClick(details) {
       this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
-    },
-    openDateDialog() {
-      console.log('foo')
     },
   },
   computed: {
@@ -263,6 +287,14 @@ export default {
       },
       set(v) {
         this.setVuexState({ k: 'sent', v })
+      },
+    },
+    queryTimeSpan: {
+      get() {
+        return this.timeSpan
+      },
+      set(v) {
+        this.setVuexState({ k: 'timeSpan', v })
       },
     },
     queryFrom: {
