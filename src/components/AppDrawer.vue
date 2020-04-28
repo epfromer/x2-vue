@@ -26,23 +26,15 @@ export default {
   data() {
     return {
       mainListItems: [
-        { icon: 'mdi-view-dashboard', name: 'Dashboard', route: 'Dashboard' },
-        { icon: 'mdi-email', name: 'Email', route: 'EmailList' },
-        { icon: 'mdi-magnify', name: 'Saved Searches', route: 'Search' },
-        { icon: 'mdi-chart-bar', name: 'Reports', route: 'Reports' },
+        { icon: 'dashboard', name: 'Dashboard', route: 'Dashboard' },
+        { icon: 'email', name: 'Email', route: 'EmailList' },
+        { icon: 'search', name: 'Saved Searches', route: 'Search' },
+        { icon: 'assessment', name: 'Reports', route: 'Reports' },
       ],
       secondaryListItems: [
-        { icon: 'mdi-magnify-plus-outline', name: '2001', route: 'Search' },
-        {
-          icon: 'mdi-magnify-plus-outline',
-          name: '"From: Ken Lay',
-          route: 'Search',
-        },
-        {
-          icon: 'mdi-magnify-plus-outline',
-          name: 'text: foo',
-          route: 'Search',
-        },
+        { icon: 'search', name: '2001', route: 'Search' },
+        { icon: 'search', name: '"From: Ken Lay', route: 'Search' },
+        { icon: 'search', name: 'text: foo', route: 'Search' },
       ],
     }
   },

@@ -23,7 +23,7 @@
         <tr>
           <td colspan="1">
             <v-btn @click="() => (openFilterDate = true)" text>
-              <v-icon>mdi-calendar-range</v-icon>
+              <v-icon>calendar_today</v-icon>
             </v-btn>
           </td>
           <td>
