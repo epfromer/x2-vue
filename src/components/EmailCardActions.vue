@@ -3,7 +3,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn @click="() => $router.push('/emaillist')" v-on="on" text>
-          <v-icon>mdi-arrow-left-bold</v-icon>
+          <v-icon>keyboard_backspace</v-icon>
         </v-btn>
       </template>
       <span>Back to list</span>
@@ -18,7 +18,7 @@
           text
           :disabled="!previousEmailId"
         >
-          <v-icon>mdi-menu-left</v-icon>
+          <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
       </template>
       <span>Previous email</span>
@@ -31,7 +31,7 @@
           text
           :disabled="!nextEmailId"
         >
-          <v-icon>mdi-menu-right</v-icon>
+          <v-icon>keyboard_arrow_right</v-icon>
         </v-btn>
       </template>
       <span>Next email</span>

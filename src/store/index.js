@@ -28,6 +28,14 @@ export default new Vuex.Store({
         state[k] = v
       }
     },
+    saveAppSettings: (state) => {
+      const s = _.cloneDeep(state)
+      localStorage.setItem('densePadding', state.densePadding)
+      localStorage.setItem('darkMode', state.darkMode)
+      localStorage.setItem('themePrimaryColor', state.themePrimaryColor)
+      localStorage.setItem('themeSecondaryColor', state.themeSecondaryColor)
+      return s
+    },
   },
   state: {
     emails: [],

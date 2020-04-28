@@ -17,6 +17,7 @@
       item-key="_id"
       :single-expand="true"
       :expanded.sync="expanded"
+      :dense="densePadding"
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
     >
       <template v-slot:body.prepend>

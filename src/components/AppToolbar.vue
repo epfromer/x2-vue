@@ -6,7 +6,7 @@
     <v-btn @click="() => $router.push(`/settings`)" icon>
       <v-icon>brightness_high</v-icon>
     </v-btn>
-    <v-btn @click="() => console.log('foo')" icon>
+    <v-btn @click="() => $router.push(`/settings`)" icon>
       <v-icon>settings</v-icon>
     </v-btn>
   </v-app-bar>
