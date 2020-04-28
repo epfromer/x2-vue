@@ -1,18 +1,20 @@
 <template>
-  <v-dialog v-model="isOpen" width="300">
+  <v-dialog v-model="isOpen" width="290">
     <v-card>
       <v-date-picker v-model="filterDate"></v-date-picker>
+      <v-text-field
+        v-model="filterSpan"
+        label="+/- days"
+        type="number"
+        filled
+        clear-icon
+      ></v-text-field>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="onClear">
+        <v-btn text @click="handleClear">
           Clear
         </v-btn>
-        <v-btn
-          text
-          @click="
-            () => onClose(filterDate, filterSpan > 0 ? filterSpan : -filterSpan)
-          "
-        >
+        <v-btn text @click="handleClose">
           Ok
         </v-btn>
       </v-card-actions>
@@ -25,7 +27,7 @@ export default {
   data() {
     return {
       filterDate: this.date,
-      filterSpan: this.span,
+      filterSpan: this.span ? this.span : '',
     }
   },
   props: {
@@ -56,6 +58,16 @@ export default {
       set(v) {
         this.onClose()
       },
+    },
+  },
+  methods: {
+    handleClear() {
+      this.filterDate = ''
+      this.filterSpan = 0
+      this.onClear()
+    },
+    handleClose() {
+      this.onClose(this.filterDate, Number(this.filterSpan))
     },
   },
 }

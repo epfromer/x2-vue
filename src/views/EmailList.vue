@@ -72,24 +72,11 @@
       :open="openFilterDate"
       :date="sent ? sent : '2000-10-04'"
       :span="timeSpan"
-      :onClear="
-        () => {
-          openFilterDate = false
-          querySent = ''
-          queryTimeSpan = 0
-        }
-      "
-      :onClose="
-        (d, s) => {
-          openFilterDate = false
-          querySent = d
-          queryTimeSpan = s
-        }
-      "
+      :onClear="() => handleTimeSpan('', 0)"
+      :onClose="(sent, span) => handleTimeSpan(sent, span)"
     />
   </div>
 </template>
-// :date="sent ? sent : FILTER_DATE"
 
 <script>
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
@@ -198,6 +185,11 @@ export default {
     },
     rowClick(details) {
       this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
+    },
+    handleTimeSpan(sent, span) {
+      this.openFilterDate = false
+      if (sent != undefined) this.querySent = sent
+      if (span != undefined) this.queryTimeSpan = span
     },
   },
   computed: {
@@ -333,6 +325,9 @@ export default {
       this.doQuery()
     },
     sortOrder() {
+      this.doQuery()
+    },
+    queryTimeSpan() {
       this.doQuery()
     },
     queryAllText() {
