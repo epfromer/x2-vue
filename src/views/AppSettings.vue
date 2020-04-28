@@ -36,6 +36,7 @@ export default {
       set(v) {
         this.setVuexState({ k: 'darkMode', v })
         this.saveAppSettings()
+        this.$vuetify.theme.dark = v
       },
     },
   },

@@ -3,8 +3,8 @@
     <v-app-bar-nav-icon @click.stop="() => setDrawerOpen(true)" />
     <v-toolbar-title>X2 Vue</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn @click="() => $router.push(`/settings`)" icon>
-      <v-icon>brightness_high</v-icon>
+    <v-btn @click="setDark" icon>
+      <v-icon>{{ darkMode ? 'brightness_high' : 'brightness_low' }}</v-icon>
     </v-btn>
     <v-btn @click="() => $router.push(`/settings`)" icon>
       <v-icon>settings</v-icon>
@@ -13,11 +13,25 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   props: {
     setDrawerOpen: {
       type: Function,
       required: true,
+    },
+  },
+  computed: {
+    ...mapState(['darkMode']),
+  },
+  methods: {
+    ...mapMutations(['setVuexState', 'saveAppSettings']),
+    setDark() {
+      const dark = !this.darkMode
+      this.setVuexState({ k: 'darkMode', v: dark })
+      this.saveAppSettings()
+      this.$vuetify.theme.dark = dark
     },
   },
 }
