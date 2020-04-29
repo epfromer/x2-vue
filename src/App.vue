@@ -11,10 +11,7 @@
         </v-row>
       </v-container>
     </v-content>
-
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2020</span>
-    </v-footer>
+    <AppFooter />
   </v-app>
 </template>
 
@@ -24,6 +21,7 @@
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import AppDrawer from './components/AppDrawer'
 import AppToolbar from './components/AppToolbar'
+import AppFooter from './components/AppFooter'
 
 export default {
   name: 'App',
@@ -33,6 +31,7 @@ export default {
   components: {
     AppDrawer,
     AppToolbar,
+    AppFooter,
   },
   methods: {
     ...mapMutations(['setSelected']),
