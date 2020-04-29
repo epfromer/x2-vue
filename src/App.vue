@@ -17,7 +17,6 @@
 
 <script>
 // TODO login/out, as with bikes
-// TODO dark mode toggle
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import AppDrawer from './components/AppDrawer'
 import AppToolbar from './components/AppToolbar'

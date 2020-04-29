@@ -6,7 +6,7 @@
     <v-btn @click="setDark" icon>
       <v-icon>{{ darkMode ? 'brightness_high' : 'brightness_low' }}</v-icon>
     </v-btn>
-    <v-btn @click="() => $router.push(`/settings`)" icon>
+    <v-btn @click="() => $router.push(`/settings`).catch((err) => {})" icon>
       <v-icon>settings</v-icon>
     </v-btn>
   </v-app-bar>
