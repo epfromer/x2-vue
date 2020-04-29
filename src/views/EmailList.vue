@@ -175,7 +175,7 @@ export default {
         .json()
         .then((resp) => {
           // prettify email sent dates
-          this.emailList = resp.listDocs.map((email) => ({
+          this.emailList = resp.emails.map((email) => ({
             ...email,
             sent: email.sent.slice(0, 10) + ' ' + email.sent.slice(11, 19),
           }))
