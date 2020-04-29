@@ -11,11 +11,17 @@ export default new Vuetify({
         primary: localStorage.getItem('themePrimaryColor')
           ? localStorage.getItem('themePrimaryColor')
           : '#2196f3',
+        secondary: localStorage.getItem('themeSecondaryColor')
+          ? localStorage.getItem('themeSecondaryColor')
+          : '#f50057',
       },
       dark: {
         primary: localStorage.getItem('themePrimaryColor')
           ? localStorage.getItem('themePrimaryColor')
           : '#2196f3',
+        secondary: localStorage.getItem('themeSecondaryColor')
+          ? localStorage.getItem('themeSecondaryColor')
+          : '#f50057',
       },
     },
   },
