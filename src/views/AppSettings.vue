@@ -14,14 +14,28 @@
       color="secondary"
       label="Dark mode"
     ></v-switch>
-    <ColorPicker
-      :defaultColor="themePrimaryColor"
-      :onChange="(c) => handlePrimaryColorChange(c)"
-    />
-    <ColorPicker
-      :defaultColor="themeSecondaryColor"
-      :onChange="(c) => handleSecondaryColorChange(c)"
-    />
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12" sm="6">
+          <div>
+            <div class="headline">Primary</div>
+            <ColorPicker
+              :defaultColor="themePrimaryColor"
+              :onChange="(c) => handlePrimaryColorChange(c)"
+            />
+          </div>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <div>
+            <div class="headline">Secondary</div>
+            <ColorPicker
+              :defaultColor="themeSecondaryColor"
+              :onChange="(c) => handleSecondaryColorChange(c)"
+            />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
