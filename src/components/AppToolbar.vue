@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark color="#cacc5d" :dense="Boolean(densePadding)">
+  <v-app-bar app dark :color="themePrimaryColor" :dense="Boolean(densePadding)">
     <v-app-bar-nav-icon @click.stop="() => setDrawerOpen(true)" />
     <v-toolbar-title>X2 Vue</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -14,7 +14,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import colors from 'vuetify/lib/util/colors'
+// import colors from 'vuetify/lib/util/colors'
 
 export default {
   props: {
@@ -24,7 +24,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['darkMode', 'densePadding']),
+    ...mapState(['darkMode', 'densePadding', 'themePrimaryColor']),
   },
   methods: {
     ...mapMutations(['setVuexState', 'saveAppSettings']),
@@ -33,8 +33,8 @@ export default {
       this.setVuexState({ k: 'darkMode', v: dark })
       this.saveAppSettings()
       this.$vuetify.theme.dark = dark
-      this.$vuetify.theme.themes.dark.primary = colors.purple
-      this.$vuetify.theme.themes.light.primary = colors.purple
+      // this.$vuetify.theme.themes.dark.primary = colors.purple
+      // this.$vuetify.theme.themes.light.primary = colors.purple
     },
   },
 }
