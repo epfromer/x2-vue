@@ -23,6 +23,8 @@
 </template>
 
 <script>
+// https://vuetifyjs.com/en/components/cards/
+
 export default {
   data() {
     return {
