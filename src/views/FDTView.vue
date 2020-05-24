@@ -1,3 +1,3 @@
 <template>
-  <div>search</div>
+  <div>FDTView</div>
 </template>

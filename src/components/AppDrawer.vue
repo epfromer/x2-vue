@@ -16,6 +16,14 @@
         :name="item.name"
         :route="item.route"
       />
+      <v-divider></v-divider>
+      <NaviListItem
+        v-for="item in tertiaryListItems"
+        :key="item.name"
+        :icon="item.icon"
+        :name="item.name"
+        :route="item.route"
+      />
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -25,16 +33,24 @@ import NaviListItem from './NaviListItem'
 export default {
   data() {
     return {
+      // https://material.io/resources/icons/?style=baseline
       mainListItems: [
-        { icon: 'dashboard', name: 'Dashboard', route: 'Dashboard' },
-        { icon: 'email', name: 'Email', route: 'EmailList' },
-        { icon: 'search', name: 'Saved Searches', route: 'Search' },
-        { icon: 'assessment', name: 'Reports', route: 'Reports' },
+        { icon: 'dashboard', name: 'Dashboard', route: 'DashboardView' },
+        { icon: 'email', name: 'Search', route: 'SearchView' },
       ],
       secondaryListItems: [
-        { icon: 'search', name: '2001', route: 'Search' },
-        { icon: 'search', name: '"From: Ken Lay', route: 'Search' },
-        { icon: 'search', name: 'text: foo', route: 'Search' },
+        { icon: 'pie_chart', name: 'Chord', route: 'ChordView' },
+        { icon: 'pie_chart', name: 'Word Cloud', route: 'WordCloudView' },
+        { icon: 'pie_chart', name: 'FDT', route: 'FDTView' },
+        { icon: 'pie_chart', name: 'Timeline', route: 'TimelineView' },
+        { icon: 'pie_chart', name: 'Tree Map', route: 'TreeMapView' },
+        { icon: 'pie_chart', name: 'Serpentine', route: 'SerpentineView' },
+      ],
+      tertiaryListItems: [
+        { icon: 'search', name: 'Saved Searches', route: 'SavedSearchView' },
+        { icon: 'find_in_page', name: '2001', route: 'Search' },
+        { icon: 'find_in_page', name: '"From: Ken Lay', route: 'Search' },
+        { icon: 'find_in_page', name: 'text: foo', route: 'Search' },
       ],
     }
   },

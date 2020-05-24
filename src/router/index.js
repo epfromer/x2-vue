@@ -1,26 +1,48 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
-import EmailDetail from '../views/EmailDetail.vue'
-import EmailList from '../views/EmailList.vue'
-import Reports from '../views/Reports.vue'
-import Search from '../views/Search.vue'
-import AppSettings from '../views/AppSettings.vue'
+import AppSettingsView from '../views/AppSettingsView.vue'
+import ChordView from '../views/ChordView.vue'
+import DashboardView from '../views/DashboardView.vue'
+import EmailDetailView from '../views/EmailDetailView.vue'
+import FDTView from '../views/FDTView.vue'
+import SavedSearchView from '../views/SavedSearchView.vue'
+import SearchView from '../views/SearchView.vue'
+import SerpentineView from '../views/SerpentineView.vue'
+import TimelineView from '../views/TimelineView.vue'
+import TreeMapView from '../views/TreeMapView.vue'
+import WordCloudView from '../views/WordCloudView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/settings', name: 'Settings', component: AppSettings },
-  { path: '/emaillist', name: 'EmailList', component: EmailList },
   {
-    path: '/emaildetail/:id',
-    name: 'EmailDetail',
-    component: EmailDetail,
+    path: '/AppSettingsView',
+    name: 'AppSettingsView',
+    component: AppSettingsView,
+  },
+  { path: '/SearchView', name: 'SearchView', component: SearchView },
+  {
+    path: '/EmailDetailView/:id',
+    name: 'EmailDetailView',
+    component: EmailDetailView,
     props: true,
   },
-  { path: '/reports', name: 'Reports', component: Reports },
-  { path: '/search', name: 'Search', component: Search },
-  { path: '/', name: 'Dashboard', component: Dashboard },
+  {
+    path: '/SavedSearchView',
+    name: 'SavedSearchView',
+    component: SavedSearchView,
+  },
+  { path: '/ChordView', name: 'ChordView', component: ChordView },
+  { path: '/FDTView', name: 'FDTView', component: FDTView },
+  { path: '/WordCloudView', name: 'WordCloudView', component: WordCloudView },
+  { path: '/TimelineView', name: 'TimelineView', component: TimelineView },
+  { path: '/TreeMapView', name: 'TreeMapView', component: TreeMapView },
+  {
+    path: '/SerpentineView',
+    name: 'SerpentineView',
+    component: SerpentineView,
+  },
+  { path: '/', name: 'DashboardView', component: DashboardView },
 ]
 
 const router = new VueRouter({

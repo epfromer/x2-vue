@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "npm": "6.4.1",
-    "node": "12.16.2"
+    "npm": ">= 6",
+    "node": ">= 10"
   },
   "scripts": {
     "postinstall": "yarn build",
@@ -63,7 +63,9 @@
     }
   },
   "vue": {
-    "transpileDependencies": ["vuetify"]
+    "transpileDependencies": [
+      "vuetify"
+    ]
   },
   "prettier": {
     "semi": false,
@@ -71,16 +73,28 @@
     "endOfLine": "auto"
   },
   "babel": {
-    "presets": ["@vue/cli-plugin-babel/preset"]
+    "presets": [
+      "@vue/cli-plugin-babel/preset"
+    ]
   },
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest",
     "collectCoverage": true,
     "automock": false,
-    "setupFiles": ["./jest.setup.js"]
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
