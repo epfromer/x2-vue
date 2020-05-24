@@ -38,14 +38,14 @@ export default new Vuex.Store({
     },
   },
   state: {
+    // search results
     emails: [],
     totalEmails: 0,
-    savedQuery: {}, // todo remove
-    savedOptions: {}, // todo remove
-    selected: 0, // todo remove
+
     // email list
     emailListPage: 1,
     emailListItemsPerPage: 5,
+
     // query
     querySort: 'sent',
     queryOrder: 1,
@@ -55,6 +55,16 @@ export default new Vuex.Store({
     to: '',
     subject: '',
     allText: '',
+    body: '',
+
+    // stats
+    emailSentLoading: false,
+    emailSent: null,
+    wordCloudLoading: false,
+    wordCloud: null,
+    contactsLoading: false,
+    contacts: null,
+
     // app settings
     densePadding:
       localStorage.getItem('densePadding') === 'false' ? false : true,

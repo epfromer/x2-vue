@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import NaviListItem from './NaviListItem'
+import NaviListItem from '../NaviListItem'
 export default {
   data() {
     return {

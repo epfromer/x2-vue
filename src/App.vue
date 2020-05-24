@@ -18,9 +18,9 @@
 <script>
 // TODO login/out, as with bikes
 import { mapGetters, mapState, mapMutations } from 'vuex'
-import AppDrawer from './components/AppDrawer'
-import AppToolbar from './components/AppToolbar'
-import AppFooter from './components/AppFooter'
+import AppDrawer from './components/app/AppDrawer'
+import AppToolbar from './components/app/AppToolbar'
+import AppFooter from './components/app/AppFooter'
 
 export default {
   name: 'App',
