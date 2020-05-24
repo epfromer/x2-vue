@@ -6,6 +6,7 @@
       <v-container fluid>
         <v-row align="start">
           <v-col>
+            {{ this.wordCloud }}
             <router-view />
           </v-col>
         </v-row>
@@ -17,7 +18,7 @@
 
 <script>
 // TODO login/out, as with bikes
-import { mapGetters, mapState, mapMutations } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import AppDrawer from './components/app/AppDrawer'
 import AppToolbar from './components/app/AppToolbar'
 import AppFooter from './components/app/AppFooter'
@@ -27,16 +28,17 @@ export default {
   data: () => ({
     drawerOpen: false,
   }),
+  mounted() {
+    this.fetchWordCloudIfNeeded()
+  },
   components: {
     AppDrawer,
     AppToolbar,
     AppFooter,
   },
-  methods: {
-    ...mapMutations(['setSelected']),
-  },
   computed: {
-    ...mapState(['selected', 'savedEmails']),
+    ...mapState(['wordCloud']),
   },
+  methods: { ...mapActions(['fetchWordCloudIfNeeded']) },
 }
 </script>

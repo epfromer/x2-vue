@@ -4,6 +4,17 @@ import _ from 'lodash'
 
 Vue.use(Vuex)
 
+function doFetch(commit, loadingIndicator, statType, stateVal) {
+  commit('setVuexState', { k: loadingIndicator, v: true })
+  const url = `${process.env.VUE_APP_EMAIL_SERVER}/${statType}`
+  console.log(url)
+  fetch(url)
+    .then((resp) => resp.json())
+    .then((json) => commit('setVuexState', { k: stateVal, v: json }))
+    .then(commit('setVuexState', { k: loadingIndicator, v: false }))
+    .catch(() => {}) // TODO: handle errors
+}
+
 export default new Vuex.Store({
   getters: {
     getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
@@ -24,6 +35,8 @@ export default new Vuex.Store({
     setVuexState: (state, { k, v }) => {
       if (k === 'emails') {
         state.emails = _.cloneDeep(v)
+      } else if (k === 'wordcloud') {
+        state.wordcloud = _.cloneDeep(v)
       } else {
         state[k] = v
       }
@@ -35,6 +48,14 @@ export default new Vuex.Store({
       localStorage.setItem('themePrimaryColor', state.themePrimaryColor)
       localStorage.setItem('themeSecondaryColor', state.themeSecondaryColor)
       return s
+    },
+  },
+  actions: {
+    // https://vuex.vuejs.org/guide/actions.html
+    fetchWordCloudIfNeeded: ({ commit, state }, invalidateCache) => {
+      if (invalidateCache || (!state.wordCloud && !state.wordCloudLoading)) {
+        doFetch(commit, 'wordCloudLoading', 'wordcloud', 'wordCloud')
+      }
     },
   },
   state: {
