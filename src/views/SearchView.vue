@@ -3,16 +3,16 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="emailList"
-      :server-items-length="total"
+      :items="computedEmails"
+      :server-items-length="computedTotalEmails"
       :loading="loading"
       @click:row="rowClick"
       class="elevation-1"
-      :page.sync="page"
-      :items-per-page.sync="itemsPerPage"
+      :page.sync="computedEmailListPage"
+      :items-per-page.sync="computedEmailListItemsPerPage"
       must-sort
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortOrder"
+      :sort-by.sync="computedQuerySort"
+      :sort-desc.sync="computedQueryOrder"
       show-expand
       item-key="_id"
       :single-expand="true"
@@ -29,28 +29,28 @@
           </td>
           <td>
             <v-text-field
-              v-model="querySent"
+              v-model="computedSent"
               label="Filter Sent"
               clearable
             ></v-text-field>
           </td>
           <td>
             <v-text-field
-              v-model="queryFrom"
+              v-model="computedFrom"
               label="Filter From"
               clearable
             ></v-text-field>
           </td>
           <td>
             <v-text-field
-              v-model="queryTo"
+              v-model="computedTo"
               label="Filter To"
               clearable
             ></v-text-field>
           </td>
           <td>
             <v-text-field
-              v-model="querySubject"
+              v-model="computedSubject"
               label="Filter Subject"
               clearable
             ></v-text-field>
@@ -59,7 +59,7 @@
       </template>
       <template v-slot:top>
         <v-text-field
-          v-model="queryAllText"
+          v-model="computedAllText"
           label="Filter (all text fields)"
           clearable
           class="mx-4"
@@ -81,8 +81,6 @@
 
 <script>
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
-// TODO dense - https://vuetifyjs.com/en/components/data-tables#dense
-// TODO footer props for end of list - https://vuetifyjs.com/en/components/data-tables#footer-props
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import FilterDate from '../components/FilterDate'
 import _ from 'lodash'
@@ -150,6 +148,7 @@ export default {
         to,
         subject,
         allText,
+        body,
       } = this
 
       const query = {
@@ -164,6 +163,7 @@ export default {
       if (to) query.to = to
       if (subject) query.subject = subject
       if (allText) query.allText = allText
+      if (body) query.body = body
 
       const encodedQuery = this.encodeQuery(query)
 
@@ -175,11 +175,11 @@ export default {
         .json()
         .then((resp) => {
           // prettify email sent dates
-          this.emailList = resp.emails.map((email) => ({
+          this.computedEmails = resp.emails.map((email) => ({
             ...email,
             sent: email.sent.slice(0, 10) + ' ' + email.sent.slice(11, 19),
           }))
-          this.total = resp.total
+          this.computedTotalEmails = resp.total
         })
         .catch(() => {}) // TODO: handle errors
         .then(() => (this.loading = false))
@@ -189,8 +189,8 @@ export default {
     },
     handleTimeSpan(sent, span) {
       this.openFilterDate = false
-      if (sent != undefined) this.querySent = sent
-      if (span != undefined) this.queryTimeSpan = span
+      if (sent != undefined) this.computedSent = sent
+      if (span != undefined) this.computedTimeSpan = span
     },
   },
   computed: {
@@ -218,7 +218,7 @@ export default {
       }
       return ''
     },
-    emailList: {
+    computedEmails: {
       get() {
         return this.emails
       },
@@ -226,7 +226,7 @@ export default {
         this.setVuexState({ k: 'emails', v })
       },
     },
-    total: {
+    computedTotalEmails: {
       get() {
         return this.totalEmails
       },
@@ -234,7 +234,7 @@ export default {
         this.setVuexState({ k: 'totalEmails', v })
       },
     },
-    page: {
+    computedEmailListPage: {
       get() {
         return this.emailListPage
       },
@@ -242,7 +242,7 @@ export default {
         this.setVuexState({ k: 'emailListPage', v })
       },
     },
-    itemsPerPage: {
+    computedEmailListItemsPerPage: {
       get() {
         return this.emailListItemsPerPage
       },
@@ -250,7 +250,7 @@ export default {
         this.setVuexState({ k: 'emailListItemsPerPage', v })
       },
     },
-    sortBy: {
+    computedQuerySort: {
       get() {
         return [this.querySort]
       },
@@ -258,7 +258,7 @@ export default {
         this.setVuexState({ k: 'querySort', v: arr[0] })
       },
     },
-    sortOrder: {
+    computedQueryOrder: {
       get() {
         return [this.queryOrder > 0 ? false : true]
       },
@@ -266,7 +266,7 @@ export default {
         this.setVuexState({ k: 'queryOrder', v: arr[0] ? -1 : 1 })
       },
     },
-    queryAllText: {
+    computedAllText: {
       get() {
         return this.allText
       },
@@ -274,7 +274,7 @@ export default {
         this.setVuexState({ k: 'allText', v })
       },
     },
-    querySent: {
+    computedSent: {
       get() {
         return this.sent
       },
@@ -282,7 +282,7 @@ export default {
         this.setVuexState({ k: 'sent', v })
       },
     },
-    queryTimeSpan: {
+    computedTimeSpan: {
       get() {
         return this.timeSpan
       },
@@ -290,7 +290,7 @@ export default {
         this.setVuexState({ k: 'timeSpan', v })
       },
     },
-    queryFrom: {
+    computedFrom: {
       get() {
         return this.from
       },
@@ -298,7 +298,7 @@ export default {
         this.setVuexState({ k: 'from', v })
       },
     },
-    queryTo: {
+    computedTo: {
       get() {
         return this.to
       },
@@ -306,7 +306,7 @@ export default {
         this.setVuexState({ k: 'to', v })
       },
     },
-    querySubject: {
+    computedSubject: {
       get() {
         return this.subject
       },
@@ -316,34 +316,34 @@ export default {
     },
   },
   watch: {
-    itemsPerPage() {
+    computedEmailListPage() {
       this.doQuery()
     },
-    page() {
+    computedEmailListItemsPerPage() {
       this.doQuery()
     },
-    sortBy() {
+    computedQuerySort() {
       this.doQuery()
     },
-    sortOrder() {
+    computedQueryOrder() {
       this.doQuery()
     },
-    queryTimeSpan() {
+    computedTimeSpan() {
       this.doQuery()
     },
-    queryAllText() {
+    computedAllText() {
       this.debouncedQuery()
     },
-    querySent() {
+    computedSent() {
       this.debouncedQuery()
     },
-    queryFrom() {
+    computedFrom() {
       this.debouncedQuery()
     },
-    queryTo() {
+    computedTo() {
       this.debouncedQuery()
     },
-    querySubject() {
+    computedSubject() {
       this.debouncedQuery()
     },
   },

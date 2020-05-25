@@ -58,6 +58,17 @@ export default new Vuex.Store({
       localStorage.setItem('themeSecondaryColor', state.themeSecondaryColor)
       return s
     },
+    clearSearch: (state) => {
+      const s = _.cloneDeep(state)
+      s.sent = ''
+      s.timeSpan = 0
+      s.from = ''
+      s.to = ''
+      s.subject = ''
+      s.allText = ''
+      s.body = ''
+      return s
+    },
   },
   actions: {
     // https://vuex.vuejs.org/guide/actions.html

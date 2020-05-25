@@ -17,7 +17,6 @@ export default {
     }
   },
   computed: {
-    // TODO contacts loading
     ...mapState(['contactsLoading', 'contacts', 'darkMode']),
   },
   mounted() {
@@ -28,6 +27,7 @@ export default {
   },
   methods: {
     createChart() {
+      // https://www.amcharts.com/docs/v4/chart-types/chord-diagram/
       if (!this.contacts) return
       if (this.chart) this.chart.dispose()
 
@@ -66,9 +66,8 @@ export default {
       this.chart.dataFields.toName = 'to'
       this.chart.dataFields.value = 'value'
       this.chart.dataFields.color = 'nodeColor'
-      const links = this.chart.links.template
       // TODO handle select
-      links.events.on('hit', (ev) => handleSelect(ev))
+      this.chart.links.template.events.on('hit', (ev) => handleSelect(ev))
       if (this.darkMode) {
         this.chart.nodes.template.label.fill = am4core.color('white')
       }
