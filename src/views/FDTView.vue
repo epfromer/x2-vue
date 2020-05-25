@@ -5,7 +5,10 @@
     </v-row>
     <v-row no-gutters dense>
       <v-col xs="4" sm="3">
-        <ContactPicker />
+        <ContactPicker
+          :contactsToShow="contactsToShow"
+          :onChange="(contacts) => onContactsChange(contacts)"
+        />
       </v-col>
       <v-col xs="8" sm="9">
         <div class="chart" id="FDT"></div>
@@ -156,13 +159,20 @@ export default {
         series.nodes.template.label.fill = am4core.color('black')
       }
     },
+    toggleSendersReceivers() {},
+    onContactsChange(contacts) {
+      this.contactsToShow = contacts
+    },
+    toggleSelectAll() {},
   },
   watch: {
     contacts() {
       if (this.contacts) {
         this.contactsToShow = this.createContactList()
-        this.createChart()
       }
+    },
+    contactsToShow() {
+      this.createChart()
     },
     darkMode() {
       this.createChart()

@@ -1,16 +1,41 @@
 <template>
   <div class="root">
-    <v-chip
+    <!-- <v-chip
       v-for="contact in contacts"
       :key="contact.name"
       class="ma-2"
-      color="indigo"
+      :color="contactColor(contact.name)"
       text-color="white"
       close
       @click:close="handleDelete(contact.name)"
     >
       {{ contact.name }}
-    </v-chip>
+    </v-chip> -->
+    <template v-for="contact in contactList">
+      <template v-if="contact.show">
+        <v-chip
+          :key="contact.name"
+          :color="contactColor(contact.name)"
+          class="ma-1"
+          text-color="black"
+          close
+          @click:close="handleDelete(contact.name)"
+        >
+          {{ contact.name }}
+        </v-chip>
+      </template>
+      <template v-else>
+        <v-chip
+          :key="contact.name"
+          :color="contactColor(contact.name)"
+          class="ma-1"
+          text-color="black"
+          @click="handleClick(contact.name)"
+        >
+          {{ contact.name }}
+        </v-chip>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -19,18 +44,37 @@ import { mapState } from 'vuex'
 
 export default {
   props: {
-    selectedContacts: {
-      type: Array,
-      // required: true,
+    contactsToShow: {
+      type: Map,
+      required: true,
+    },
+    onChange: {
+      type: Function,
+      required: true,
     },
   },
   methods: {
+    contactColor(contact) {
+      return this.contacts.find((c) => c.name === contact).color
+    },
     handleDelete(k) {
-      console.log(k)
+      const newContacts = new Map(this.contactsToShow)
+      newContacts.set(k, false)
+      this.onChange(newContacts)
+    },
+    handleClick(k) {
+      const newContacts = new Map(this.contactsToShow)
+      newContacts.set(k, true)
+      this.onChange(newContacts)
     },
   },
   computed: {
     ...mapState(['contacts']),
+    contactList() {
+      const items = []
+      this.contactsToShow.forEach((v, k) => items.push({ name: k, show: v }))
+      return items
+    },
   },
 }
 </script>
