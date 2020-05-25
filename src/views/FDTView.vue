@@ -1,14 +1,24 @@
 <template>
-  <div class="root">
-    <div class="headline">Senders / Receivers</div>
-    <div class="chart" id="FDT"></div>
-  </div>
+  <v-container fluid>
+    <v-row no-gutters dense>
+      <div class="headline">Senders / Receivers</div>
+    </v-row>
+    <v-row no-gutters dense>
+      <v-col xs="4" sm="3">
+        <ContactPicker />
+      </v-col>
+      <v-col xs="8" sm="9">
+        <div class="chart" id="FDT"></div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4plugins_forceDirected from '@amcharts/amcharts4/plugins/forceDirected'
 import { mapMutations, mapState } from 'vuex'
+import ContactPicker from '../components/ContactPicker'
 
 export default {
   data() {
@@ -21,6 +31,9 @@ export default {
   },
   computed: {
     ...mapState(['contactsLoading', 'contacts', 'darkMode']),
+  },
+  components: {
+    ContactPicker,
   },
   mounted() {
     if (this.contacts) {
@@ -119,7 +132,6 @@ export default {
 
         if (parent.children.length) data.push(parent)
       })
-      console.log(data)
 
       this.chart = am4core.create(
         'FDT',
@@ -160,11 +172,8 @@ export default {
 </script>
 
 <style scoped>
-.root {
-  height: 92vh;
-}
 .chart {
   width: 100%;
-  height: 90%;
+  height: 82vh;
 }
 </style>

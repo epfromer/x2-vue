@@ -1,8 +1,8 @@
 <template>
-  <div class="root">
+  <v-container fluid>
     <div class="headline">Email Word Cloud</div>
     <div class="chart" id="WordCloud"></div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -17,7 +17,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['wordCloudLoading', 'wordCloud', 'darkMode']),
+    ...mapState([
+      'wordCloudLoading',
+      'wordCloud',
+      'darkMode',
+      'themePrimaryColor',
+      'themeSecondaryColor',
+    ]),
   },
   mounted() {
     this.createChart()
@@ -61,8 +67,8 @@ export default {
         series.heatRules.push({
           target: series.labels.template,
           property: 'fill',
-          min: am4core.color(themeSecondaryColor),
-          max: am4core.color(themePrimaryColor),
+          min: am4core.color(this.themeSecondaryColor),
+          max: am4core.color(this.themePrimaryColor),
           dataField: 'value',
         })
       }
@@ -81,11 +87,8 @@ export default {
 </script>
 
 <style scoped>
-.root {
-  height: 92vh;
-}
 .chart {
+  height: 82vh;
   width: 100%;
-  height: 90%;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="root">
+  <v-container fluid>
     <div class="headline">Senders / Receivers</div>
     <div class="chart" id="ChordDiagram"></div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -97,11 +97,8 @@ export default {
 </script>
 
 <style scoped>
-.root {
-  height: 92vh;
-}
 .chart {
   width: 100%;
-  height: 90%;
+  height: 80vh;
 }
 </style>

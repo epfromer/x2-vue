@@ -3,13 +3,7 @@
     <AppDrawer :open="drawerOpen" :setOpen="(v) => (drawerOpen = v)" />
     <AppToolbar :setDrawerOpen="(v) => (drawerOpen = v)" />
     <v-content>
-      <v-container fluid>
-        <v-row align="start">
-          <v-col>
-            <router-view />
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view />
     </v-content>
     <AppFooter />
   </v-app>
