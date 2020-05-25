@@ -12,8 +12,6 @@
 <script>
 // https://vuetifyjs.com/en/components/cards/
 
-import { mapMutations, mapState } from 'vuex'
-
 export default {
   props: {
     image: {

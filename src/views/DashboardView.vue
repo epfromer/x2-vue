@@ -60,14 +60,11 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
 import DashboardCard from '../components/DashboardCard.vue'
 
 export default {
   components: {
     DashboardCard,
   },
-  methods: {},
-  computed: {},
 }
 </script>

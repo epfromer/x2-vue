@@ -6,7 +6,6 @@
       <v-container fluid>
         <v-row align="start">
           <v-col>
-            {{ this.wordCloud }}
             <router-view />
           </v-col>
         </v-row>
@@ -29,16 +28,21 @@ export default {
     drawerOpen: false,
   }),
   mounted() {
+    this.fetchEmailSentIfNeeded()
     this.fetchWordCloudIfNeeded()
+    this.fetchContactsIfNeeded()
   },
   components: {
     AppDrawer,
     AppToolbar,
     AppFooter,
   },
-  computed: {
-    ...mapState(['wordCloud']),
+  methods: {
+    ...mapActions([
+      'fetchEmailSentIfNeeded',
+      'fetchWordCloudIfNeeded',
+      'fetchContactsIfNeeded',
+    ]),
   },
-  methods: { ...mapActions(['fetchWordCloudIfNeeded']) },
 }
 </script>

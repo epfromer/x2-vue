@@ -37,6 +37,15 @@ export default new Vuex.Store({
         state.emails = _.cloneDeep(v)
       } else if (k === 'wordcloud') {
         state.wordcloud = _.cloneDeep(v)
+      } else if (k === 'contacts') {
+        state.contacts = _.cloneDeep(v)
+        state.contacts.sort((a, b) => {
+          const aName = a.name.toLowerCase()
+          const bName = b.name.toLowerCase()
+          if (aName < bName) return -1
+          else if (aName < bName) return 1
+          else return 0
+        })
       } else {
         state[k] = v
       }
@@ -52,9 +61,19 @@ export default new Vuex.Store({
   },
   actions: {
     // https://vuex.vuejs.org/guide/actions.html
+    fetchEmailSentIfNeeded: ({ commit, state }, invalidateCache) => {
+      if (invalidateCache || (!state.emailSent && !state.emailSentLoading)) {
+        doFetch(commit, 'emailSentLoading', 'emailsent', 'emailSent')
+      }
+    },
     fetchWordCloudIfNeeded: ({ commit, state }, invalidateCache) => {
       if (invalidateCache || (!state.wordCloud && !state.wordCloudLoading)) {
         doFetch(commit, 'wordCloudLoading', 'wordcloud', 'wordCloud')
+      }
+    },
+    fetchContactsIfNeeded: ({ commit, state }, invalidateCache) => {
+      if (invalidateCache || (!state.contacts && !state.contactsLoading)) {
+        doFetch(commit, 'contactsLoading', 'contacts', 'contacts')
       }
     },
   },
