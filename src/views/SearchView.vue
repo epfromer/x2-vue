@@ -131,7 +131,7 @@ export default {
           (typeof q[key] == 'string' && q[key]) ||
           typeof q[key] == 'number'
         ) {
-          params += '&' + key + '=' + q[key]
+          params += '&' + key + '=' + encodeURIComponent(q[key])
         }
       })
       return '?' + params.slice(1)
