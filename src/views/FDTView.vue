@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <v-row no-gutters dense>
       <div class="headline">Senders / Receivers</div>
     </v-row>
@@ -70,16 +71,20 @@ export default {
       return this.contacts.find((c) => c.name === contact).color
     },
     handleSelect(ev) {
-      this.clearSearch()
-      this.setVuexState({
-        k: 'from',
-        v: `(${ev.target.dataItem.dataContext.from})`,
-      })
-      this.setVuexState({
-        k: 'to',
-        v: `(${ev.target.dataItem.dataContext.to})`,
-      })
-      this.$router.push({ name: 'SearchView' }).catch((err) => {})
+      const from = ev.target.dataItem.dataContext.from
+      const to = ev.target.dataItem.dataContext.to
+      if (from) {
+        this.clearSearch()
+        this.setVuexState({
+          k: 'from',
+          v: `(${ev.target.dataItem.dataContext.from})`,
+        })
+        this.setVuexState({
+          k: 'to',
+          v: `(${ev.target.dataItem.dataContext.to})`,
+        })
+        this.$router.push({ name: 'SearchView' }).catch((err) => {})
+      }
     },
     createContactList() {
       const map = new Map()

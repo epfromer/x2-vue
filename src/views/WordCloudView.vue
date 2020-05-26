@@ -1,5 +1,9 @@
 <template>
   <v-container fluid>
+    <v-progress-linear
+      v-if="wordCloudLoading"
+      indeterminate
+    ></v-progress-linear>
     <div class="headline">Email Word Cloud</div>
     <div class="chart" id="WordCloud"></div>
   </v-container>

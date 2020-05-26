@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <div class="headline">Senders / Receivers</div>
     <div class="chart" id="ChordDiagram"></div>
   </v-container>
