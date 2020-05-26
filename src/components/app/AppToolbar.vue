@@ -4,7 +4,7 @@
     <v-toolbar-title>X2 Vue</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn @click="setDark" icon>
-      <v-icon>{{ darkMode ? 'brightness_high' : 'brightness_low' }}</v-icon>
+      <v-icon>{{ darkMode ? 'brightness_7' : 'brightness_4' }}</v-icon>
     </v-btn>
     <v-btn
       @click="() => $router.push(`/AppSettingsView`).catch((err) => {})"
@@ -19,8 +19,8 @@
 </template>
 
 <script>
+// https://material.io/resources/icons/?style=baseline
 import { mapMutations, mapState } from 'vuex'
-// import colors from 'vuetify/lib/util/colors'
 
 export default {
   props: {

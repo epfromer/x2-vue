@@ -5,6 +5,23 @@
     </v-row>
     <v-row no-gutters dense>
       <v-col xs="4" sm="3">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div class="button">
+              <v-btn
+                fab
+                small
+                :elevation="0"
+                v-on="on"
+                class="ma-2"
+                @click="toggleSelectAll"
+              >
+                <v-icon>select_all</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Toggle All Select</span>
+        </v-tooltip>
         <ContactPicker
           :contactsToShow="contactsToShow"
           :onChange="(contacts) => onContactsChange(contacts)"
@@ -163,7 +180,12 @@ export default {
     onContactsChange(contacts) {
       this.contactsToShow = contacts
     },
-    toggleSelectAll() {},
+    toggleSelectAll() {
+      const toShow = new Map(this.contactsToShow)
+      toShow.forEach((v, k) => toShow.set(k, !this.selectAll))
+      this.selectAll = !this.selectAll
+      this.contactsToShow = toShow
+    },
   },
   watch: {
     contacts() {
@@ -185,5 +207,9 @@ export default {
 .chart {
   width: 100%;
   height: 82vh;
+}
+.button {
+  display: flex;
+  justify-content: center;
 }
 </style>

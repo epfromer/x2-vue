@@ -29,11 +29,11 @@
 </template>
 
 <script>
+// https://material.io/resources/icons/?style=baseline
 import NaviListItem from '../NaviListItem'
 export default {
   data() {
     return {
-      // https://material.io/resources/icons/?style=baseline
       mainListItems: [
         { icon: 'dashboard', name: 'Dashboard', route: 'DashboardView' },
         { icon: 'email', name: 'Search', route: 'SearchView' },

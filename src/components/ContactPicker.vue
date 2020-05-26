@@ -1,16 +1,5 @@
 <template>
   <div class="root">
-    <!-- <v-chip
-      v-for="contact in contacts"
-      :key="contact.name"
-      class="ma-2"
-      :color="contactColor(contact.name)"
-      text-color="white"
-      close
-      @click:close="handleDelete(contact.name)"
-    >
-      {{ contact.name }}
-    </v-chip> -->
     <template v-for="contact in contactList">
       <template v-if="contact.show">
         <v-chip
