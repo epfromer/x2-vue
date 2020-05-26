@@ -55,6 +55,7 @@ export default {
       seriesBullet.locationX = 0.5
       seriesBullet.label.text = '{name}'
       seriesBullet.label.fill = am4core.color('white')
+      seriesBullet.template.events.on('hit', (ev) => this.handleSelect(ev))
     },
   },
   watch: {
