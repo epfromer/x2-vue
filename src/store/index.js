@@ -53,23 +53,19 @@ export default new Vuex.Store({
       }
     },
     saveAppSettings: (state) => {
-      const s = _.cloneDeep(state)
       localStorage.setItem('densePadding', state.densePadding)
       localStorage.setItem('darkMode', state.darkMode)
       localStorage.setItem('themePrimaryColor', state.themePrimaryColor)
       localStorage.setItem('themeSecondaryColor', state.themeSecondaryColor)
-      return s
     },
     clearSearch: (state) => {
-      const s = _.cloneDeep(state)
-      s.sent = ''
-      s.timeSpan = 0
-      s.from = ''
-      s.to = ''
-      s.subject = ''
-      s.allText = ''
-      s.body = ''
-      return s
+      state.sent = ''
+      state.timeSpan = 0
+      state.from = ''
+      state.to = ''
+      state.subject = ''
+      state.allText = ''
+      state.body = ''
     },
   },
   actions: {
