@@ -19,9 +19,18 @@
               >
                 <v-icon>select_all</v-icon>
               </v-btn>
+              <v-btn
+                small
+                :elevation="0"
+                v-on="on"
+                class="ma-2"
+                @click="toggleSendersReceivers"
+              >
+                {{ showSenders ? 'Senders' : 'Receivers' }}
+              </v-btn>
             </div>
           </template>
-          <span>Toggle All Select</span>
+          <span>Toggle Senders / Receivers</span>
         </v-tooltip>
         <ContactPicker
           :contactsToShow="contactsToShow"
@@ -178,10 +187,16 @@ export default {
       series.nodes.template.events.on('hit', (ev) => this.handleSelect(ev))
 
       if (this.darkMode) {
+        series.nodes.template.label.fill = am4core.color('white')
+      } else {
         series.nodes.template.label.fill = am4core.color('black')
       }
     },
-    toggleSendersReceivers() {},
+    toggleSendersReceivers() {
+      this.showSenders = !this.showSenders
+      this.selectAll = true
+      this.contactsToShow = this.createContactList()
+    },
     onContactsChange(contacts) {
       this.contactsToShow = contacts
     },
@@ -216,5 +231,6 @@ export default {
 .button {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 </style>
