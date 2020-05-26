@@ -4,7 +4,7 @@
       <template v-if="contact.show">
         <v-chip
           :key="contact.name"
-          :color="contactColor(contact.name)"
+          :color="getContactColor(contact.name)"
           class="ma-1"
           text-color="black"
           close
@@ -16,7 +16,7 @@
       <template v-else>
         <v-chip
           :key="contact.name"
-          :color="contactColor(contact.name)"
+          :color="getContactColor(contact.name)"
           class="ma-1"
           text-color="black"
           @click="handleClick(contact.name)"
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -43,9 +43,6 @@ export default {
     },
   },
   methods: {
-    contactColor(contact) {
-      return this.contacts.find((c) => c.name === contact).color
-    },
     handleDelete(k) {
       const newContacts = new Map(this.contactsToShow)
       newContacts.set(k, false)
@@ -59,6 +56,7 @@ export default {
   },
   computed: {
     ...mapState(['contacts']),
+    ...mapGetters(['getContactColor']),
     contactList() {
       const items = []
       this.contactsToShow.forEach((v, k) => items.push({ name: k, show: v }))

@@ -30,6 +30,8 @@ export default new Vuex.Store({
     },
     getEmailIndex: (state) => (id) =>
       state.emails.findIndex((e) => e._id === id) + 1,
+    getContactColor: (state) => (name) =>
+      state.contacts.find((c) => c.name === name).color,
   },
   mutations: {
     setVuexState: (state, { k, v }) => {

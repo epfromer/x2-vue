@@ -47,7 +47,7 @@
 <script>
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4plugins_forceDirected from '@amcharts/amcharts4/plugins/forceDirected'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapGetters } from 'vuex'
 import ContactPicker from '../components/ContactPicker'
 
 export default {
@@ -61,6 +61,7 @@ export default {
   },
   computed: {
     ...mapState(['contactsLoading', 'contacts', 'darkMode']),
+    ...mapGetters(['getContactColor']),
   },
   components: {
     ContactPicker,
@@ -76,9 +77,6 @@ export default {
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
-    contactColor(contact) {
-      return this.contacts.find((c) => c.name === contact).color
-    },
     handleSelect(ev) {
       const from = ev.target.dataItem.dataContext.from
       const to = ev.target.dataItem.dataContext.to
@@ -140,7 +138,7 @@ export default {
 
         const parent = {
           name: contact.name,
-          color: this.contactColor(contact.name),
+          color: this.getContactColor(contact.name),
           children: [],
         }
         sent.forEach((v, k) => {
@@ -151,7 +149,7 @@ export default {
                 to: k,
                 name: k,
                 value: v,
-                color: this.contactColor(k),
+                color: this.getContactColor(k),
               })
             } else {
               parent.children.push({
@@ -159,7 +157,7 @@ export default {
                 to: contact.name,
                 name: k,
                 value: v,
-                color: this.contactColor(k),
+                color: this.getContactColor(k),
               })
             }
         })
