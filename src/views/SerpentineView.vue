@@ -25,7 +25,6 @@ export default {
     ...mapGetters(['getContactColor']),
     chartTrackData() {
       if (!this.contacts) return []
-      console.log('chart track data')
       return [
         {
           category: 'Arthur Andersen',

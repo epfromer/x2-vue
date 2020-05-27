@@ -19,7 +19,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import EmailCardActions from '../components/EmailCardActions'
+import EmailCardActions from '../components/emaillist/EmailCardActions'
 
 export default {
   data() {

@@ -30,7 +30,7 @@
 
 <script>
 // https://material.io/resources/icons/?style=baseline
-import NaviListItem from '../NaviListItem'
+import NaviListItem from '../app/NaviListItem'
 export default {
   data() {
     return {

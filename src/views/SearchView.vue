@@ -82,7 +82,7 @@
 <script>
 // TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 import { mapMutations, mapGetters, mapState } from 'vuex'
-import FilterDate from '../components/FilterDate'
+import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
 const DEBOUNCE_MS = 500

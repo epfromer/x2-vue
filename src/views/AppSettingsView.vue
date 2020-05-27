@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div class="display-1">Settings</div>
+  <v-container fluid>
+    <div class="headline">Settings</div>
     <v-switch
       v-model="dense"
       class="mx-2"
       color="secondary"
-      label="Dense padding"
+      label="Dense padding tables"
     ></v-switch>
     <div class="headline">Interface element colors</div>
     <v-switch
@@ -14,29 +14,27 @@
       color="secondary"
       label="Dark mode"
     ></v-switch>
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12" sm="6">
-          <div>
-            <div class="headline">Primary</div>
-            <ColorPicker
-              :defaultColor="themePrimaryColor"
-              :onChange="(c) => handlePrimaryColorChange(c)"
-            />
-          </div>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <div>
-            <div class="headline">Secondary</div>
-            <ColorPicker
-              :defaultColor="themeSecondaryColor"
-              :onChange="(c) => handleSecondaryColorChange(c)"
-            />
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <div>
+          <div class="headline">Primary</div>
+          <ColorPicker
+            :defaultColor="themePrimaryColor"
+            :onChange="(c) => handlePrimaryColorChange(c)"
+          />
+        </div>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <div>
+          <div class="headline">Secondary</div>
+          <ColorPicker
+            :defaultColor="themeSecondaryColor"
+            :onChange="(c) => handleSecondaryColorChange(c)"
+          />
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
