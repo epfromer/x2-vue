@@ -34,16 +34,20 @@
         </div>
       </v-col>
     </v-row>
+    <div class="headline">Enron Key Contacts</div>
+    <ContactSettings />
   </v-container>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
 import ColorPicker from '../components/ColorPicker'
+import ContactSettings from '../components/ContactSettings'
 
 export default {
   components: {
     ColorPicker,
+    ContactSettings,
   },
   methods: {
     ...mapMutations(['setVuexState', 'saveAppSettings']),
