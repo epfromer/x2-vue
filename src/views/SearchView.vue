@@ -137,6 +137,7 @@ export default {
       return '?' + params.slice(1)
     },
     async doQuery() {
+      // TODO move to vuex
       const {
         emailListPage,
         emailListItemsPerPage,
