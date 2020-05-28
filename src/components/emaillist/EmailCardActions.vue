@@ -2,7 +2,7 @@
   <v-card-actions>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-btn @click="() => $router.push('/emaillist')" v-on="on" text>
+        <v-btn @click="() => $router.push('/SearchView')" v-on="on" text>
           <v-icon>keyboard_backspace</v-icon>
         </v-btn>
       </template>
@@ -13,7 +13,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="() => $router.push(`/emaildetail/${previousEmailId}`)"
+          @click="() => $router.push(`/EmailDetailView/${previousEmailId}`)"
           v-on="on"
           text
           :disabled="!previousEmailId"
@@ -26,7 +26,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn
-          @click="() => $router.push(`/emaildetail/${nextEmailId}`)"
+          @click="() => $router.push(`/EmailDetailView/${nextEmailId}`)"
           v-on="on"
           text
           :disabled="!nextEmailId"

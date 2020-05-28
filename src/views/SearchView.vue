@@ -186,7 +186,10 @@ export default {
         .then(() => (this.loading = false))
     },
     rowClick(details) {
-      this.$router.push({ name: 'EmailDetail', params: { id: details._id } })
+      this.$router.push({
+        name: 'EmailDetailView',
+        params: { id: details._id },
+      })
     },
     handleTimeSpan(sent, span) {
       this.openFilterDate = false
