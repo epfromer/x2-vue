@@ -18,19 +18,13 @@
       <v-col cols="12" sm="6">
         <div>
           <div class="headline">Primary</div>
-          <ColorPicker
-            :defaultColor="themePrimaryColor"
-            :onChange="(c) => handlePrimaryColorChange(c)"
-          />
+          <v-color-picker class="ma-2" v-model="primaryColor" show-swatches />
         </div>
       </v-col>
       <v-col cols="12" sm="6">
         <div>
           <div class="headline">Secondary</div>
-          <ColorPicker
-            :defaultColor="themeSecondaryColor"
-            :onChange="(c) => handleSecondaryColorChange(c)"
-          />
+          <v-color-picker class="ma-2" v-model="secondaryColor" show-swatches />
         </div>
       </v-col>
     </v-row>
@@ -46,23 +40,11 @@ import ContactSettings from '../components/ContactSettings'
 
 export default {
   components: {
-    ColorPicker,
+    // ColorPicker,
     ContactSettings,
   },
   methods: {
     ...mapMutations(['setVuexState', 'saveAppSettings']),
-    handlePrimaryColorChange(color) {
-      this.setVuexState({ k: 'themePrimaryColor', v: color })
-      this.saveAppSettings()
-      this.$vuetify.theme.themes.dark.primary = color
-      this.$vuetify.theme.themes.light.primary = color
-    },
-    handleSecondaryColorChange(color) {
-      this.setVuexState({ k: 'themeSecondaryColor', v: color })
-      this.saveAppSettings()
-      this.$vuetify.theme.themes.dark.secondary = color
-      this.$vuetify.theme.themes.light.secondary = color
-    },
   },
   computed: {
     ...mapState([
@@ -88,6 +70,28 @@ export default {
         this.setVuexState({ k: 'darkMode', v })
         this.saveAppSettings()
         this.$vuetify.theme.dark = v
+      },
+    },
+    primaryColor: {
+      get() {
+        return this.themePrimaryColor
+      },
+      set(color) {
+        this.setVuexState({ k: 'themePrimaryColor', v: color })
+        this.saveAppSettings()
+        this.$vuetify.theme.themes.dark.primary = color
+        this.$vuetify.theme.themes.light.primary = color
+      },
+    },
+    secondaryColor: {
+      get() {
+        return this.themeSecondaryColor
+      },
+      set(color) {
+        this.setVuexState({ k: 'themeSecondaryColor', v: color })
+        this.saveAppSettings()
+        this.$vuetify.theme.themes.dark.secondary = color
+        this.$vuetify.theme.themes.light.secondary = color
       },
     },
   },

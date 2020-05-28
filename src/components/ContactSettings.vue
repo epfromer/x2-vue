@@ -80,6 +80,18 @@ export default {
     selectColor(contact) {
       console.log(contact)
     },
+    handleColorChosen(color) {
+      // setOpenColorPicker(false)
+      // const url = `${process.env.REACT_APP_EMAIL_SERVER}/contacts/${contactId}`
+      // const payload = {
+      //   method: 'PUT',
+      //   body: JSON.stringify({ color }),
+      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      // }
+      // fetch(url, payload)
+      //   .then(() => dispatch(fetchContactsIfNeeded(true)))
+      //   .catch(() => {}) // TODO: handle errors
+    },
   },
 }
 </script>

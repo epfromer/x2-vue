@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// TODO make like react, with dialog box
 export default {
   data() {
     return {
