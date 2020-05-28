@@ -1,33 +1,54 @@
 <template>
-  <v-color-picker class="ma-2" v-model="color" show-swatches></v-color-picker>
+  <v-dialog @click:outside="handleClose" v-model="isOpen" width="308">
+    <v-color-picker
+      hide-inputs
+      class="ma-2"
+      v-model="color"
+      show-swatches
+    ></v-color-picker>
+  </v-dialog>
 </template>
 
 <script>
-// TODO make like react, with dialog box
 export default {
   data() {
     return {
-      col: this.defaultColor,
+      selectedColor: '',
     }
   },
   props: {
+    open: {
+      type: Boolean,
+      required: true,
+    },
     defaultColor: {
       type: String,
       default: '#2196f3',
     },
-    onChange: {
+    onClose: {
       type: Function,
       required: true,
+    },
+  },
+  methods: {
+    handleClose() {
+      this.onClose(this.selectedColor)
+      this.selectedColor = ''
     },
   },
   computed: {
     color: {
       get() {
-        return this.col
+        return this.selectedColor ? this.selectedColor : this.defaultColor
       },
-      set(v) {
-        this.col = v
-        this.onChange(v)
+      set(c) {
+        // lop off last two digits to convert from RGBA to RGB
+        this.selectedColor = c.slice(0, 7)
+      },
+    },
+    isOpen: {
+      get() {
+        return this.open
       },
     },
   },

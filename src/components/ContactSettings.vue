@@ -1,5 +1,10 @@
 <template>
   <v-container fluid>
+    <ColorPicker
+      :open="openColorPicker"
+      :defaultColor="pickedColor"
+      :onClose="(color) => handleColorChosen(color)"
+    />
     <v-data-table
       :headers="headers"
       :items="computedContacts"
@@ -16,7 +21,7 @@
           small
           :elevation="0"
           class="ma-2"
-          @click="() => selectColor(item.name)"
+          @click="() => selectColor(item._id, item.color)"
           :style="{ color: item.color }"
         >
           {{ item.color.toUpperCase() }}
@@ -27,13 +32,15 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
+import ColorPicker from './ColorPicker'
 
 export default {
   data() {
     return {
-      loading: false,
-      openFilterDate: false,
+      openColorPicker: false,
+      contactId: '',
+      pickedColor: '',
       expanded: [],
       headers: [
         {
@@ -75,22 +82,29 @@ export default {
       },
     },
   },
+  components: {
+    ColorPicker,
+  },
   methods: {
     ...mapMutations(['setVuexState', 'saveAppSettings']),
-    selectColor(contact) {
-      console.log(contact)
+    ...mapActions(['fetchContactsIfNeeded']),
+    selectColor(id, color) {
+      this.contactId = id
+      this.pickedColor = color
+      this.openColorPicker = true
     },
     handleColorChosen(color) {
-      // setOpenColorPicker(false)
-      // const url = `${process.env.REACT_APP_EMAIL_SERVER}/contacts/${contactId}`
-      // const payload = {
-      //   method: 'PUT',
-      //   body: JSON.stringify({ color }),
-      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      // }
-      // fetch(url, payload)
-      //   .then(() => dispatch(fetchContactsIfNeeded(true)))
-      //   .catch(() => {}) // TODO: handle errors
+      this.openColorPicker = false
+      if (!color) return
+      const url = `${process.env.VUE_APP_EMAIL_SERVER}/contacts/${this.contactId}`
+      const payload = {
+        method: 'PUT',
+        body: JSON.stringify({ color }),
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }
+      fetch(url, payload)
+        .then(() => this.fetchContactsIfNeeded(true))
+        .catch(() => {}) // TODO: handle errors
     },
   },
 }
