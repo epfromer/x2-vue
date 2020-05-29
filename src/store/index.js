@@ -82,6 +82,7 @@ export default new Vuex.Store({
     },
     fetchContactsIfNeeded: ({ commit, state }, invalidateCache) => {
       if (invalidateCache || (!state.contacts && !state.contactsLoading)) {
+        state.contactsLoading = true
         doFetch(commit, 'contactsLoading', 'contacts', 'contacts')
       }
     },

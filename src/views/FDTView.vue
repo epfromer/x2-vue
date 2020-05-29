@@ -113,6 +113,8 @@ export default {
       if (!this.contactsToShow.size) return
       if (this.chart) this.chart.dispose()
 
+      console.log(new Date())
+      console.time()
       const data = []
       this.contacts.forEach((contact) => {
         const sent = new Map()
@@ -189,6 +191,7 @@ export default {
       } else {
         series.nodes.template.label.fill = am4core.color('black')
       }
+      console.timeEnd()
     },
     toggleSendersReceivers() {
       this.showSenders = !this.showSenders

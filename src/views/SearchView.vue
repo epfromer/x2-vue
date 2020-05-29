@@ -69,6 +69,7 @@
         <td :colspan="headers.length">{{ expandedBody }}</td>
       </template>
     </v-data-table>
+    <!-- <div v-intersect="onIntersect" /> -->
     <FilterDate
       :open="openFilterDate"
       :date="sent ? sent : '2000-10-04'"
@@ -80,7 +81,6 @@
 </template>
 
 <script>
-// TODO multi-sort - https://vuetifyjs.com/en/components/data-tables#sort-on-multiple-columns
 import { mapMutations, mapGetters, mapState } from 'vuex'
 import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
@@ -123,6 +123,11 @@ export default {
   },
   methods: {
     ...mapMutations(['setVuexState']),
+    // TODO SearchViewInfinite.vue
+    // onIntersect(entries, observer) {
+    //   // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+    //   console.log('intersecting', entries[0].isIntersecting)
+    // },
     encodeQuery(q) {
       // encode query for URL
       let params = ''
