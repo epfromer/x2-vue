@@ -2,15 +2,15 @@
   <div>
     <v-card class="elevation-1">
       <EmailCardActions :id="email._id" />
-      <v-card-title>{{ email.subject }}</v-card-title>
+      <v-card-title><span v-html="highlight(email.subject)" /></v-card-title>
       <v-card-text class="text--primary">
-        <div>Sent: {{ email.sent }}</div>
-        <div>From: {{ email.from }}</div>
-        <div>To: {{ email.to }}</div>
-        <div>CC: {{ email.cc }}</div>
-        <div>BCC: {{ email.bcc }}</div>
+        <div>Sent: <span v-html="highlight(email.sent)" /></div>
+        <div>From: <span v-html="highlight(email.from)" /></div>
+        <div>To: <span v-html="highlight(email.to)" /></div>
+        <div>CC: <span v-html="highlight(email.cc)" /></div>
+        <div>BCC: <span v-html="highlight(email.bcc)" /></div>
         <p></p>
-        <span v-html="formattedBody"></span>
+        <span v-html="highlight(email.body.replace(/\n/g, '<br />'))" />
       </v-card-text>
       <EmailCardActions :id="email._id" />
     </v-card>
@@ -49,7 +49,6 @@ export default {
     EmailCardActions,
   },
   methods: {
-    // ...mapMutations(['setelected']),
     async doFetch() {
       this.loading = true
       const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.$route.params.id}`
@@ -62,12 +61,29 @@ export default {
         .then(() => (this.loading = false))
       // .then(() => console.log('fetch complete'))
     },
+    highlight(str) {
+      let s = str
+      this.highlightedTerms.forEach(
+        (term) =>
+          (s = s?.replace(
+            new RegExp(`(${term})`, 'gi'),
+            `<span style="background-color:yellow; color:black">$1</span>`
+          ))
+      )
+      return s
+    },
   },
   computed: {
     ...mapGetters(['getEmailById']),
-    ...mapState(['emails']),
-    formattedBody() {
-      return this.email.body ? this.email.body.replace(/\n/g, '<br />') : ''
+    ...mapState(['emails', 'allText', 'to', 'from', 'subject', 'body']),
+    highlightedTerms() {
+      const terms = []
+      if (this.allText) terms.push(this.allText)
+      if (this.to) terms.push(this.to)
+      if (this.from) terms.push(this.from)
+      if (this.subject) terms.push(this.subject)
+      if (this.body) terms.push(this.body)
+      return terms
     },
   },
 }

@@ -11,7 +11,7 @@
 
 <script>
 // TODO login/out, as with bikes
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import AppDrawer from './components/app/AppDrawer'
 import AppToolbar from './components/app/AppToolbar'
 import AppFooter from './components/app/AppFooter'
