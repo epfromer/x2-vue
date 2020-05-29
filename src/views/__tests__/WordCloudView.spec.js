@@ -1,14 +1,14 @@
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
-import EmailDetail from '@/views/EmailDetail.vue'
-import { emails, state, mutations } from '@/store/mockStore'
 import router from '@/router'
+import { mutations, state } from '@/store/mockStore'
+import WordCloudView from '@/views/WordCloudView.vue'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('EmailDetail', () => {
+describe('WordCloudView', () => {
   let vuetify
   let store
 
@@ -16,17 +16,17 @@ describe('EmailDetail', () => {
     vuetify = new Vuetify()
     store = new Vuex.Store({
       state,
-      mutations
+      mutations,
     })
     fetch.resetMocks()
   })
 
   function doMount(mountType) {
-    return mountType(EmailDetail, {
+    return mountType(WordCloudView, {
       localVue,
       vuetify,
       store,
-      router
+      router,
     })
   }
 
