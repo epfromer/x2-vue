@@ -18,78 +18,7 @@ export default {
     return {
       config: {
         title: {
-          text: 'Solar Employment Growth by Sector, 2010-2016',
-        },
-
-        subtitle: {
-          text: 'Source: thesolarfoundation.com',
-        },
-
-        yAxis: {
-          title: {
-            text: 'Number of Employees',
-          },
-        },
-
-        xAxis: {
-          accessibility: {
-            rangeDescription: 'Range: 2010 to 2017',
-          },
-        },
-
-        legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'middle',
-        },
-
-        plotOptions: {
-          series: {
-            label: {
-              connectorAllowed: false,
-            },
-            pointStart: 2010,
-          },
-        },
-
-        series: [
-          {
-            name: 'Installation',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-          },
-          {
-            name: 'Manufacturing',
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434],
-          },
-          {
-            name: 'Sales & Distribution',
-            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387],
-          },
-          {
-            name: 'Project Development',
-            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227],
-          },
-          {
-            name: 'Other',
-            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
-          },
-        ],
-
-        responsive: {
-          rules: [
-            {
-              condition: {
-                maxWidth: 500,
-              },
-              chartOptions: {
-                legend: {
-                  layout: 'horizontal',
-                  align: 'center',
-                  verticalAlign: 'bottom',
-                },
-              },
-            },
-          ],
+          text: 'Chart loading...',
         },
       },
     }
@@ -105,60 +34,84 @@ export default {
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
-    handleSelect(ev) {
+    handleSelect(date) {
       this.clearSearch()
       this.setVuexState({
         k: 'sent',
-        v: ev.target.dataItem.dataContext.date,
+        v: date,
       })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
-      //   const data = []
-      //   this.emailSent.forEach((stat) => {
-      //     data.push({ date: stat.sent, value: stat.ids.length })
-      //   })
-      //   this.chart = am4core.create('XYTimeline', am4charts.XYChart)
-      //   this.chart.data = data
-      //   this.chart.paddingRight = 20
-      //   const dateAxis = this.chart.xAxes.push(new am4charts.DateAxis())
-      //   dateAxis.renderer.grid.template.location = 0
-      //   dateAxis.groupData = true
-      //   if (this.darkMode) {
-      //     dateAxis.renderer.labels.template.fill = am4core.color('white')
-      //   }
-      //   const valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis())
-      //   valueAxis.min = 0
-      //   valueAxis.max = 1300
-      //   valueAxis.strictMinMax = true
-      //   valueAxis.tooltip.disabled = true
-      //   valueAxis.renderer.minWidth = 35
-      //   if (this.darkMode) {
-      //     valueAxis.renderer.labels.template.fill = am4core.color('white')
-      //   }
-      //   // axis break for outlier
-      //   const axisBreak = valueAxis.axisBreaks.create()
-      //   axisBreak.startValue = 200
-      //   axisBreak.endValue = 1300
-      //   const d =
-      //     (axisBreak.endValue - axisBreak.startValue) /
-      //     (valueAxis.max - valueAxis.min)
-      //   axisBreak.breakSize = (0.05 * (1 - d)) / d // 0.05 means that the break will take 5% of the total value axis height
-      //   // make break expand on hover
-      //   const hoverState = axisBreak.states.create('hover')
-      //   hoverState.properties.breakSize = 1
-      //   hoverState.properties.opacity = 0.1
-      //   hoverState.transitionDuration = 1500
-      //   axisBreak.defaultState.transitionDuration = 1000
-      //   const series = this.chart.series.push(new am4charts.ColumnSeries())
-      //   series.dataFields.dateX = 'date'
-      //   series.dataFields.valueY = 'value'
-      //   series.columns.template.events.on('hit', (ev) => this.handleSelect(ev))
-      //   series.tooltipText = '{valueY.value}'
-      //   this.chart.cursor = new am4charts.XYCursor()
-      //   const scrollbarX = new am4charts.XYChartScrollbar()
-      //   scrollbarX.series.push(series)
-      //   this.chart.scrollbarX = scrollbarX
+      // https://www.highcharts.com/demo/line-time-series
+
+      if (!this.emailSent || !this.emailSent.length) return
+      const data = []
+      this.emailSent.forEach((stat) => {
+        data.push([new Date(stat.sent).getTime(), stat.ids.length])
+      })
+
+      this.config = {
+        chart: {
+          zoomType: 'x',
+        },
+        title: {
+          text: '',
+        },
+        subtitle: {
+          text:
+            document.ontouchstart === undefined
+              ? 'Click and drag in the plot area to zoom in'
+              : 'Pinch the chart to zoom in',
+        },
+        xAxis: {
+          type: 'datetime',
+        },
+        yAxis: {
+          title: {
+            text: '# emails sent',
+          },
+        },
+        legend: {
+          enabled: false,
+        },
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: {
+              click: (event) =>
+                this.handleSelect(
+                  new Date(event.point.category).toISOString().slice(0, 10)
+                ),
+            },
+          },
+        },
+        series: [
+          {
+            type: 'area',
+            name: '# emails sent',
+            data,
+          },
+        ],
+      }
+
+      if (this.darkMode) {
+        this.config.chart.backgroundColor = {
+          linearGradient: [0, 0, 500, 500],
+          stops: [
+            [0, 'black'],
+            [1, '#3e3e40'],
+          ],
+        }
+      } else {
+        this.config.chart.backgroundColor = {
+          linearGradient: [0, 0, 500, 500],
+          stops: [
+            [0, 'white'],
+            [1, 'white'],
+          ],
+        }
+      }
     },
   },
   watch: {
@@ -171,10 +124,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.chart {
-  width: 100%;
-  height: 600px;
-}
-</style>
