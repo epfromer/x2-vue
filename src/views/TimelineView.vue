@@ -6,7 +6,7 @@
     ></v-progress-linear>
     <div class="headline">Emails Sent By Day</div>
     <highcharts :options="config" />
-    <button hidden @click="() => handleSelect('1999-01-01')">test</button>
+    <button hidden @click="() => handleSelect('foo')">test</button>
   </v-container>
 </template>
 

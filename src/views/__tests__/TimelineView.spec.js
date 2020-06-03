@@ -1,7 +1,7 @@
 import TimelineView from '@/views/TimelineView.vue'
 import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
-import { renderComp } from '../../../jest.setup'
+import { renderComp } from '../../../setupTests'
 
 // https://testing-library.com/docs/vue-testing-library/intro
 

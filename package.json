@@ -87,10 +87,7 @@
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest",
     "collectCoverage": true,
-    "automock": false,
-    "setupFiles": [
-      "./jest.setup.js"
-    ]
+    "automock": false
   },
   "browserslist": {
     "production": [
