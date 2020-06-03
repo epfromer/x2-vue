@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import * as am4core from '@amcharts/amcharts4/core'
-import * as am4plugins_forceDirected from '@amcharts/amcharts4/plugins/forceDirected'
 import { mapMutations, mapState, mapGetters } from 'vuex'
 import ContactPicker from '../components/ContactPicker'
 
@@ -109,12 +107,6 @@ export default {
       return new Map([...map.entries()].sort())
     },
     createChart() {
-      // https://www.amcharts.com/docs/v4/chart-types/force-directed/
-      if (!this.contactsToShow.size) return
-      if (this.chart) this.chart.dispose()
-
-      console.log(new Date())
-      console.time()
       const data = []
       this.contacts.forEach((contact) => {
         const sent = new Map()
@@ -167,31 +159,31 @@ export default {
         if (parent.children.length) data.push(parent)
       })
 
-      this.chart = am4core.create(
-        'FDT',
-        am4plugins_forceDirected.ForceDirectedTree
-      )
-      let series = this.chart.series.push(
-        new am4plugins_forceDirected.ForceDirectedSeries()
-      )
-      series.data = data
-      series.dataFields.value = 'value'
-      series.dataFields.name = 'name'
-      series.dataFields.color = 'color'
-      series.dataFields.children = 'children'
-      series.nodes.template.tooltipText = '{name}:{value}'
-      series.nodes.template.fillOpacity = 1
-      series.nodes.template.label.text = '{name}'
-      series.fontSize = 10
-      series.minRadius = 15
-      series.nodes.template.events.on('hit', (ev) => this.handleSelect(ev))
+      // this.chart = am4core.create(
+      //   'FDT',
+      //   am4plugins_forceDirected.ForceDirectedTree
+      // )
+      // let series = this.chart.series.push(
+      //   new am4plugins_forceDirected.ForceDirectedSeries()
+      // )
+      // series.data = data
+      // series.dataFields.value = 'value'
+      // series.dataFields.name = 'name'
+      // series.dataFields.color = 'color'
+      // series.dataFields.children = 'children'
+      // series.nodes.template.tooltipText = '{name}:{value}'
+      // series.nodes.template.fillOpacity = 1
+      // series.nodes.template.label.text = '{name}'
+      // series.fontSize = 10
+      // series.minRadius = 15
+      // series.nodes.template.events.on('hit', (ev) => this.handleSelect(ev))
 
-      if (this.darkMode) {
-        series.nodes.template.label.fill = am4core.color('white')
-      } else {
-        series.nodes.template.label.fill = am4core.color('black')
-      }
-      console.timeEnd()
+      // if (this.darkMode) {
+      //   series.nodes.template.label.fill = am4core.color('white')
+      // } else {
+      //   series.nodes.template.label.fill = am4core.color('black')
+      // }
+      // console.timeEnd()
     },
     toggleSendersReceivers() {
       this.showSenders = !this.showSenders

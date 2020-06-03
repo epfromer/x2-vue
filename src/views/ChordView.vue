@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import * as am4charts from '@amcharts/amcharts4/charts'
-import * as am4core from '@amcharts/amcharts4/core'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -41,10 +39,6 @@ export default {
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
-      // https://www.amcharts.com/docs/v4/chart-types/chord-diagram/
-      if (!this.contacts) return
-      if (this.chart) this.chart.dispose()
-
       // first, need to set colors for each
       const data = []
       this.contacts.forEach((contact) => {
@@ -73,17 +67,17 @@ export default {
         })
       })
 
-      this.chart = am4core.create('ChordDiagram', am4charts.ChordDiagram)
-      this.chart.data = data
-      this.chart.dataFields.fromName = 'from'
-      this.chart.dataFields.toName = 'to'
-      this.chart.dataFields.value = 'value'
-      this.chart.dataFields.color = 'nodeColor'
-      this.chart.links.template.events.on('hit', (ev) => this.handleSelect(ev))
+      // this.chart = am4core.create('ChordDiagram', am4charts.ChordDiagram)
+      // this.chart.data = data
+      // this.chart.dataFields.fromName = 'from'
+      // this.chart.dataFields.toName = 'to'
+      // this.chart.dataFields.value = 'value'
+      // this.chart.dataFields.color = 'nodeColor'
+      // this.chart.links.template.events.on('hit', (ev) => this.handleSelect(ev))
 
-      if (this.darkMode) {
-        this.chart.nodes.template.label.fill = am4core.color('white')
-      }
+      // if (this.darkMode) {
+      //   this.chart.nodes.template.label.fill = am4core.color('white')
+      // }
     },
   },
   watch: {

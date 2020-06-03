@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import * as am4core from '@amcharts/amcharts4/core'
-import * as am4plugins_wordCloud from '@amcharts/amcharts4/plugins/wordCloud'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -43,39 +41,35 @@ export default {
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
-      // https://www.amcharts.com/docs/v4/chart-types/wordcloud/
-      if (!this.wordCloud) return
-      if (this.chart) this.chart.dispose()
-
       // console.time()
-      this.chart = am4core.create('WordCloud', am4plugins_wordCloud.WordCloud)
-      const series = this.chart.series.push(
-        new am4plugins_wordCloud.WordCloudSeries()
-      )
-      series.data = this.wordCloud
-      series.dataFields.word = 'tag'
-      series.dataFields.value = 'weight'
-      series.labels.template.tooltipText = '{word} {value}'
-      const labels = series.labels.template
-      labels.events.on('hit', (ev) => this.handleSelect(ev))
-      // series.labels.template.url = '/SearchView?allText={word}'
-      if (this.darkMode) {
-        series.heatRules.push({
-          target: series.labels.template,
-          property: 'fill',
-          min: am4core.color('white'),
-          max: am4core.color('red'),
-          dataField: 'value',
-        })
-      } else {
-        series.heatRules.push({
-          target: series.labels.template,
-          property: 'fill',
-          min: am4core.color(this.themeSecondaryColor),
-          max: am4core.color(this.themePrimaryColor),
-          dataField: 'value',
-        })
-      }
+      // this.chart = am4core.create('WordCloud', am4plugins_wordCloud.WordCloud)
+      // const series = this.chart.series.push(
+      //   new am4plugins_wordCloud.WordCloudSeries()
+      // )
+      // series.data = this.wordCloud
+      // series.dataFields.word = 'tag'
+      // series.dataFields.value = 'weight'
+      // series.labels.template.tooltipText = '{word} {value}'
+      // const labels = series.labels.template
+      // labels.events.on('hit', (ev) => this.handleSelect(ev))
+      // // series.labels.template.url = '/SearchView?allText={word}'
+      // if (this.darkMode) {
+      //   series.heatRules.push({
+      //     target: series.labels.template,
+      //     property: 'fill',
+      //     min: am4core.color('white'),
+      //     max: am4core.color('red'),
+      //     dataField: 'value',
+      //   })
+      // } else {
+      //   series.heatRules.push({
+      //     target: series.labels.template,
+      //     property: 'fill',
+      //     min: am4core.color(this.themeSecondaryColor),
+      //     max: am4core.color(this.themePrimaryColor),
+      //     dataField: 'value',
+      //   })
+      // }
       // console.timeEnd()
     },
   },
