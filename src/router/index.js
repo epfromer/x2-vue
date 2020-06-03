@@ -14,7 +14,7 @@ import WordCloudView from '../views/WordCloudView.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+export const routes = [
   {
     path: '/AppSettingsView',
     name: 'AppSettingsView',
@@ -45,7 +45,7 @@ const routes = [
   { path: '/', name: 'DashboardView', component: DashboardView },
 ]
 
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
