@@ -15,7 +15,6 @@ export function renderComp(comp, customStore) {
 
   const newStore = { ...store }
   _.merge(newStore, customStore)
-  console.log(newStore)
 
   return render(comp, {
     container: document.body.appendChild(root),

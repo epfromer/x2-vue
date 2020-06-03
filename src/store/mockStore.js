@@ -1,9 +1,11 @@
 export const store = {
   getters: {},
-  mutations: {},
-  actions: {
+  mutations: {
     setVuexState: jest.fn(),
+    saveAppSettings: jest.fn(),
+    clearSearch: jest.fn(),
   },
+  actions: {},
   state: {
     // search results
     emails: [
@@ -51,12 +53,10 @@ export const store = {
     emailSentLoading: false,
     emailSent: [
       {
-        _id: '5ec916d6fef4030598a9cbb1',
         sent: '1999-01-06',
-        ids: ['f8c3d736-f4b5-40f4-8eb5-96a46f9815ab'],
+        ids: ['301385bc-8730-4c5f-9d44-094fb4791352'],
       },
       {
-        _id: '5ec916d6fef4030598a9cbec',
         sent: '1999-01-07',
         ids: ['301385bc-8730-4c5f-9d44-094fb4791352'],
       },
