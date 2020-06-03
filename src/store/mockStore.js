@@ -65,5 +65,11 @@ export const store = {
     wordCloud: null,
     contactsLoading: false,
     contacts: null,
+
+    // app settings
+    densePadding: false,
+    darkMode: false,
+    themePrimaryColor: '#2196f3',
+    themeSecondaryColor: '#f50057',
   },
 }
