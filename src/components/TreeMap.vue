@@ -1,14 +1,24 @@
 <template>
-  <div class="chart" :id="`${search}TreeMap`" />
+  <div>
+    <highcharts :options="config" />
+    <button hidden @click="() => handleSelect('foo')">{search}</button>
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import Highcharts from 'highcharts'
+import { Chart } from 'highcharts-vue'
+require('highcharts/modules/treemap')(Highcharts)
 
 export default {
   data() {
     return {
-      chart: null,
+      config: {
+        title: {
+          text: 'Chart loading...',
+        },
+      },
     }
   },
   props: {
@@ -21,11 +31,11 @@ export default {
       required: true,
     },
   },
+  components: {
+    highcharts: Chart,
+  },
   mounted() {
     this.createChart()
-  },
-  beforeDestroy() {
-    if (this.chart) this.chart.dispose()
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
@@ -37,7 +47,47 @@ export default {
       })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
-    createChart() {},
+    createChart() {
+      // https://www.highcharts.com/docs/chart-and-series-types/treemap
+
+      this.config = {
+        title: {
+          text: '',
+        },
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: {
+              click: (event) => handleSelect(event),
+            },
+          },
+        },
+        series: [
+          {
+            type: 'treemap',
+            layoutAlgorithm: 'squarified',
+            // layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [
+              {
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                  enabled: true,
+                  align: 'left',
+                  verticalAlign: 'top',
+                  style: {
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                  },
+                },
+              },
+            ],
+            data: this.data,
+          },
+        ],
+      }
+    },
   },
   watch: {
     data() {
@@ -46,10 +96,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.chart {
-  width: 100%;
-  height: 100%;
-}
-</style>

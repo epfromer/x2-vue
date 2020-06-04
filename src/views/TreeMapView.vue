@@ -2,11 +2,12 @@
   <v-container fluid>
     <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <div class="headline">Named Senders to Any Recipient</div>
-    <div class="root">
+    <div>
       <TreeMap :data="getSenders" search="from" />
     </div>
+    <div class="title"></div>
     <div class="headline">Named Receivers from Any Sender</div>
-    <div class="root">
+    <div>
       <TreeMap :data="getReceivers" search="to" />
     </div>
   </v-container>
@@ -55,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-.root {
-  height: 300px;
+.title {
+  padding-bottom: 10px;
 }
 </style>
