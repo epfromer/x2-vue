@@ -43,7 +43,7 @@ export default {
       this.clearSearch()
       this.setVuexState({
         k: this.search,
-        v: `(${ev.target.dataItem.dataContext.dataContext.name})`,
+        v: `(${ev.point.name})`,
       })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
@@ -58,7 +58,7 @@ export default {
           series: {
             cursor: 'pointer',
             events: {
-              click: (event) => handleSelect(event),
+              click: (event) => this.handleSelect(event),
             },
           },
         },
