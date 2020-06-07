@@ -64,7 +64,20 @@ export const store = {
     wordCloudLoading: false,
     wordCloud: null,
     contactsLoading: false,
-    contacts: null,
+    contacts: [
+      {
+        senderTotal: 6,
+        receiverTotal: 8,
+        name: 'Watkins, Sherron',
+        color: '#F06292',
+      },
+      {
+        senderTotal: 60,
+        receiverTotal: 164,
+        name: 'Baxter, Cliff',
+        color: '#5FC81D',
+      },
+    ],
 
     // app settings
     densePadding: false,

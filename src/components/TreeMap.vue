@@ -1,7 +1,7 @@
 <template>
   <div>
     <highcharts :options="config" />
-    <button hidden @click="() => handleSelect('foo')">{search}</button>
+    <button hidden @click="() => handleSelect(search)">{{ search }}test</button>
   </div>
 </template>
 
@@ -39,11 +39,11 @@ export default {
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
-    handleSelect(ev) {
+    handleSelect(name) {
       this.clearSearch()
       this.setVuexState({
         k: this.search,
-        v: `(${ev.point.name})`,
+        v: `(${name})`,
       })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
@@ -58,7 +58,7 @@ export default {
           series: {
             cursor: 'pointer',
             events: {
-              click: (event) => this.handleSelect(event),
+              click: (ev) => this.handleSelect(ev.point.name),
             },
           },
         },

@@ -9,6 +9,8 @@ require('jest-fetch-mock').enableMocks()
 
 Vue.use(Vuetify)
 
+// https://testing-library.com/docs/vue-testing-library/intro
+
 export function renderComp(comp, customStore) {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')
