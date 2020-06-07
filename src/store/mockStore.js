@@ -62,7 +62,12 @@ export const store = {
       },
     ],
     wordCloudLoading: false,
-    wordCloud: null,
+    wordCloud: [
+      { tag: 'avici', weight: 28 },
+      { tag: 'azurix', weight: 475 },
+      { tag: 'backbone', weight: 161 },
+      { tag: 'braveheart', weight: 27 },
+    ],
     contactsLoading: false,
     contacts: [
       {

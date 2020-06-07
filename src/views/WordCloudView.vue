@@ -5,72 +5,82 @@
       indeterminate
     ></v-progress-linear>
     <div class="headline">Email Word Cloud</div>
-    <div class="chart" id="WordCloud"></div>
+    <highcharts :options="config" />
+    <button hidden @click="() => handleSelect('foo')">test</button>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import Highcharts from 'highcharts'
+import { Chart } from 'highcharts-vue'
+require('highcharts/modules/wordcloud')(Highcharts)
 
 export default {
   data() {
     return {
-      chart: null,
+      config: {
+        title: {
+          text: 'Chart loading...',
+        },
+      },
     }
   },
+  components: {
+    highcharts: Chart,
+  },
   computed: {
-    ...mapState([
-      'wordCloudLoading',
-      'wordCloud',
-      'darkMode',
-      'themePrimaryColor',
-      'themeSecondaryColor',
-    ]),
+    ...mapState(['wordCloudLoading', 'wordCloud', 'darkMode']),
   },
   mounted() {
+    Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
+      relativeWeight
+    ) {
+      const minFontSize = 10
+      const maxFontSize = 25
+      return Math.floor(
+        minFontSize + (maxFontSize - minFontSize) * relativeWeight
+      )
+    }
+
     this.createChart()
-  },
-  beforeDestroy() {
-    if (this.chart) this.chart.dispose()
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
-    handleSelect(ev) {
+    handleSelect(word) {
       this.clearSearch()
-      this.setVuexState({ k: 'allText', v: ev.target.dataItem.dataContext.tag })
+      this.setVuexState({ k: 'allText', v: word })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
-      // console.time()
-      // this.chart = am4core.create('WordCloud', am4plugins_wordCloud.WordCloud)
-      // const series = this.chart.series.push(
-      //   new am4plugins_wordCloud.WordCloudSeries()
-      // )
-      // series.data = this.wordCloud
-      // series.dataFields.word = 'tag'
-      // series.dataFields.value = 'weight'
-      // series.labels.template.tooltipText = '{word} {value}'
-      // const labels = series.labels.template
-      // labels.events.on('hit', (ev) => this.handleSelect(ev))
-      // // series.labels.template.url = '/SearchView?allText={word}'
-      // if (this.darkMode) {
-      //   series.heatRules.push({
-      //     target: series.labels.template,
-      //     property: 'fill',
-      //     min: am4core.color('white'),
-      //     max: am4core.color('red'),
-      //     dataField: 'value',
-      //   })
-      // } else {
-      //   series.heatRules.push({
-      //     target: series.labels.template,
-      //     property: 'fill',
-      //     min: am4core.color(this.themeSecondaryColor),
-      //     max: am4core.color(this.themePrimaryColor),
-      //     dataField: 'value',
-      //   })
-      // }
-      // console.timeEnd()
+      // https://www.highcharts.com/docs/chart-and-series-types/word-cloud-series
+
+      if (!this.wordCloud || !this.wordCloud.length) return
+      const data = []
+      this.wordCloud.forEach((word) =>
+        data.push({ name: word.tag, weight: word.weight })
+      )
+
+      this.config = {
+        title: {
+          text: '',
+        },
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: {
+              click: (ev) => this.handleSelect(ev.point.name),
+            },
+          },
+        },
+        series: [
+          {
+            type: 'wordcloud',
+            name: 'Occurrences',
+            data,
+          },
+        ],
+      }
     },
   },
   watch: {
@@ -83,10 +93,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.chart {
-  height: 82vh;
-  width: 100%;
-}
-</style>
