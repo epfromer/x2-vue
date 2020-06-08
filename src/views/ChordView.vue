@@ -39,6 +39,8 @@ export default {
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
+      // https://www.highcharts.com/docs/chart-and-series-types/dependency-wheel
+
       // first, need to set colors for each
       const data = []
       this.contacts.forEach((contact) => {
