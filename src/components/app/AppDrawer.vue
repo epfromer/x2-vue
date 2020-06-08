@@ -42,9 +42,17 @@ export default {
         { icon: 'pie_chart', name: 'Chord', route: 'ChordView' },
         { icon: 'pie_chart', name: 'Word Cloud', route: 'WordCloudView' },
         { icon: 'pie_chart', name: 'FDT', route: 'FDTView' },
-        { icon: 'pie_chart', name: 'Timeline', route: 'TimelineView' },
+        {
+          icon: 'pie_chart',
+          name: 'Volume Timeline',
+          route: 'VolumeTimelineView',
+        },
         { icon: 'pie_chart', name: 'Tree Map', route: 'TreeMapView' },
-        { icon: 'pie_chart', name: 'Serpentine', route: 'SerpentineView' },
+        {
+          icon: 'pie_chart',
+          name: 'Vertical Event Timeline',
+          route: 'VerticalTimelineView',
+        },
       ],
       tertiaryListItems: [
         { icon: 'search', name: 'Saved Searches', route: 'SavedSearchView' },

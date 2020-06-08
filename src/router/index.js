@@ -7,8 +7,8 @@ import EmailDetailView from '../views/EmailDetailView.vue'
 import FDTView from '../views/FDTView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
-import SerpentineView from '../views/SerpentineView.vue'
-import TimelineView from '../views/TimelineView.vue'
+import VerticalTimelineView from '../views/VerticalTimelineView.vue'
+import VolumeTimelineView from '../views/VolumeTimelineView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
 import WordCloudView from '../views/WordCloudView.vue'
 
@@ -35,12 +35,16 @@ export const routes = [
   { path: '/ChordView', name: 'ChordView', component: ChordView },
   { path: '/FDTView', name: 'FDTView', component: FDTView },
   { path: '/WordCloudView', name: 'WordCloudView', component: WordCloudView },
-  { path: '/TimelineView', name: 'TimelineView', component: TimelineView },
+  {
+    path: '/VolumeTimelineView',
+    name: 'VolumeTimelineView',
+    component: VolumeTimelineView,
+  },
   { path: '/TreeMapView', name: 'TreeMapView', component: TreeMapView },
   {
-    path: '/SerpentineView',
-    name: 'SerpentineView',
-    component: SerpentineView,
+    path: '/VerticalTimelineView',
+    name: 'VerticalTimelineView',
+    component: VerticalTimelineView,
   },
   { path: '/', name: 'DashboardView', component: DashboardView },
 ]

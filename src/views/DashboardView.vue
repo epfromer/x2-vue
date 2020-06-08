@@ -20,9 +20,9 @@
       <v-col cols="12" sm="6" md="3"
         ><DashboardCard
           image="/timeline.png"
-          title="Timeline"
+          title="Volume Timeline"
           description="XY timeline of Enron email per day with drill down."
-          link="TimelineView"
+          link="VolumeTimelineView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3"
@@ -46,7 +46,7 @@
           image="/serpentine.png"
           title="Serpentine"
           description="Serpentine timeline of Enron fraud and litigation."
-          link="SerpentineView"
+          link="VerticalTimelineView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
         <DashboardCard
