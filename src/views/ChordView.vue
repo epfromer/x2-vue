@@ -2,18 +2,37 @@
   <v-container fluid>
     <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <div class="headline">Senders / Receivers</div>
-    <div class="chart" id="ChordDiagram"></div>
+    <highcharts :options="config" />
   </v-container>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import Highcharts from 'highcharts'
+import { Chart } from 'highcharts-vue'
+require('highcharts/modules/sankey')(Highcharts)
+require('highcharts/modules/dependency-wheel')(Highcharts)
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/export-data')(Highcharts)
+require('highcharts/modules/accessibility')(Highcharts)
 
 export default {
   data() {
     return {
-      chart: null,
+      config: {
+        title: {
+          text: 'Chart loading...',
+        },
+        chart: {
+          height: '95%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
+      },
     }
+  },
+  inject: ['theme'],
+  components: {
+    highcharts: Chart,
   },
   computed: {
     ...mapState(['contactsLoading', 'contacts', 'darkMode']),
@@ -21,32 +40,28 @@ export default {
   mounted() {
     this.createChart()
   },
-  beforeDestroy() {
-    if (this.chart) this.chart.dispose()
-  },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
     handleSelect(ev) {
+      if (!ev.from || !ev.to) return
       this.clearSearch()
       this.setVuexState({
         k: 'from',
-        v: `(${ev.target.dataItem.dataContext.from})`,
+        v: `(${ev.from})`,
       })
       this.setVuexState({
         k: 'to',
-        v: `(${ev.target.dataItem.dataContext.to})`,
+        v: `(${ev.to})`,
       })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
     createChart() {
       // https://www.highcharts.com/docs/chart-and-series-types/dependency-wheel
 
-      // first, need to set colors for each
+      if (!this.contacts || !this.contacts.length) return
       const data = []
-      this.contacts.forEach((contact) => {
-        data.push({ from: contact.name, nodeColor: contact.color })
-      })
 
+      // calculate number of emails from each to another
       this.contacts.forEach((contact) => {
         const sent = new Map()
         contact.asSender.forEach((email) => {
@@ -60,26 +75,46 @@ export default {
         })
         sent.forEach((v, k) => {
           if (contact.name !== k) {
-            data.push({
-              from: contact.name,
-              to: k,
-              value: v,
-            })
+            data.push([contact.name, k, v])
           }
         })
       })
 
-      // this.chart = am4core.create('ChordDiagram', am4charts.ChordDiagram)
-      // this.chart.data = data
-      // this.chart.dataFields.fromName = 'from'
-      // this.chart.dataFields.toName = 'to'
-      // this.chart.dataFields.value = 'value'
-      // this.chart.dataFields.color = 'nodeColor'
-      // this.chart.links.template.events.on('hit', (ev) => this.handleSelect(ev))
+      // set colors
+      const nodes = []
+      this.contacts.forEach((contact) => {
+        nodes.push({ id: contact.name, color: contact.color })
+      })
 
-      // if (this.darkMode) {
-      //   this.chart.nodes.template.label.fill = am4core.color('white')
-      // }
+      this.config = {
+        title: {
+          text: '',
+        },
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: {
+              click: (ev) => this.handleSelect(ev.point),
+            },
+          },
+        },
+        chart: {
+          height: '95%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
+        series: [
+          {
+            keys: ['from', 'to', 'weight'],
+            data,
+            nodes,
+            type: 'dependencywheel',
+            name: '',
+            dataLabels: {
+              color: '#333',
+            },
+          },
+        ],
+      }
     },
   },
   watch: {
@@ -92,10 +127,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.chart {
-  width: 100%;
-  height: 80vh;
-}
-</style>
