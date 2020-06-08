@@ -1,17 +1,17 @@
 import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
-import WordCloudView from '../WordCloudView'
+import ChordView from '../ChordView'
 
-test('renders word cloud', () => {
-  const { getByText } = renderComp(WordCloudView)
-  const linkElement = getByText(/Email Word Cloud/i)
+test('renders chord', () => {
+  const { getByText } = renderComp(ChordView)
+  const linkElement = getByText(/Senders \/ Receivers/i)
   expect(linkElement).toBeInTheDocument()
 })
 
-test('renders word cloud dark mode', () => {
-  const { getByText } = renderComp(WordCloudView, {}, true)
-  const linkElement = getByText(/Email Word Cloud/i)
+test('renders chord dark mode', () => {
+  const { getByText } = renderComp(ChordView, {}, true)
+  const linkElement = getByText(/Senders \/ Receivers/i)
   expect(linkElement).toBeInTheDocument()
 })
 
@@ -22,9 +22,9 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(WordCloudView, customStore)
+  const { getByText } = renderComp(ChordView, customStore)
   const button = getByText(/test/i)
   await fireEvent.click(button)
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
-  expect(customStore.mutations.setVuexState).toBeCalledTimes(1)
+  expect(customStore.mutations.setVuexState).toBeCalledTimes(2)
 })

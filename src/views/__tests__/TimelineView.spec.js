@@ -10,7 +10,7 @@ test('renders timeline', () => {
 })
 
 test('renders timeline, dark mode', () => {
-  const { getByText } = renderComp(TimelineView, { state: { darkMode: true } })
+  const { getByText } = renderComp(TimelineView, {}, true)
   const linkElement = getByText(/Emails Sent By Day/i)
   expect(linkElement).toBeInTheDocument()
 })

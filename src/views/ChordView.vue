@@ -3,6 +3,9 @@
     <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <div class="headline">Senders / Receivers</div>
     <highcharts :options="config" />
+    <button hidden @click="() => handleSelect({ to: 'foo', from: 'bar' })">
+      test
+    </button>
   </v-container>
 </template>
 
