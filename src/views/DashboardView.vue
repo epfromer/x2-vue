@@ -46,7 +46,7 @@
           image="/serpentine.png"
           title="Serpentine"
           description="Serpentine timeline of Enron fraud and litigation."
-          link="VerticalTimelineView"
+          link="VerticalEventTimelineView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
         <DashboardCard
