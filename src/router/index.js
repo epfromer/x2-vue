@@ -7,7 +7,7 @@ import EmailDetailView from '../views/EmailDetailView.vue'
 import FDTView from '../views/FDTView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
-import VerticalEventTimelineView from '../views/VerticalEventTimelineView.vue'
+import EventTimelineView from '../views/EventTimelineView.vue'
 import VolumeTimelineView from '../views/VolumeTimelineView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
 import WordCloudView from '../views/WordCloudView.vue'
@@ -42,9 +42,9 @@ export const routes = [
   },
   { path: '/TreeMapView', name: 'TreeMapView', component: TreeMapView },
   {
-    path: '/VerticalEventTimelineView',
-    name: 'VerticalEventTimelineView',
-    component: VerticalEventTimelineView,
+    path: '/EventTimelineView',
+    name: 'EventTimelineView',
+    component: EventTimelineView,
   },
   { path: '/', name: 'DashboardView', component: DashboardView },
 ]

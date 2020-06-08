@@ -51,7 +51,7 @@ export default {
         {
           icon: 'pie_chart',
           name: 'Vertical Event Timeline',
-          route: 'VerticalEventTimelineView',
+          route: 'EventTimelineView',
         },
       ],
       tertiaryListItems: [
