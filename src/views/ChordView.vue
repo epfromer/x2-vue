@@ -20,12 +20,13 @@ export default {
   data() {
     return {
       config: {
-        title: {
-          text: 'Chart loading...',
-        },
         chart: {
           height: '95%',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
+        title: {
+          text: 'Chart loading...',
+          style: { color: this.theme.isDark ? 'white' : 'black' },
         },
       },
     }
@@ -87,6 +88,10 @@ export default {
       })
 
       this.config = {
+        chart: {
+          height: '95%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
         title: {
           text: '',
         },
@@ -97,10 +102,6 @@ export default {
               click: (ev) => this.handleSelect(ev.point),
             },
           },
-        },
-        chart: {
-          height: '95%',
-          backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         series: [
           {

@@ -15,8 +15,13 @@ export default {
   data() {
     return {
       config: {
+        chart: {
+          height: '45%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
         title: {
           text: 'Chart loading...',
+          style: { color: this.theme.isDark ? 'white' : 'black' },
         },
       },
     }
@@ -31,6 +36,7 @@ export default {
       required: true,
     },
   },
+  inject: ['theme'],
   components: {
     highcharts: Chart,
   },
@@ -51,6 +57,10 @@ export default {
       // https://www.highcharts.com/docs/chart-and-series-types/treemap
 
       this.config = {
+        chart: {
+          height: '45%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
         title: {
           text: '',
         },

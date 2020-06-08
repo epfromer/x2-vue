@@ -17,13 +17,19 @@ import { Chart } from 'highcharts-vue'
 export default {
   data() {
     return {
+      chart: {
+        height: '95%',
+        backgroundColor: this.theme.isDark ? '#121212' : 'white',
+      },
       config: {
         title: {
           text: 'Chart loading...',
+          style: { color: this.theme.isDark ? 'white' : 'black' },
         },
       },
     }
   },
+  inject: ['theme'],
   components: {
     highcharts: Chart,
   },
@@ -55,6 +61,8 @@ export default {
       this.config = {
         chart: {
           zoomType: 'x',
+          height: '95%',
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         title: {
           text: '',
@@ -94,24 +102,6 @@ export default {
             data,
           },
         ],
-      }
-
-      if (this.darkMode) {
-        this.config.chart.backgroundColor = {
-          linearGradient: [0, 0, 500, 500],
-          stops: [
-            [0, 'black'],
-            [1, '#3e3e40'],
-          ],
-        }
-      } else {
-        this.config.chart.backgroundColor = {
-          linearGradient: [0, 0, 500, 500],
-          stops: [
-            [0, 'white'],
-            [1, 'white'],
-          ],
-        }
       }
     },
   },
