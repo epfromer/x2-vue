@@ -43,9 +43,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="3">
         <DashboardCard
-          image="/serpentine.png"
-          title="Serpentine"
-          description="Serpentine timeline of Enron fraud and litigation."
+          image="/eventTimeline.png"
+          title="Event Timeline"
+          description="Event timeline of Enron fraud and litigation."
           link="EventTimelineView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">

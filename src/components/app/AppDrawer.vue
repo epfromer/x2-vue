@@ -50,7 +50,7 @@ export default {
         { icon: 'pie_chart', name: 'Tree Map', route: 'TreeMapView' },
         {
           icon: 'pie_chart',
-          name: 'Vertical Event Timeline',
+          name: 'Event Timeline',
           route: 'EventTimelineView',
         },
       ],
