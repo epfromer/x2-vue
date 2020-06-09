@@ -30,7 +30,7 @@ export default {
       vertical: true,
       config: {
         chart: {
-          height: '100%',
+          height: '90%',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         title: {
@@ -71,7 +71,7 @@ export default {
         chart: {
           type: 'timeline',
           inverted: this.vertical ? true : false,
-          height: '100%',
+          height: '90%',
           zoomType: 'x',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },

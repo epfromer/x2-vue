@@ -3,6 +3,7 @@
     <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <v-row no-gutters dense>
       <div class="headline">Senders / Receivers</div>
+      <button hidden @click="() => handleSelect('foo')">test</button>
     </v-row>
     <v-row no-gutters dense>
       <v-col xs="4" sm="3">
@@ -38,7 +39,7 @@
         />
       </v-col>
       <v-col xs="8" sm="9">
-        <div class="chart" id="FDT"></div>
+        <highcharts :options="config" />
       </v-col>
     </v-row>
   </v-container>
@@ -47,21 +48,37 @@
 <script>
 import { mapMutations, mapState, mapGetters } from 'vuex'
 import ContactPicker from '../components/ContactPicker'
+import Highcharts from 'highcharts'
+import { Chart } from 'highcharts-vue'
+require('highcharts/modules/networkgraph')(Highcharts)
 
 export default {
   data() {
     return {
-      chart: null,
+      config: {
+        chart: {
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
+        title: {
+          text: 'Chart loading...',
+          style: { color: this.theme.isDark ? 'white' : 'black' },
+        },
+      },
       showSenders: true,
       selectAll: true,
       contactsToShow: new Map(),
     }
+  },
+  inject: ['theme'],
+  components: {
+    highcharts: Chart,
   },
   computed: {
     ...mapState(['contactsLoading', 'contacts', 'darkMode']),
     ...mapGetters(['getContactColor']),
   },
   components: {
+    highcharts: Chart,
     ContactPicker,
   },
   mounted() {
@@ -69,9 +86,6 @@ export default {
       this.contactsToShow = this.createContactList()
       this.createChart()
     }
-  },
-  beforeDestroy() {
-    if (this.chart) this.chart.dispose()
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
@@ -107,6 +121,9 @@ export default {
       return new Map([...map.entries()].sort())
     },
     createChart() {
+      // https://www.highcharts.com/docs/chart-and-series-types/network-graph
+
+      if (!this.contacts || !this.contacts.length) return
       const data = []
       this.contacts.forEach((contact) => {
         const sent = new Map()
@@ -130,60 +147,40 @@ export default {
           })
         }
 
-        const parent = {
-          name: contact.name,
-          color: this.getContactColor(contact.name),
-          children: [],
-        }
         sent.forEach((v, k) => {
           if (contact.name !== k && this.contactsToShow.get(contact.name))
-            if (this.showSenders) {
-              parent.children.push({
-                from: contact.name,
-                to: k,
-                name: k,
-                value: v,
-                color: this.getContactColor(k),
-              })
-            } else {
-              parent.children.push({
-                from: k,
-                to: contact.name,
-                name: k,
-                value: v,
-                color: this.getContactColor(k),
-              })
-            }
+            data.push(this.showSenders ? [contact.name, k] : [k, contact.name])
         })
-
-        if (parent.children.length) data.push(parent)
       })
 
-      // this.chart = am4core.create(
-      //   'FDT',
-      //   am4plugins_forceDirected.ForceDirectedTree
-      // )
-      // let series = this.chart.series.push(
-      //   new am4plugins_forceDirected.ForceDirectedSeries()
-      // )
-      // series.data = data
-      // series.dataFields.value = 'value'
-      // series.dataFields.name = 'name'
-      // series.dataFields.color = 'color'
-      // series.dataFields.children = 'children'
-      // series.nodes.template.tooltipText = '{name}:{value}'
-      // series.nodes.template.fillOpacity = 1
-      // series.nodes.template.label.text = '{name}'
-      // series.fontSize = 10
-      // series.minRadius = 15
-      // series.nodes.template.events.on('hit', (ev) => this.handleSelect(ev))
-
-      // if (this.darkMode) {
-      //   series.nodes.template.label.fill = am4core.color('white')
-      // } else {
-      //   series.nodes.template.label.fill = am4core.color('black')
-      // }
-      // console.timeEnd()
+      this.config = {
+        chart: {
+          backgroundColor: this.theme.isDark ? '#121212' : 'white',
+        },
+        title: {
+          text: '',
+        },
+        // plotOptions: {
+        //   networkgraph: {
+        //     keys: ['from', 'to'],
+        //   },
+        // },
+        series: [
+          {
+            type: 'networkgraph',
+            data,
+            marker: {
+              radius: 20,
+            },
+            dataLabels: {
+              enabled: true,
+              textPath: {
+                enabled: true,
+              },
+            },
+          },
+        ],
+      }
     },
     toggleSendersReceivers() {
       this.showSenders = !this.showSenders

@@ -4,7 +4,7 @@ import AppSettingsView from '../views/AppSettingsView.vue'
 import ChordView from '../views/ChordView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import EmailDetailView from '../views/EmailDetailView.vue'
-import FDTView from '../views/FDTView.vue'
+import NetworkGraphView from '../views/NetworkGraphView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
 import EventTimelineView from '../views/EventTimelineView.vue'
@@ -33,7 +33,11 @@ export const routes = [
     component: SavedSearchView,
   },
   { path: '/ChordView', name: 'ChordView', component: ChordView },
-  { path: '/FDTView', name: 'FDTView', component: FDTView },
+  {
+    path: '/NetworkGraphView',
+    name: 'NetworkGraphView',
+    component: NetworkGraphView,
+  },
   { path: '/WordCloudView', name: 'WordCloudView', component: WordCloudView },
   {
     path: '/VolumeTimelineView',

@@ -27,10 +27,10 @@
       </v-col>
       <v-col cols="12" sm="6" md="3"
         ><DashboardCard
-          image="/fdt.png"
-          title="FDT"
-          description="Force directed tree of named Enron contact communication."
-          link="FDTView"
+          image="/NetworkGraph.png"
+          title="Network Graph"
+          description="Network graph of named Enron contact communication."
+          link="NetworkGraphView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3"

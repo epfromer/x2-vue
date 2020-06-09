@@ -41,7 +41,7 @@ export default {
       secondaryListItems: [
         { icon: 'pie_chart', name: 'Chord', route: 'ChordView' },
         { icon: 'pie_chart', name: 'Word Cloud', route: 'WordCloudView' },
-        { icon: 'pie_chart', name: 'FDT', route: 'FDTView' },
+        { icon: 'pie_chart', name: 'NetworkGraph', route: 'NetworkGraphView' },
         {
           icon: 'pie_chart',
           name: 'Volume Timeline',
