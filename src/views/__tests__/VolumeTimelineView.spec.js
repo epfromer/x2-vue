@@ -1,16 +1,16 @@
-import TimelineView from '@/views/TimelineView.vue'
+import VolumeTimelineView from '@/views/VolumeTimelineView.vue'
 import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
 
-test('renders timeline', () => {
-  const { getByText } = renderComp(TimelineView)
+test('renders VolumeTimelineView', () => {
+  const { getByText } = renderComp(VolumeTimelineView)
   const linkElement = getByText(/Emails Sent By Day/i)
   expect(linkElement).toBeInTheDocument()
 })
 
-test('renders timeline, dark mode', () => {
-  const { getByText } = renderComp(TimelineView, {}, true)
+test('renders VolumeTimelineView, dark mode', () => {
+  const { getByText } = renderComp(VolumeTimelineView, {}, true)
   const linkElement = getByText(/Emails Sent By Day/i)
   expect(linkElement).toBeInTheDocument()
 })
@@ -22,7 +22,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(TimelineView, customStore)
+  const { getByText } = renderComp(VolumeTimelineView, customStore)
   const button = getByText(/test/i)
   await fireEvent.click(button)
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)

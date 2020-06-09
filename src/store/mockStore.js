@@ -1,5 +1,7 @@
 export const store = {
-  getters: {},
+  getters: {
+    getContactColor: () => () => '#121212',
+  },
   mutations: {
     setVuexState: jest.fn(),
     saveAppSettings: jest.fn(),
