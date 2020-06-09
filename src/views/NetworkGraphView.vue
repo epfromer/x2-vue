@@ -9,27 +9,30 @@
       <v-col xs="4" sm="3">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <div class="button">
-              <v-btn
-                fab
-                small
-                :elevation="0"
-                v-on="on"
-                class="ma-2"
-                @click="toggleSelectAll"
-              >
-                <v-icon>select_all</v-icon>
-              </v-btn>
-              <v-btn
-                small
-                :elevation="0"
-                v-on="on"
-                class="ma-2"
-                @click="toggleSendersReceivers"
-              >
-                {{ showSenders ? 'Senders' : 'Receivers' }}
-              </v-btn>
-            </div>
+            <v-btn
+              fab
+              small
+              :elevation="0"
+              v-on="on"
+              class="ma-2"
+              @click="toggleSelectAll"
+            >
+              <v-icon>select_all</v-icon>
+            </v-btn>
+          </template>
+          <span>Toggle All / None</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              small
+              :elevation="0"
+              v-on="on"
+              class="ma-2"
+              @click="toggleSendersReceivers"
+            >
+              {{ showSenders ? 'Senders' : 'Receivers' }}
+            </v-btn>
           </template>
           <span>Toggle Senders / Receivers</span>
         </v-tooltip>
@@ -57,6 +60,7 @@ export default {
     return {
       config: {
         chart: {
+          height: '100%',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         title: {
@@ -90,20 +94,28 @@ export default {
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
     handleSelect(ev) {
-      const from = ev.target.dataItem.dataContext.from
-      const to = ev.target.dataItem.dataContext.to
-      if (from) {
+      console.log(ev)
+      if (ev.id) {
         this.clearSearch()
         this.setVuexState({
-          k: 'from',
-          v: `(${ev.target.dataItem.dataContext.from})`,
-        })
-        this.setVuexState({
           k: 'to',
-          v: `(${ev.target.dataItem.dataContext.to})`,
+          v: `(${ev.id})`,
         })
         this.$router.push({ name: 'SearchView' }).catch((err) => {})
       }
+      // TODO enable when able to get event from clicking link
+      // if (ev.from) {
+      //   this.clearSearch()
+      //   this.setVuexState({
+      //     k: 'from',
+      //     v: `(${ev.from})`,
+      //   })
+      //   this.setVuexState({
+      //     k: 'to',
+      //     v: `(${ev.to})`,
+      //   })
+      //   this.$router.push({ name: 'SearchView' }).catch((err) => {})
+      // }
     },
     createContactList() {
       const map = new Map()
@@ -149,34 +161,66 @@ export default {
 
         sent.forEach((v, k) => {
           if (contact.name !== k && this.contactsToShow.get(contact.name))
-            data.push(this.showSenders ? [contact.name, k] : [k, contact.name])
+            if (this.showSenders) {
+              data.push({
+                from: contact.name,
+                to: k,
+                color: this.getContactColor(contact.name),
+                width: v,
+              })
+            } else {
+              data.push({
+                from: k,
+                to: contact.name,
+                color: this.getContactColor(k),
+                width: v,
+              })
+            }
+        })
+      })
+
+      // walk data to create nodes, filtering out dupes with set
+      const nodeSet = new Set()
+      data.forEach((i) => nodeSet.add(i.from))
+      data.forEach((i) => nodeSet.add(i.to))
+      const nodes = []
+      nodeSet.forEach((i) => {
+        nodes.push({
+          id: i,
+          color: this.getContactColor(i),
         })
       })
 
       this.config = {
         chart: {
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
+          height: '80%',
         },
         title: {
           text: '',
         },
+        // TODO causes exception?
         // plotOptions: {
-        //   networkgraph: {
-        //     keys: ['from', 'to'],
+        //   series: {
+        //     events: {
+        //       click: (ev) => this.handleSelect(ev.point),
+        //     },
         //   },
         // },
         series: [
           {
             type: 'networkgraph',
+            nodes,
             data,
             marker: {
-              radius: 20,
+              radius: 40,
             },
             dataLabels: {
               enabled: true,
-              textPath: {
-                enabled: true,
-              },
+              allowOverlap: false,
+            },
+            events: {
+              click: (ev) => this.handleSelect(ev.point),
             },
           },
         ],

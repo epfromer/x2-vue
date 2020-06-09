@@ -65,7 +65,7 @@ export default {
       let s = str
       this.highlightedTerms.forEach(
         (term) =>
-          (s = s?.replace(
+          (s = s.replace(
             new RegExp(`(${term})`, 'gi'),
             `<span style="background-color:yellow; color:black">$1</span>`
           ))
