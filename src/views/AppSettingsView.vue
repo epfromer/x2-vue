@@ -6,6 +6,7 @@
       class="mx-2"
       color="secondary"
       label="Dense padding tables"
+      data-testid="dense"
     ></v-switch>
     <div class="headline">Interface element colors</div>
     <v-switch
@@ -13,6 +14,7 @@
       class="mx-2"
       color="secondary"
       label="Dark mode"
+      data-testid="dark"
     ></v-switch>
     <v-row>
       <v-col cols="12" sm="6">
