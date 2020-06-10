@@ -3,9 +3,6 @@
     <v-img :src="this.image" height="340px"></v-img>
     <v-card-title> {{ this.title }} </v-card-title>
     <v-card-subtitle>{{ this.description }} </v-card-subtitle>
-    <v-card-actions>
-      <v-btn @click="handleClick" text>More Detail</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 

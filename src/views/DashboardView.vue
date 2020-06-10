@@ -6,7 +6,7 @@
           data-testid="chord"
           image="/chord.png"
           title="Chord"
-          description="Chord diagram of communication between named Enron contacts."
+          description="Chord diagram of email between named Enron contacts."
           link="ChordView"
         />
       </v-col>
@@ -38,7 +38,7 @@
         ><DashboardCard
           image="/treemap.png"
           title="Tree Map"
-          description="Tree map of named Enron contacts to any sender / receiver."
+          description="Tree map of email volume to any sender / receiver."
           link="TreeMapView"
         />
       </v-col>
