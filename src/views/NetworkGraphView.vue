@@ -3,7 +3,7 @@
     <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
     <v-row no-gutters dense>
       <div class="headline">Senders / Receivers</div>
-      <button hidden @click="() => handleSelect('foo')">test</button>
+      <button hidden @click="() => handleSelect({ id: 'foo' })">test</button>
     </v-row>
     <v-row no-gutters dense>
       <v-col xs="4" sm="3">
@@ -15,6 +15,7 @@
               :elevation="0"
               v-on="on"
               class="ma-2"
+              data-testid="toggle-all"
               @click="toggleSelectAll"
             >
               <v-icon>select_all</v-icon>
@@ -29,6 +30,7 @@
               :elevation="0"
               v-on="on"
               class="ma-2"
+              data-testid="toggle-senders"
               @click="toggleSendersReceivers"
             >
               {{ showSenders ? 'Senders' : 'Receivers' }}
@@ -94,7 +96,6 @@ export default {
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
     handleSelect(ev) {
-      console.log(ev)
       if (ev.id) {
         this.clearSearch()
         this.setVuexState({
