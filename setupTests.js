@@ -11,7 +11,7 @@ Vue.use(Vuetify)
 
 // https://testing-library.com/docs/vue-testing-library/intro
 
-export function renderComp(comp, customStore = {}, isDark = false) {
+export function renderComp(comp, props = {}, customStore = {}, isDark = false) {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')
 
@@ -22,6 +22,7 @@ export function renderComp(comp, customStore = {}, isDark = false) {
     container: document.body.appendChild(root),
     vuetify: new Vuetify(),
     store: newStore,
+    props,
     routes,
     provide: () => ({ theme: { isDark } }),
   })

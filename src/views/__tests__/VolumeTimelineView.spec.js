@@ -22,7 +22,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(VolumeTimelineView, customStore)
+  const { getByText } = renderComp(VolumeTimelineView, {}, customStore)
   await fireEvent.click(getByText(/test/i))
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)

@@ -10,7 +10,7 @@ test('renders chord', () => {
 })
 
 test('renders chord dark mode', () => {
-  const { getByText } = renderComp(ChordView, {}, true)
+  const { getByText } = renderComp(ChordView, {}, {}, true)
   const linkElement = getByText(/Senders \/ Receivers/i)
   expect(linkElement).toBeInTheDocument()
 })
@@ -22,7 +22,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(ChordView, customStore)
+  const { getByText } = renderComp(ChordView, {}, customStore)
   const button = getByText(/test/i)
   await fireEvent.click(button)
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)

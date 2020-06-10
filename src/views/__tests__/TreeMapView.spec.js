@@ -18,7 +18,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(TreeMapView, customStore)
+  const { getByText } = renderComp(TreeMapView, {}, customStore)
   await fireEvent.click(getByText(/fromtest/i))
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)

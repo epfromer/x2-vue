@@ -23,7 +23,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(EventTimelineView, customStore)
+  const { getByText } = renderComp(EventTimelineView, {}, customStore)
   const button = getByText(/test/i)
   await fireEvent.click(button)
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)

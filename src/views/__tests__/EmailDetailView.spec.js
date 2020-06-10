@@ -14,6 +14,6 @@ test('fetched email', () => {
       getEmailById: () => () => undefined,
     },
   }
-  const { getByTestId } = renderComp(EmailDetailView, customStore)
+  const { getByTestId } = renderComp(EmailDetailView, {}, customStore)
   expect(getByTestId('emailcard')).toBeInTheDocument()
 })

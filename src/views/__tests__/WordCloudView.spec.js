@@ -10,7 +10,7 @@ test('renders word cloud', () => {
 })
 
 test('renders word cloud dark mode', () => {
-  const { getByText } = renderComp(WordCloudView, {}, true)
+  const { getByText } = renderComp(WordCloudView, {}, {}, true)
   const linkElement = getByText(/Email Word Cloud/i)
   expect(linkElement).toBeInTheDocument()
 })
@@ -22,7 +22,7 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(WordCloudView, customStore)
+  const { getByText } = renderComp(WordCloudView, {}, customStore)
   await fireEvent.click(getByText(/test/i))
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)

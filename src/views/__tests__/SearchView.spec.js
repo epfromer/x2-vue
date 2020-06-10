@@ -15,7 +15,7 @@ test('search fields', async () => {
       setVuexState: jest.fn(),
     },
   }
-  const { getByTestId } = renderComp(SearchView, customStore)
+  const { getByTestId } = renderComp(SearchView, {}, customStore)
   await fireEvent.update(getByTestId('computedSent'), 'foo')
   await fireEvent.update(getByTestId('computedFrom'), 'foo')
   await fireEvent.update(getByTestId('computedTo'), 'foo')
