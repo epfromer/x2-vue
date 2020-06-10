@@ -1,9 +1,30 @@
 export const store = {
   getters: {
-    getContactColor: () => () => '#121212',
     getEmailById: () => () => ({
+      _id: '5ccedc7214a5b6cd9203206f',
+      body: 'Thanks for your interest in the Assistant Trader',
+      clientSubmitTime: '2001-10-29T22:55:22.000Z',
+      displayBCC: '',
+      displayCC: 'Sager  Elizabeth',
+      displayTo: 'Samuel Behrends',
+      senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
+      senderName: 'Nettelton  Marcus',
+      subject: 'RE: Draft of Market rate filing',
+    }),
+    getNextEmail: () => () => ({
+      _id: '5ec911ddfef4030598a9347b',
+      body: 'I feel that I have become a valuable, knowledgeable member',
+      clientSubmitTime: '2001-10-29T22:55:22.000Z',
+      displayBCC: '',
+      displayCC: 'Sager  Elizabeth',
+      displayTo: 'Samuel Behrends',
+      senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
+      senderName: 'Nettelton  Marcus',
+      subject: 'RE: Draft of Market rate filing',
+    }),
+    getPreviousEmail: () => () => ({
       _id: '5ccedc7214a5b6cd9203206d',
-      body: 'foo\nbar',
+      body: 'We are continuing work to ensure our new online trading system',
       clientSubmitTime: '2001-10-29T23:17:34.000Z',
       displayBCC: '',
       displayCC: 'Catherine McCarthy; Sager  Elizabeth',
@@ -12,6 +33,8 @@ export const store = {
       senderName: 'Nettelton  Marcus',
       subject: 'RE: Draft of Market rate filing',
     }),
+    getEmailIndex: () => () => 1,
+    getContactColor: () => () => '#121212',
   },
   mutations: {
     setVuexState: jest.fn(),
@@ -24,7 +47,7 @@ export const store = {
     emails: [
       {
         _id: '5ccedc7214a5b6cd9203206d',
-        body: 'foo\nbar',
+        body: 'We are continuing work to ensure our new online trading system',
         clientSubmitTime: '2001-10-29T23:17:34.000Z',
         displayBCC: '',
         displayCC: 'Catherine McCarthy; Sager  Elizabeth',
@@ -35,7 +58,18 @@ export const store = {
       },
       {
         _id: '5ccedc7214a5b6cd9203206f',
-        body: 'bar',
+        body: 'Thanks for your interest in the Assistant Trader',
+        clientSubmitTime: '2001-10-29T22:55:22.000Z',
+        displayBCC: '',
+        displayCC: 'Sager  Elizabeth',
+        displayTo: 'Samuel Behrends',
+        senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
+        senderName: 'Nettelton  Marcus',
+        subject: 'RE: Draft of Market rate filing',
+      },
+      {
+        _id: '5ec911ddfef4030598a9347b',
+        body: 'I feel that I have become a valuable, knowledgeable member',
         clientSubmitTime: '2001-10-29T22:55:22.000Z',
         displayBCC: '',
         displayCC: 'Sager  Elizabeth',
