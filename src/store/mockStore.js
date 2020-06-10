@@ -1,6 +1,17 @@
 export const store = {
   getters: {
     getContactColor: () => () => '#121212',
+    getEmailById: () => () => ({
+      _id: '5ccedc7214a5b6cd9203206d',
+      body: 'foo\nbar',
+      clientSubmitTime: '2001-10-29T23:17:34.000Z',
+      displayBCC: '',
+      displayCC: 'Catherine McCarthy; Sager  Elizabeth',
+      displayTo: 'Samuel Behrends',
+      senderEmailAddress: 'Marcus.Nettelton@ENRON.com',
+      senderName: 'Nettelton  Marcus',
+      subject: 'RE: Draft of Market rate filing',
+    }),
   },
   mutations: {
     setVuexState: jest.fn(),
@@ -48,7 +59,7 @@ export const store = {
     from: '',
     to: '',
     subject: '',
-    allText: '',
+    allText: 'rate',
     body: '',
 
     // stats

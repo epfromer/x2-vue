@@ -3,6 +3,7 @@
     <v-row>
       <v-col cols="12" sm="6" md="3">
         <DashboardCard
+          data-testid="chord"
           image="/chord.png"
           title="Chord"
           description="Chord diagram of communication between named Enron contacts."

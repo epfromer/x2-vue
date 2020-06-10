@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="elevation-1">
+    <v-card class="elevation-1" data-testid="emailcard">
       <EmailCardActions :id="email._id" />
       <v-card-title><span v-html="highlight(email.subject)" /></v-card-title>
       <v-card-text class="text--primary">
@@ -63,13 +63,13 @@ export default {
     },
     highlight(str) {
       let s = str
-      this.highlightedTerms.forEach(
-        (term) =>
-          (s = s.replace(
-            new RegExp(`(${term})`, 'gi'),
-            `<span style="background-color:yellow; color:black">$1</span>`
-          ))
-      )
+      if (!s) return ''
+      this.highlightedTerms.forEach((term) => {
+        s = s.replace(
+          new RegExp(`(${term})`, 'gi'),
+          `<span style="background-color:yellow; color:black">$1</span>`
+        )
+      })
       return s
     },
   },
