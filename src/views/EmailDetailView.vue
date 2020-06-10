@@ -10,7 +10,11 @@
         <div>CC: <span v-html="highlight(email.cc)" /></div>
         <div>BCC: <span v-html="highlight(email.bcc)" /></div>
         <p></p>
-        <span v-html="highlight(email.body.replace(/\n/g, '<br />'))" />
+        <span
+          v-html="
+            highlight(email.body ? email.body.replace(/\n/g, '<br />') : '')
+          "
+        />
       </v-card-text>
       <EmailCardActions :id="email._id" />
     </v-card>

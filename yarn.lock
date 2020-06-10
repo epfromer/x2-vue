@@ -1107,13 +1107,6 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/user-event@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-11.4.0.tgz#acc52f4dc6c979cabe24d50dfa2d3b417d536a7d"
-  integrity sha512-FBI9smEqloQEbxRkBeL5YTK2fdHyXRPj4oNZkeWwpg2ItER+B4MOyLuMCBOgv/ZMyURlNVDD/OSr0pu7cg8H3Q==
-  dependencies:
-    "@babel/runtime" "^7.10.2"
-
 "@testing-library/vue@^5.0.4":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.0.4.tgz#25d1de4a8c7a18ad28a4c6fa458f56f93cb190b9"
