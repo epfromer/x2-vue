@@ -19,6 +19,7 @@
       :expanded.sync="expanded"
       :dense="densePadding"
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
+      data-testid="datatable"
     >
       <template v-slot:body.prepend>
         <tr>
@@ -32,6 +33,7 @@
               v-model="computedSent"
               label="Filter Sent"
               clearable
+              data-testid="computedSent"
             ></v-text-field>
           </td>
           <td>
@@ -39,6 +41,7 @@
               v-model="computedFrom"
               label="Filter From"
               clearable
+              data-testid="computedFrom"
             ></v-text-field>
           </td>
           <td>
@@ -46,6 +49,7 @@
               v-model="computedTo"
               label="Filter To"
               clearable
+              data-testid="computedTo"
             ></v-text-field>
           </td>
           <td>
@@ -53,6 +57,7 @@
               v-model="computedSubject"
               label="Filter Subject"
               clearable
+              data-testid="computedSubject"
             ></v-text-field>
           </td>
         </tr>
@@ -63,6 +68,7 @@
           label="Filter (all text fields)"
           clearable
           class="mx-4"
+          data-testid="computedAllText"
         ></v-text-field>
       </template>
       <template v-slot:expanded-item="{ headers }">
@@ -77,6 +83,16 @@
       :onClear="() => handleTimeSpan('', 0)"
       :onClose="(sent, span) => handleTimeSpan(sent, span)"
     />
+    <button
+      hidden
+      @click="() => handleTimeSpan('2001-01-01', 1)"
+      data-testid="handleTimeSpan"
+    ></button>
+    <button
+      hidden
+      @click="() => rowClick({ _id: 'foo' })"
+      data-testid="rowClick"
+    ></button>
   </div>
 </template>
 

@@ -19,8 +19,7 @@ test('handleSelect', async () => {
     },
   }
   const { getByText } = renderComp(TreeMapView, customStore)
-  const button = getByText(/fromtest/i)
-  await fireEvent.click(button)
+  await fireEvent.click(getByText(/fromtest/i))
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)
 })

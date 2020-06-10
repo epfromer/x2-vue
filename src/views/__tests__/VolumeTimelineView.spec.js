@@ -23,8 +23,7 @@ test('handleSelect', async () => {
     },
   }
   const { getByText } = renderComp(VolumeTimelineView, customStore)
-  const button = getByText(/test/i)
-  await fireEvent.click(button)
+  await fireEvent.click(getByText(/test/i))
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)
 })
