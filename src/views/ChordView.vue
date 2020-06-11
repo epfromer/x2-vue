@@ -84,6 +84,8 @@ export default {
         })
       })
 
+      console.log(data)
+
       // set colors
       const nodes = []
       this.contacts.forEach((contact) => {
