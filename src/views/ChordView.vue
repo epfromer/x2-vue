@@ -4,7 +4,7 @@
     <div class="headline">Senders / Receivers</div>
     <highcharts :options="config" />
     <button hidden @click="() => handleSelect({ to: 'foo', from: 'bar' })">
-      test
+      handleSelect
     </button>
   </v-container>
 </template>
@@ -83,8 +83,6 @@ export default {
           }
         })
       })
-
-      console.log(data)
 
       // set colors
       const nodes = []

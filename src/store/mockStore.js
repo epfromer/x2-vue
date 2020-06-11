@@ -79,7 +79,7 @@ export const store = {
         subject: 'RE: Draft of Market rate filing',
       },
     ],
-    totalEmails: 2,
+    totalEmails: 3,
 
     // email list
     emailListPage: 1,
