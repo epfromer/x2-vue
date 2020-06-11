@@ -28,6 +28,10 @@
         </v-btn>
       </template>
     </v-data-table>
+    <button hidden @click="() => selectColor('foo', 'bar')">selectColor</button>
+    <button hidden @click="() => handleColorChosen('bar')">
+      handleColorChosen
+    </button>
   </v-container>
 </template>
 
