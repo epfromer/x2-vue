@@ -25,6 +25,8 @@
         </v-chip>
       </template>
     </template>
+    <button hidden @click="() => handleDelete('foo')">handleDelete</button>
+    <button hidden @click="() => handleClick('foo')">handleClick</button>
   </div>
 </template>
 
