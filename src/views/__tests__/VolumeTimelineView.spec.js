@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
 
-test('renders VolumeTimelineView, dark mode', () => {
+test('renders dark mode', () => {
   const { getByText } = renderComp(VolumeTimelineView, {}, true)
   const linkElement = getByText(/Emails Sent By Day/i)
   expect(linkElement).toBeInTheDocument()
