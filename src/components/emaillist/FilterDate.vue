@@ -19,6 +19,8 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <button hidden @click="() => handleClear()">handleClear</button>
+    <button hidden @click="() => handleClose()">handleClose</button>
   </v-dialog>
 </template>
 
