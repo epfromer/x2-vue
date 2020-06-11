@@ -6,6 +6,7 @@
       v-model="color"
       show-swatches
     ></v-color-picker>
+    <button hidden @click="() => handleClose()">test</button>
   </v-dialog>
 </template>
 

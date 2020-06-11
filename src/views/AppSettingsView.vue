@@ -42,7 +42,6 @@ import ContactSettings from '../components/ContactSettings'
 
 export default {
   components: {
-    // ColorPicker,
     ContactSettings,
   },
   methods: {
