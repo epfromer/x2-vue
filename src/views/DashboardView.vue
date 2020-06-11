@@ -20,7 +20,7 @@
       </v-col>
       <v-col cols="12" sm="6" md="3"
         ><DashboardCard
-          image="/timeline.png"
+          image="/volumetimeline.png"
           title="Volume Timeline"
           description="XY timeline of Enron email per day with drill down."
           link="VolumeTimelineView"
