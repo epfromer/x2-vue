@@ -3,18 +3,6 @@ import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
 import ChordView from '../ChordView'
 
-test('renders', () => {
-  const { getByText } = renderComp(ChordView)
-  const linkElement = getByText(/Senders \/ Receivers/i)
-  expect(linkElement).toBeInTheDocument()
-})
-
-test('renders dark mode', () => {
-  const { getByText } = renderComp(ChordView, {}, {}, true)
-  const linkElement = getByText(/Senders \/ Receivers/i)
-  expect(linkElement).toBeInTheDocument()
-})
-
 test('handleSelect', async () => {
   const customStore = {
     mutations: {
