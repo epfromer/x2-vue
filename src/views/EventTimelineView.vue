@@ -24,6 +24,12 @@ import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 require('highcharts/modules/timeline')(Highcharts)
 
+// http://content.time.com/time/specials/packages/article/0,28804,2021097_2023262_2023247,00.html
+// https://www.tampabay.com/archive/2006/01/29/enron-a-timeline/
+// https://www.myplainview.com/news/article/A-chronology-of-Enron-Corp-8499449.php
+// https://business.nmsu.edu/~dboje/enron/chronology.htm
+// https://www.econcrises.org/2016/12/07/enron-corporation-2001/
+
 export default {
   data() {
     return {
@@ -55,7 +61,7 @@ export default {
     ...mapMutations(['clearSearch', 'setVuexState']),
     toggleVertical() {
       this.vertical = !this.vertical
-      this.config.chart.inverted = this.vertical
+      this.createChart()
     },
     handleSelect(options) {
       if (!options.queryKey) return
@@ -71,7 +77,7 @@ export default {
         chart: {
           type: 'timeline',
           inverted: this.vertical ? true : false,
-          height: '90%',
+          height: this.vertical ? '90%' : '30%',
           zoomType: 'x',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
