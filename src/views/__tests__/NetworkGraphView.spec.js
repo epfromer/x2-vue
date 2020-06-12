@@ -3,12 +3,6 @@ import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
 
-test('renders NetworkGraphView', () => {
-  const { getByText } = renderComp(NetworkGraphView)
-  const linkElement = getByText(/Senders \/ Receivers/i)
-  expect(linkElement).toBeInTheDocument()
-})
-
 test('toggle senders', async () => {
   const { getByTestId } = renderComp(NetworkGraphView)
   const button = getByTestId('toggle-senders')
