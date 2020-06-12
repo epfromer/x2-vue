@@ -2,11 +2,21 @@
   <v-container fluid>
     <div class="headline">
       Enron Timeline
-      <v-btn data-testid="toggle-vertical" @click="toggleVertical" icon>
-        <v-icon>{{
-          vertical ? 'swap_vertical_circle' : 'swap_horizontal_circle'
-        }}</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            data-testid="toggle-vertical"
+            @click="toggleVertical"
+            v-on="on"
+            icon
+          >
+            <v-icon>{{
+              vertical ? 'swap_vertical_circle' : 'swap_horizontal_circle'
+            }}</v-icon>
+          </v-btn>
+        </template>
+        <span>Toggle Horitonal / Vertical</span>
+      </v-tooltip>
     </div>
     <button
       hidden
