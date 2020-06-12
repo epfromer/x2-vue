@@ -6,7 +6,7 @@
     ></v-progress-linear>
     <div class="headline">Email Word Cloud</div>
     <highcharts :options="config" />
-    <button hidden @click="() => handleSelect('foo')">test</button>
+    <button hidden @click="() => handleSelect('foo')">handleSelect</button>
   </v-container>
 </template>
 
@@ -15,6 +15,14 @@ import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 require('highcharts/modules/wordcloud')(Highcharts)
+
+Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
+  relativeWeight
+) {
+  const minFontSize = 10
+  const maxFontSize = 25
+  return Math.floor(minFontSize + (maxFontSize - minFontSize) * relativeWeight)
+}
 
 export default {
   data() {
@@ -39,16 +47,6 @@ export default {
     ...mapState(['wordCloudLoading', 'wordCloud', 'darkMode']),
   },
   mounted() {
-    Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
-      relativeWeight
-    ) {
-      const minFontSize = 10
-      const maxFontSize = 25
-      return Math.floor(
-        minFontSize + (maxFontSize - minFontSize) * relativeWeight
-      )
-    }
-
     this.createChart()
   },
   methods: {
