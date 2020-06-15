@@ -6,7 +6,7 @@
           data-testid="chord"
           image="/chord.png"
           title="Chord"
-          description="Chord diagram of email between named Enron contacts."
+          description="Chord diagram of Enron key contact communication."
           link="ChordView"
         />
       </v-col>
@@ -38,7 +38,7 @@
         ><DashboardCard
           image="/treemap.png"
           title="Tree Map"
-          description="Tree map of email volume to any sender / receiver."
+          description="Tree map of email volume of Enron key contacts."
           link="TreeMapView"
         />
       </v-col>
@@ -48,6 +48,13 @@
           title="Event Timeline"
           description="Event timeline of Enron fraud and litigation."
           link="EventTimelineView"
+      /></v-col>
+      <v-col cols="12" sm="6" md="3">
+        <DashboardCard
+          image="/barchart.png"
+          title="Bar Chart"
+          description="Bar chart of email volume of Enron key contacts."
+          link="BarChartView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
         <DashboardCard

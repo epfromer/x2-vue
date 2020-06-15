@@ -3,12 +3,6 @@ import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
 
-test('renders AppSettingsView', () => {
-  const { getByText } = renderComp(AppSettingsView)
-  const linkElement = getByText(/Settings/i)
-  expect(linkElement).toBeInTheDocument()
-})
-
 test('toggle dense', async () => {
   const { getByTestId } = renderComp(AppSettingsView)
   const button = getByTestId('dense')

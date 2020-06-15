@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppSettingsView from '../views/AppSettingsView.vue'
+import BarChartView from '../views/BarChartView.vue'
 import ChordView from '../views/ChordView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import EmailDetailView from '../views/EmailDetailView.vue'
+import EventTimelineView from '../views/EventTimelineView.vue'
 import NetworkGraphView from '../views/NetworkGraphView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
-import EventTimelineView from '../views/EventTimelineView.vue'
-import VolumeTimelineView from '../views/VolumeTimelineView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
+import VolumeTimelineView from '../views/VolumeTimelineView.vue'
 import WordCloudView from '../views/WordCloudView.vue'
 
 Vue.use(VueRouter)
@@ -49,6 +50,11 @@ export const routes = [
     path: '/EventTimelineView',
     name: 'EventTimelineView',
     component: EventTimelineView,
+  },
+  {
+    path: '/BarChartView',
+    name: 'BarChartView',
+    component: BarChartView,
   },
   { path: '/', name: 'DashboardView', component: DashboardView },
 ]
