@@ -1,12 +1,13 @@
+import request, { gql } from 'graphql-request'
+import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import _ from 'lodash'
 
 Vue.use(Vuex)
 
 function doFetch(commit, loadingIndicator, statType, stateVal) {
   commit('setVuexState', { k: loadingIndicator, v: true })
-  const url = `${process.env.VUE_APP_EMAIL_SERVER}/${statType}`
+  const url = `${process.env.VUE_APP_X2_SERVER}/${statType}`
   console.log(url)
   fetch(url)
     .then((resp) => resp.json())
@@ -34,6 +35,24 @@ export default new Vuex.Store({
       state.contacts.find((c) => c.name === name).color,
   },
   mutations: {
+    setCustodians: (state, custodians) => {
+      state.custodians = _.cloneDeep(custodians)
+    },
+    setCustodiansLoading: (state, custodiansLoading) => {
+      state.custodiansLoading = custodiansLoading
+    },
+    setEmailSentByDay: (state, emailSentByDay) => {
+      state.emailSentByDay = _.cloneDeep(emailSentByDay)
+    },
+    setEmailSentByDayLoading: (state, emailSentByDayLoading) => {
+      state.emailSentByDayLoading = emailSentByDayLoading
+    },
+    setWordCloud: (state, wordCloud) => {
+      state.wordCloud = _.cloneDeep(wordCloud)
+    },
+    setWordCloudLoading: (state, wordCloudLoading) => {
+      state.wordCloudLoading = wordCloudLoading
+    },
     setVuexState: (state, { k, v }) => {
       if (k === 'emails') {
         state.emails = _.cloneDeep(v)
@@ -86,8 +105,63 @@ export default new Vuex.Store({
         doFetch(commit, 'contactsLoading', 'contacts', 'contacts')
       }
     },
+    getInitialDataAsync: ({ commit }) => {
+      console.log('initial data')
+      commit('setCustodiansLoading', true)
+      commit('setEmailSentByDayLoading', true)
+      commit('setWordCloudLoading', true)
+      const query = gql`
+        {
+          getWordCloud {
+            tag
+            weight
+          }
+          getEmailSentByDay {
+            sent
+            total
+          }
+          getCustodians {
+            id
+            name
+            title
+            color
+            senderTotal
+            receiverTotal
+            toCustodians {
+              custodianId
+              total
+            }
+          }
+        }
+      `
+      const server = process.env.VUE_APP_X2_SERVER
+      console.log(server)
+      return request(`${server}/graphql/`, query)
+        .then(async (data) => {
+          // await sleep(5000)
+          console.log(data.getWordCloud)
+          commit('setCustodians', data.getCustodians)
+          commit('setCustodiansLoading', false)
+          commit('setEmailSentByDay', data.getEmailSentByDay)
+          commit('setEmailSentByDayLoading', false)
+          commit('setWordCloud', data.getWordCloud)
+          commit('setWordCloudLoading', false)
+        })
+        .catch((e) => console.error(e))
+    },
   },
   state: {
+    custodiansLoading: false,
+    custodians: [],
+    emailSentByDayLoading: false,
+    emailSentByDay: [],
+    emailSentLoading: false,
+    emailSent: null,
+    wordCloudLoading: false,
+    wordCloud: null,
+    contactsLoading: false,
+    contacts: null,
+
     // search results
     emails: [],
     totalEmails: 0,
@@ -106,14 +180,6 @@ export default new Vuex.Store({
     subject: '',
     allText: '',
     body: '',
-
-    // stats
-    emailSentLoading: false,
-    emailSent: null,
-    wordCloudLoading: false,
-    wordCloud: null,
-    contactsLoading: false,
-    contacts: null,
 
     // app settings
     densePadding:

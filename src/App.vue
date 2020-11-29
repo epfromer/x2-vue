@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// TODO login/out, as with bikes
 import { mapActions } from 'vuex'
 import AppDrawer from './components/app/AppDrawer'
 import AppToolbar from './components/app/AppToolbar'
@@ -22,9 +21,7 @@ export default {
     drawerOpen: false,
   }),
   mounted() {
-    this.fetchEmailSentIfNeeded()
-    this.fetchWordCloudIfNeeded()
-    this.fetchContactsIfNeeded()
+    this.getInitialDataAsync()
   },
   components: {
     AppDrawer,
@@ -32,11 +29,7 @@ export default {
     AppFooter,
   },
   methods: {
-    ...mapActions([
-      'fetchEmailSentIfNeeded',
-      'fetchWordCloudIfNeeded',
-      'fetchContactsIfNeeded',
-    ]),
+    ...mapActions(['getInitialDataAsync']),
   },
 }
 </script>

@@ -55,7 +55,7 @@ export default {
   methods: {
     async doFetch() {
       this.loading = true
-      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${this.$route.params.id}`
+      const url = `${process.env.VUE_APP_X2_SERVER}/email/${this.$route.params.id}`
       console.log(url)
       const resp = await fetch(url)
       resp

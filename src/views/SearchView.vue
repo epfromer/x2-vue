@@ -21,7 +21,7 @@
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
     >
-      <template v-slot:body.prepend>
+      <!-- <template v-slot:body.prepend>
         <tr>
           <td colspan="1">
             <v-btn @click="() => (openFilterDate = true)" text>
@@ -61,8 +61,8 @@
             ></v-text-field>
           </td>
         </tr>
-      </template>
-      <template v-slot:top>
+      </template> -->
+      <!-- <template v-slot:top>
         <v-text-field
           v-model="computedAllText"
           label="Filter (all text fields)"
@@ -70,7 +70,7 @@
           class="mx-4"
           data-testid="computedAllText"
         ></v-text-field>
-      </template>
+      </template> -->
       <template v-slot:expanded-item="{ headers }">
         <td :colspan="headers.length">{{ expandedBody }}</td>
       </template>
@@ -190,7 +190,7 @@ export default {
       const encodedQuery = this.encodeQuery(query)
 
       this.loading = true
-      const url = `${process.env.VUE_APP_EMAIL_SERVER}/email/${encodedQuery}`
+      const url = `${process.env.VUE_APP_X2_SERVER}/email/${encodedQuery}`
       console.log(url)
       const resp = await fetch(url)
       resp

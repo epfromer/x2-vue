@@ -16,7 +16,7 @@
       hide-default-footer
       :items-per-page="50"
     >
-      <template v-slot:item.color="{ item }">
+      <!-- <template v-slot:item.color="{ item }">
         <v-btn
           small
           :elevation="0"
@@ -26,7 +26,7 @@
         >
           {{ item.color.toUpperCase() }}
         </v-btn>
-      </template>
+      </template> -->
     </v-data-table>
     <button hidden @click="() => selectColor('foo', 'bar')">selectColor</button>
     <button hidden @click="() => handleColorChosen('bar')">
@@ -100,7 +100,7 @@ export default {
     handleColorChosen(color) {
       this.openColorPicker = false
       if (!color) return
-      const url = `${process.env.VUE_APP_EMAIL_SERVER}/contacts/${this.contactId}`
+      const url = `${process.env.VUE_APP_X2_SERVER}/contacts/${this.contactId}`
       const payload = {
         method: 'PUT',
         body: JSON.stringify({ color }),
