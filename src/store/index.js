@@ -13,7 +13,7 @@ function doFetch(commit, loadingIndicator, statType, stateVal) {
     .then((resp) => resp.json())
     .then((json) => commit('setVuexState', { k: stateVal, v: json }))
     .then(commit('setVuexState', { k: loadingIndicator, v: false }))
-    .catch(() => {}) // TODO: handle errors
+    .catch((e) => console.log(e))
 }
 
 export default new Vuex.Store({

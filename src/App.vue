@@ -2,9 +2,9 @@
   <v-app id="inspire">
     <AppDrawer :open="drawerOpen" :setOpen="(v) => (drawerOpen = v)" />
     <AppToolbar :setDrawerOpen="(v) => (drawerOpen = v)" />
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
     <AppFooter />
   </v-app>
 </template>
