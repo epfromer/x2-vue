@@ -4,99 +4,39 @@
       v-if="wordCloudLoading"
       indeterminate
     ></v-progress-linear>
-    <div class="headline">Email Word Cloud</div>
-    <highcharts :options="config" />
+    <div v-if="wordCloud">
+      <div class="headline">Highcharts</div>
+      <word-cloud-highcharts
+        title="Enron Project Names"
+        :data="wordCloud"
+        :handleClick="handleClick"
+      />
+    </div>
     <button hidden @click="() => handleSelect('foo')">handleSelect</button>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import Highcharts from 'highcharts'
-import { Chart } from 'highcharts-vue'
-require('highcharts/modules/wordcloud')(Highcharts)
-
-Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
-  relativeWeight
-) {
-  const minFontSize = 10
-  const maxFontSize = 25
-  return Math.floor(minFontSize + (maxFontSize - minFontSize) * relativeWeight)
-}
+import WordCloudHighcharts from '@/components/Highcharts/WordCloudHighcharts.vue'
 
 export default {
   data() {
-    return {
-      config: {
-        chart: {
-          height: '95%',
-          backgroundColor: this.theme.isDark ? '#121212' : 'white',
-        },
-        title: {
-          text: 'Chart loading...',
-          style: { color: this.theme.isDark ? 'white' : 'black' },
-        },
-      },
-    }
+    return {}
   },
   inject: ['theme'],
   components: {
-    highcharts: Chart,
+    WordCloudHighcharts,
   },
   computed: {
     ...mapState(['wordCloudLoading', 'wordCloud', 'darkMode']),
   },
-  mounted() {
-    this.createChart()
-  },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
-    handleSelect(word) {
+    handleClick(word) {
       this.clearSearch()
       this.setVuexState({ k: 'allText', v: word })
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
-    },
-    createChart() {
-      // https://www.highcharts.com/docs/chart-and-series-types/word-cloud-series
-
-      if (!this.wordCloud || !this.wordCloud.length) return
-      const data = []
-      this.wordCloud.forEach((word) =>
-        data.push({ name: word.tag, weight: word.weight })
-      )
-
-      this.config = {
-        chart: {
-          height: '95%',
-          backgroundColor: this.theme.isDark ? '#121212' : 'white',
-        },
-        title: {
-          text: '',
-        },
-        plotOptions: {
-          series: {
-            cursor: 'pointer',
-            events: {
-              click: (ev) => this.handleSelect(ev.point.name),
-            },
-          },
-        },
-        series: [
-          {
-            type: 'wordcloud',
-            name: 'Occurrences',
-            data,
-          },
-        ],
-      }
-    },
-  },
-  watch: {
-    wordCloud() {
-      this.createChart()
-    },
-    darkMode() {
-      this.createChart()
     },
   },
 }
