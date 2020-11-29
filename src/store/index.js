@@ -135,7 +135,6 @@ export default new Vuex.Store({
         }
       `
       const server = process.env.VUE_APP_X2_SERVER
-      console.log(server)
       return request(`${server}/graphql/`, query)
         .then(async (data) => {
           // await sleep(5000)
