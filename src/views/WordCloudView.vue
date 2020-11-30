@@ -29,7 +29,7 @@ export default {
     WordCloudHighcharts,
   },
   computed: {
-    ...mapState(['wordCloudLoading', 'wordCloud', 'darkMode']),
+    ...mapState(['wordCloudLoading', 'wordCloud']),
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
