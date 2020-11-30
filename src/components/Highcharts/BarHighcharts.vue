@@ -5,10 +5,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
-import HighchartPolar from 'highcharts/highcharts-more'
 import { Chart } from 'highcharts-vue'
-
-HighchartPolar(Highcharts)
 
 export default {
   data() {
@@ -48,7 +45,7 @@ export default {
     createChart() {
       this.config = {
         chart: {
-          polar: true,
+          type: 'bar',
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         title: {
@@ -58,30 +55,45 @@ export default {
           },
         },
         xAxis: {
-          labels: {
-            format: '{value}',
+          categories: this.chartData.map((datum) => datum.name),
+          title: {
+            text: null,
           },
+          labels: {
+            style: {
+              color: this.theme.isDark ? 'white' : 'black',
+            },
+          },
+        },
+        yAxis: {
+          labels: {
+            overflow: 'justify',
+            style: {
+              color: this.theme.isDark ? 'white' : 'black',
+            },
+          },
+          title: {
+            text: null,
+          },
+        },
+        tooltip: {
+          valueSuffix: ' email',
         },
         plotOptions: {
-          series: {
-            pointStart: 0,
-            pointInterval: 45,
-          },
-          column: {
-            pointPadding: 0,
-            groupPadding: 0,
+          bar: {
+            events: {
+              click: (e) => handleClick(search, e.point.category),
+            },
           },
         },
-        series: this.chartData.map((datum) => ({
-          type: 'column',
-          name: datum.name,
-          data: [datum.value],
-          color: datum.color,
-          pointPlacement: 'between',
-          events: {
-            click: () => handleClick(search, datum.name),
+        series: [
+          {
+            showInLegend: false,
+            colorByPoint: true,
+            colors: this.chartData.map((datum) => datum.color),
+            data: this.chartData.map((datum) => datum.value),
           },
-        })),
+        ],
       }
     },
   },
