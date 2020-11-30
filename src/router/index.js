@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppSettingsView from '../views/AppSettingsView.vue'
-import BarChartView from '../views/BarChartView.vue'
+import BarView from '../views/BarView.vue'
 import ChordView from '../views/ChordView.vue'
 import EmailDetailView from '../views/EmailDetailView.vue'
 import EventTimelineView from '../views/EventTimelineView.vue'
 import HomeView from '../views/HomeView.vue'
 import NetworkGraphView from '../views/NetworkGraphView.vue'
 import PieView from '../views/PieView.vue'
+import PolarView from '../views/PolarView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
@@ -54,9 +55,14 @@ export const routes = [
     component: EventTimelineView,
   },
   {
-    path: '/BarChartView',
-    name: 'BarChartView',
-    component: BarChartView,
+    path: '/BarView',
+    name: 'BarView',
+    component: BarView,
+  },
+  {
+    path: '/PolarView',
+    name: 'PolarView',
+    component: PolarView,
   },
   { path: '/', name: 'HomeView', component: HomeView },
 ]

@@ -8,7 +8,7 @@
       <div class="headline">Highcharts</div>
       <v-row>
         <v-col cols="12" md="6">
-          <pie-highcharts
+          <polar-highcharts
             title="Senders"
             search="from"
             :chartData="getEmailSenders"
@@ -16,7 +16,7 @@
           />
         </v-col>
         <v-col cols="12" md="6">
-          <pie-highcharts
+          <polar-highcharts
             title="Receivers"
             search="to"
             :chartData="getEmailReceivers"
@@ -30,10 +30,10 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import PieHighcharts from '@/components/Highcharts/PieHighcharts.vue'
+import PolarHighcharts from '@/components/Highcharts/PolarHighcharts.vue'
 
 export default {
-  components: { PieHighcharts },
+  components: { PolarHighcharts },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),

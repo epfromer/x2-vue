@@ -11,10 +11,10 @@
       </v-col>
       <v-col cols="12" sm="6" md="3">
         <HomeCard
-          image="/barchart.png"
-          title="Bar Chart"
+          image="/Bar.png"
+          title="Bar"
           description="Email volume of Enron custodians."
-          link="BarChartView"
+          link="BarView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
         <HomeCard

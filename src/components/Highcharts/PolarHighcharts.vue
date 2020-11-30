@@ -5,7 +5,10 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
+import HighchartPolar from 'highcharts/highcharts-more'
 import { Chart } from 'highcharts-vue'
+
+HighchartPolar(Highcharts)
 
 export default {
   data() {
@@ -43,9 +46,17 @@ export default {
   },
   methods: {
     createChart() {
+      const custodians = this.chartData.map((datum) => ({
+        name: datum.name,
+        y: datum.value,
+        color: datum.color,
+        events: {
+          click: (e) => handleClick(search, datum.name),
+        },
+      }))
       this.config = {
         chart: {
-          type: 'pie',
+          polar: true,
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
         },
         title: {
@@ -54,36 +65,31 @@ export default {
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
-        tooltip: {
-          pointFormat: '{point.percentage:.1f}%',
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%',
+        xAxis: {
+          labels: {
+            format: '{value}',
           },
         },
         plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              format: '{point.name}',
-            },
+          series: {
+            pointStart: 0,
+            pointInterval: 45,
+          },
+          column: {
+            pointPadding: 0,
+            groupPadding: 0,
           },
         },
-        series: [
-          {
-            data: this.chartData.map((datum) => ({
-              name: datum.name,
-              y: datum.value,
-              color: datum.color,
-              events: {
-                click: (e) => handleClick(search, datum.name),
-              },
-            })),
+        series: this.chartData.map((datum) => ({
+          type: 'column',
+          name: datum.name,
+          data: [datum.value],
+          color: datum.color,
+          pointPlacement: 'between',
+          events: {
+            click: () => handleClick(search, datum.name),
           },
-        ],
+        })),
       }
     },
   },
