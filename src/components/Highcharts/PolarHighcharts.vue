@@ -9,6 +9,9 @@ import HighchartPolar from 'highcharts/highcharts-more'
 import { Chart } from 'highcharts-vue'
 
 HighchartPolar(Highcharts)
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/export-data')(Highcharts)
+require('highcharts/modules/accessibility')(Highcharts)
 
 export default {
   data() {

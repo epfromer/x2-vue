@@ -6,6 +6,9 @@
 import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/export-data')(Highcharts)
+require('highcharts/modules/accessibility')(Highcharts)
 
 export default {
   data() {

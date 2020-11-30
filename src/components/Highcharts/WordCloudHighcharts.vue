@@ -8,6 +8,9 @@ import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 
 require('highcharts/modules/wordcloud')(Highcharts)
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/export-data')(Highcharts)
+require('highcharts/modules/accessibility')(Highcharts)
 
 Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
   relativeWeight

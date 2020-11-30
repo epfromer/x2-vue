@@ -6,8 +6,7 @@
 import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
-
-require('highcharts/modules/treemap')(Highcharts)
+require('highcharts/modules/networkgraph')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/export-data')(Highcharts)
 require('highcharts/modules/accessibility')(Highcharts)
@@ -27,8 +26,8 @@ export default {
       type: Array,
       required: true,
     },
-    search: {
-      type: String,
+    nodes: {
+      type: Array,
       required: true,
     },
     handleClick: {
@@ -59,35 +58,32 @@ export default {
           },
         },
         plotOptions: {
+          networkgraph: {
+            keys: ['from', 'to', 'weight'],
+          },
           series: {
             cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              linkFormat: '{point.fromNode.name} \u2192 {point.toNode.name}',
+            },
             events: {
-              click: (e) => this.handleClick(e.point.name),
+              click: (e) => this.handleClick(e.point.from, e.point.to),
+            },
+            marker: {
+              radius: 20,
             },
           },
         },
         series: [
           {
-            type: 'treemap',
-            layoutAlgorithm: 'squarified',
-            // layoutAlgorithm: 'stripes',
-            alternateStartingDirection: true,
-            levels: [
-              {
-                level: 1,
-                layoutAlgorithm: 'sliceAndDice',
-                dataLabels: {
-                  enabled: true,
-                  align: 'left',
-                  verticalAlign: 'top',
-                  style: {
-                    fontSize: '15px',
-                    fontWeight: 'bold',
-                  },
-                },
-              },
-            ],
-            data: this.chartData,
+            type: 'networkgraph',
+            data: this.chartData.map((datum) => [
+              datum.source,
+              datum.target,
+              datum.value,
+            ]),
+            nodes: this.nodes,
           },
         ],
       }
