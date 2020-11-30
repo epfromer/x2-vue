@@ -65,6 +65,37 @@ export default new Vuex.Store({
       }
       return data
     },
+    getEmailSentByCustodian: (state) => {
+      const custodianNameFromId = (id) => {
+        if (state.custodians && state.custodians) {
+          const c = state.custodians.find((c) => c.id === id)
+          return c ? c.name : ''
+        }
+        return ''
+      }
+
+      const custodians = state.custodians
+      const data = []
+      const nodes = []
+
+      if (custodians) {
+        custodians.forEach((fromCustodian) => {
+          fromCustodian.toCustodians.forEach((toCustodian) => {
+            data.push({
+              source: fromCustodian.name,
+              target: custodianNameFromId(toCustodian.custodianId),
+              value: toCustodian.total,
+            })
+          })
+        })
+        // and array of color keys
+        custodians.forEach((custodian) => {
+          nodes.push({ id: custodian.name, color: custodian.color })
+        })
+      }
+
+      return { data, nodes }
+    },
   },
   mutations: {
     setCustodians: (state, custodians) => {
