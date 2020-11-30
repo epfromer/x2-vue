@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 import AppSettingsView from '../views/AppSettingsView.vue'
 import BarChartView from '../views/BarChartView.vue'
 import ChordView from '../views/ChordView.vue'
-import DashboardView from '../views/DashboardView.vue'
 import EmailDetailView from '../views/EmailDetailView.vue'
 import EventTimelineView from '../views/EventTimelineView.vue'
+import HomeView from '../views/HomeView.vue'
 import NetworkGraphView from '../views/NetworkGraphView.vue'
+import PieView from '../views/PieView.vue'
 import SavedSearchView from '../views/SavedSearchView.vue'
 import SearchView from '../views/SearchView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
@@ -34,6 +35,7 @@ export const routes = [
     component: SavedSearchView,
   },
   { path: '/ChordView', name: 'ChordView', component: ChordView },
+  { path: '/PieView', name: 'PieView', component: PieView },
   {
     path: '/NetworkGraphView',
     name: 'NetworkGraphView',
@@ -56,7 +58,7 @@ export const routes = [
     name: 'BarChartView',
     component: BarChartView,
   },
-  { path: '/', name: 'DashboardView', component: DashboardView },
+  { path: '/', name: 'HomeView', component: HomeView },
 ]
 
 export const router = new VueRouter({

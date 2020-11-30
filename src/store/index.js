@@ -181,15 +181,15 @@ export default new Vuex.Store({
   },
   state: {
     custodiansLoading: false,
-    custodians: [],
+    custodians: undefined,
     emailSentByDayLoading: false,
-    emailSentByDay: [],
+    emailSentByDay: undefined,
     emailSentLoading: false,
-    emailSent: null,
+    emailSent: undefined,
     wordCloudLoading: false,
-    wordCloud: null,
+    wordCloud: undefined,
     contactsLoading: false,
-    contacts: null,
+    contacts: undefined,
 
     // search results
     emails: [],

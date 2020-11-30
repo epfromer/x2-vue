@@ -2,65 +2,80 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" sm="6" md="3">
-        <DashboardCard
+        <HomeCard
+          image="/pie.png"
+          title="Pie"
+          description="Email volume of Enron custodians."
+          link="PieView"
+        />
+      </v-col>
+      <v-col cols="12" sm="6" md="3">
+        <HomeCard
+          image="/barchart.png"
+          title="Bar Chart"
+          description="Email volume of Enron custodians."
+          link="BarChartView"
+      /></v-col>
+      <v-col cols="12" sm="6" md="3">
+        <HomeCard
           data-testid="chord"
           image="/chord.png"
           title="Chord"
-          description="Chord diagram of Enron key contact communication."
+          description="Enron custodian communication."
           link="ChordView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3">
-        <DashboardCard
+        <HomeCard
           image="/wordcloud.png"
           title="Word Cloud"
-          description="Word cloud of key terms and fraudulent project names."
+          description="Mentions of fraudulent project names."
           link="WordCloudView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3"
-        ><DashboardCard
+        ><HomeCard
           image="/volumetimeline.png"
           title="Volume Timeline"
-          description="XY timeline of Enron email per day with drill down."
+          description="'Enron email per day with drill down."
           link="VolumeTimelineView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3"
-        ><DashboardCard
+        ><HomeCard
           image="/NetworkGraph.png"
           title="Network Graph"
-          description="Network graph of named Enron contact communication."
+          description="Enron custodian communication."
           link="NetworkGraphView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3"
-        ><DashboardCard
+        ><HomeCard
           image="/treemap.png"
           title="Tree Map"
-          description="Tree map of email volume of Enron key contacts."
+          description="Email volume of Enron custodians."
           link="TreeMapView"
         />
       </v-col>
       <v-col cols="12" sm="6" md="3">
-        <DashboardCard
+        <HomeCard
           image="/eventTimeline.png"
           title="Event Timeline"
-          description="Event timeline of Enron fraud and litigation."
+          description="Enron fraud and litigation events."
           link="EventTimelineView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
-        <DashboardCard
-          image="/barchart.png"
-          title="Bar Chart"
-          description="Bar chart of email volume of Enron key contacts."
-          link="BarChartView"
+        <HomeCard
+          image="/polar.png"
+          title="Polar"
+          description="Email volume of Enron custodians."
+          link="PolarView"
       /></v-col>
       <v-col cols="12" sm="6" md="3">
-        <DashboardCard
+        <HomeCard
           image="/search.png"
           title="Search"
-          description="Full text search with field filtering and hit highlighting."
+          description="Full text search with hit highlighting."
           link="SearchView"
       /></v-col>
     </v-row>
@@ -68,11 +83,11 @@
 </template>
 
 <script>
-import DashboardCard from '../components/DashboardCard.vue'
+import HomeCard from '../components/HomeCard.vue'
 
 export default {
   components: {
-    DashboardCard,
+    HomeCard,
   },
 }
 </script>

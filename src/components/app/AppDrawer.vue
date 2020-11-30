@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       mainListItems: [
-        { icon: 'dashboard', name: 'Dashboard', route: 'DashboardView' },
+        { icon: 'dashboard', name: 'Dashboard', route: 'HomeView' },
         { icon: 'email', name: 'Search', route: 'SearchView' },
       ],
       secondaryListItems: [
