@@ -8,7 +8,7 @@
       <div class="headline">Highcharts</div>
       <word-cloud-highcharts
         title="Enron Project Names"
-        :data="wordCloud"
+        :chartData="wordCloud"
         :handleClick="handleClick"
       />
     </div>

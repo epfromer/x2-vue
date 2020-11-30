@@ -33,6 +33,38 @@ export default new Vuex.Store({
       state.emails.findIndex((e) => e._id === id) + 1,
     getContactColor: (state) => (name) =>
       state.contacts.find((c) => c.name === name).color,
+    getEmailSenders: (state) => {
+      const custodians = state.custodians.custodians
+      const data = []
+      if (state.custodians) {
+        state.custodians.forEach((custodian) => {
+          if (custodian.senderTotal) {
+            data.push({
+              name: custodian.name,
+              value: custodian.senderTotal,
+              color: custodian.color,
+            })
+          }
+        })
+      }
+      return data
+    },
+    getEmailReceivers: (state) => {
+      const custodians = state.custodians.custodians
+      const data = []
+      if (state.custodians) {
+        state.custodians.forEach((custodian) => {
+          if (custodian.receiverTotal) {
+            data.push({
+              name: custodian.name,
+              value: custodian.receiverTotal,
+              color: custodian.color,
+            })
+          }
+        })
+      }
+      return data
+    },
   },
   mutations: {
     setCustodians: (state, custodians) => {
@@ -106,7 +138,6 @@ export default new Vuex.Store({
       }
     },
     getInitialDataAsync: ({ commit }) => {
-      console.log('initial data')
       commit('setCustodiansLoading', true)
       commit('setEmailSentByDayLoading', true)
       commit('setWordCloudLoading', true)
@@ -138,7 +169,6 @@ export default new Vuex.Store({
       return request(`${server}/graphql/`, query)
         .then(async (data) => {
           // await sleep(5000)
-          console.log(data.getWordCloud)
           commit('setCustodians', data.getCustodians)
           commit('setCustodiansLoading', false)
           commit('setEmailSentByDay', data.getEmailSentByDay)

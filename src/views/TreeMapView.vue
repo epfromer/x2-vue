@@ -1,55 +1,44 @@
 <template>
   <v-container fluid>
-    <v-progress-linear v-if="contactsLoading" indeterminate></v-progress-linear>
-    <div class="headline">Named Senders to Any Recipient</div>
-    <div>
-      <TreeMap :data="getSenders" search="from" />
-    </div>
-    <div class="title"></div>
-    <div class="headline">Named Receivers from Any Sender</div>
-    <div>
-      <TreeMap :data="getReceivers" search="to" />
+    <v-progress-linear
+      v-if="custodiansLoading"
+      indeterminate
+    ></v-progress-linear>
+    <div v-if="custodians">
+      <div class="headline">Highcharts</div>
+      <tree-map-highcharts
+        title="Senders"
+        search="from"
+        :chartData="getEmailSenders"
+        :handleClick="handleClick"
+      />
+      <tree-map-highcharts
+        title="Receivers"
+        search="to"
+        :chartData="getEmailReceivers"
+        :handleClick="handleClick"
+      />
     </div>
   </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import TreeMap from '../components/TreeMap'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import TreeMapHighcharts from '@/components/Highcharts/TreeMapHighcharts.vue'
 
 export default {
-  components: { TreeMap },
+  components: { TreeMapHighcharts },
+  methods: {},
   computed: {
-    ...mapState(['contactsLoading', 'contacts']),
-    getSenders() {
-      const data = []
-      if (this.contacts) {
-        this.contacts.forEach((contact) => {
-          if (contact.senderTotal) {
-            data.push({
-              name: contact.name,
-              value: contact.senderTotal,
-              color: contact.color,
-            })
-          }
-        })
-      }
-      return data
-    },
-    getReceivers() {
-      const data = []
-      if (this.contacts) {
-        this.contacts.forEach((contact) => {
-          if (contact.receiverTotal) {
-            data.push({
-              name: contact.name,
-              value: contact.receiverTotal,
-              color: contact.color,
-            })
-          }
-        })
-      }
-      return data
+    ...mapState(['custodiansLoading', 'custodians']),
+    ...mapGetters(['getEmailSenders', 'getEmailReceivers']),
+  },
+  methods: {
+    // ...mapMutations(['clearSearch', 'setVuexState']),
+    handleClick(word) {
+      // this.clearSearch()
+      // this.setVuexState({ k: 'allText', v: word })
+      // this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
   },
 }

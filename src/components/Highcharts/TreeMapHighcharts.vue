@@ -7,15 +7,7 @@ import { mapState, mapMutations } from 'vuex'
 import Highcharts from 'highcharts'
 import { Chart } from 'highcharts-vue'
 
-require('highcharts/modules/wordcloud')(Highcharts)
-
-Highcharts.seriesTypes.wordcloud.prototype.deriveFontSize = function (
-  relativeWeight
-) {
-  const minFontSize = 10
-  const maxFontSize = 25
-  return Math.floor(minFontSize + (maxFontSize - minFontSize) * relativeWeight)
-}
+require('highcharts/modules/treemap')(Highcharts)
 
 export default {
   data() {
@@ -30,6 +22,10 @@ export default {
     },
     chartData: {
       type: Array,
+      required: true,
+    },
+    search: {
+      type: String,
       required: true,
     },
     handleClick: {
@@ -69,12 +65,26 @@ export default {
         },
         series: [
           {
-            type: 'wordcloud',
-            name: 'Occurrences',
-            data: this.chartData.map((word) => ({
-              name: word.tag,
-              weight: word.weight,
-            })),
+            type: 'treemap',
+            layoutAlgorithm: 'squarified',
+            // layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [
+              {
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                  enabled: true,
+                  align: 'left',
+                  verticalAlign: 'top',
+                  style: {
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                  },
+                },
+              },
+            ],
+            data: this.chartData,
           },
         ],
       }
