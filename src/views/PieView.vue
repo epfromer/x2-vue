@@ -6,13 +6,13 @@
     ></v-progress-linear>
     <div v-if="custodians">
       <div class="headline">Highcharts</div>
-      <tree-map-highcharts
+      <pie-highcharts
         title="Senders"
         search="from"
         :chartData="getEmailSenders"
         :handleClick="handleClick"
       />
-      <tree-map-highcharts
+      <pie-highcharts
         title="Receivers"
         search="to"
         :chartData="getEmailReceivers"
@@ -24,10 +24,10 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import TreeMapHighcharts from '@/components/Highcharts/TreeMapHighcharts.vue'
+import PieHighcharts from '@/components/Highcharts/PieHighcharts.vue'
 
 export default {
-  components: { TreeMapHighcharts },
+  components: { PieHighcharts },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),

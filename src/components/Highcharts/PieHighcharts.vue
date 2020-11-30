@@ -43,6 +43,14 @@ export default {
   },
   methods: {
     createChart() {
+      const custodians = this.chartData.map((datum) => ({
+        name: datum.name,
+        y: datum.value,
+        color: datum.color,
+        events: {
+          click: (e) => handleClick(search, datum.name),
+        },
+      }))
       this.config = {
         chart: {
           type: 'pie',
@@ -74,7 +82,7 @@ export default {
         },
         series: [
           {
-            data: this.chartData,
+            data: custodians,
           },
         ],
       }
