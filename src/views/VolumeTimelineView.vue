@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-progress-linear
-      v-if="setEmailSentByDayLoading"
+      v-if="emailSentByDayLoading"
       indeterminate
     ></v-progress-linear>
     <div v-if="emailSentByDay">
@@ -29,7 +29,7 @@ export default {
     VolumeTimelineHighcharts,
   },
   computed: {
-    ...mapState(['setEmailSentByDayLoading', 'emailSentByDay']),
+    ...mapState(['emailSentByDayLoading', 'emailSentByDay']),
   },
   methods: {
     ...mapMutations(['clearSearch', 'setVuexState']),
