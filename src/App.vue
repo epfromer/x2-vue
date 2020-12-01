@@ -22,6 +22,7 @@ export default {
   }),
   mounted() {
     this.getInitialDataAsync()
+    this.getEmailAsync()
   },
   components: {
     AppDrawer,
@@ -29,7 +30,7 @@ export default {
     AppFooter,
   },
   methods: {
-    ...mapActions(['getInitialDataAsync']),
+    ...mapActions(['getInitialDataAsync', 'getEmailAsync']),
   },
 }
 </script>

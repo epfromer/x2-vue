@@ -2,40 +2,66 @@ import request, { gql } from 'graphql-request'
 import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { defaultLimit } from './constants'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  getters: {
+  state: {
     // appSettingsSlice
-    getDarkMode: (state) => state.darkMode,
-    getThemeName: (state) => state.themeName,
+    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
+    themeName: '',
+    // TODO remove
+    densePadding:
+      localStorage.getItem('densePadding') === 'false' ? false : true,
+    themePrimaryColor: localStorage.getItem('themePrimaryColor')
+      ? localStorage.getItem('themePrimaryColor')
+      : '#2196f3',
+    themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
+      ? localStorage.getItem('themeSecondaryColor')
+      : '#f50057',
 
     // authenticationSlice
-    getAuthenticated: (state) => state.authenticated,
-    getUsername: (state) => state.username,
+    authenticated: false,
+    username: '',
 
     // custodiansSlice
-    // emailSentByDaySlice
-    // emailSlice
-    // querySlice
-    // wordCloudSlice
+    custodiansLoading: false,
+    custodians: undefined,
 
-    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
-    getNextEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
-    },
-    getPreviousEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i > 0 ? state.emails[i - 1] : undefined
-    },
-    getEmailIndex: (state) => (id) =>
-      state.emails.findIndex((e) => e._id === id) + 1,
-    getContactColor: (state) => (name) =>
-      state.contacts.find((c) => c.name === name).color,
+    // emailSentByDaySlice
+    emailSentByDayLoading: false,
+    emailSentByDay: undefined,
+
+    // emailSlice
+    emailLoading: false,
+    email: undefined,
+    emailTotal: 0,
+
+    // querySlice
+    sort: 'sent',
+    order: 1,
+    sent: '',
+    from: '',
+    to: '',
+    subject: '',
+    allText: '',
+    body: '',
+    emailListPage: 0,
+
+    // wordCloudSlice
+    wordCloudLoading: false,
+    wordCloud: undefined,
+  },
+  getters: {
+    // component suse mapState to get to simple state items
+    // these getters are for more complex state manipulation
+
+    // appSettingsSlice
+
+    // authenticationSlice
+
+    // custodiansSlice
     getEmailSenders: (state) => {
       const custodians = state.custodians.custodians
       const data = []
@@ -99,6 +125,47 @@ export default new Vuex.Store({
 
       return { data, nodes }
     },
+    getContactColor: (state) => (name) =>
+      state.contacts.find((c) => c.name === name).color,
+
+    // emailSentByDaySlice
+
+    // emailSlice
+
+    // querySlice
+    getTo: (state) => state.emailLoading,
+    getQuery: (state) => {
+      const query = {
+        skip: state.emailListPage * defaultLimit,
+        limit: defaultLimit,
+        sort: state.sort,
+        order: state.order,
+      }
+      if (state.sent) query.sent = state.sent
+      if (state.from) query.from = state.from
+      if (state.to) query.to = state.to
+      if (state.subject) query.subject = state.subject
+      if (state.allText) query.allText = state.allText
+      if (state.body) query.body = state.body
+      return query
+    },
+    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
+    getNextEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
+    },
+    getPreviousEmail: (state) => (id) => {
+      if (!state.emails || !state.emails.length) return undefined
+      const i = state.emails.findIndex((e) => e._id === id)
+      return i > 0 ? state.emails[i - 1] : undefined
+    },
+    getEmailIndex: (state) => (id) =>
+      state.emails.findIndex((e) => e._id === id) + 1,
+
+    // wordCloudSlice
+    getWordCloudLoading: (state) => state.wordCloudLoading,
+    getWordCloud: (state) => state.wordCloud,
   },
   mutations: {
     // appSettingsSlice
@@ -118,7 +185,21 @@ export default new Vuex.Store({
     },
 
     // custodiansSlice
+    setCustodiansLoading: (state, custodiansLoading) => {
+      state.custodiansLoading = custodiansLoading
+    },
+    setCustodians: (state, custodians) => {
+      state.custodians = _.cloneDeep(custodians)
+    },
+
     // emailSentByDaySlice
+    setEmailSentByDayLoading: (state, emailSentByDayLoading) => {
+      state.emailSentByDayLoading = emailSentByDayLoading
+    },
+    setEmailSentByDay: (state, emailSentByDay) => {
+      state.emailSentByDay = _.cloneDeep(emailSentByDay)
+    },
+
     // emailSlice
     setEmailLoading: (state, emailLoading) => {
       state.emailLoading = emailLoading
@@ -140,32 +221,6 @@ export default new Vuex.Store({
     },
 
     // querySlice
-    // wordCloudSlice
-
-    setCustodians: (state, custodians) => {
-      state.custodians = _.cloneDeep(custodians)
-    },
-    setCustodiansLoading: (state, custodiansLoading) => {
-      state.custodiansLoading = custodiansLoading
-    },
-    setEmailSentByDay: (state, emailSentByDay) => {
-      state.emailSentByDay = _.cloneDeep(emailSentByDay)
-    },
-    setEmailSentByDayLoading: (state, emailSentByDayLoading) => {
-      state.emailSentByDayLoading = emailSentByDayLoading
-    },
-    setWordCloud: (state, wordCloud) => {
-      state.wordCloud = _.cloneDeep(wordCloud)
-    },
-    setWordCloudLoading: (state, wordCloudLoading) => {
-      state.wordCloudLoading = wordCloudLoading
-    },
-    saveAppSettings: (state) => {
-      localStorage.setItem('densePadding', state.densePadding)
-      localStorage.setItem('darkMode', state.darkMode)
-      localStorage.setItem('themePrimaryColor', state.themePrimaryColor)
-      localStorage.setItem('themeSecondaryColor', state.themeSecondaryColor)
-    },
     clearSearch: (state) => {
       state.sent = ''
       state.timeSpan = 0
@@ -174,6 +229,14 @@ export default new Vuex.Store({
       state.subject = ''
       state.allText = ''
       state.body = ''
+    },
+
+    // wordCloudSlice
+    setWordCloud: (state, wordCloud) => {
+      state.wordCloud = _.cloneDeep(wordCloud)
+    },
+    setWordCloudLoading: (state, wordCloudLoading) => {
+      state.wordCloudLoading = wordCloudLoading
     },
   },
   actions: {
@@ -227,15 +290,105 @@ export default new Vuex.Store({
     },
 
     // authenticationSlice
+
     // custodiansSlice
+    getCustodiansAsync: ({ commit }) => {
+      commit('setCustodiansLoading', true)
+      const server = process.env.VUE_APP_X2_SERVER
+      const query = gql`
+        {
+          getCustodians {
+            id
+            name
+            title
+            color
+            senderTotal
+            receiverTotal
+            toCustodians {
+              custodianId
+              total
+            }
+          }
+        }
+      `
+      return request(`${server}/graphql/`, query)
+        .then((data) => {
+          commit('setCustodians', data.getCustodians)
+          commit('setCustodiansLoading', false)
+        })
+        .catch((e) => console.error(e))
+    },
+
     // emailSentByDaySlice
+
     // emailSlice
+    getEmailAsync: ({ commit, getters }, append = false) => {
+      commit('setEmailLoading', true)
+      const server = process.env.VUE_APP_X2_SERVER
+      // console.log(server)
+      const query = gql`
+        query getEmail(
+          $skip: Int
+          $limit: Int
+          $sort: String
+          $order: Int
+          $sent: String
+          $from: String
+          $to: String
+          $subject: String
+          $allText: String
+          $body: String
+        ) {
+          getEmail(
+            skip: $skip
+            limit: $limit
+            sort: $sort
+            order: $order
+            sent: $sent
+            from: $from
+            to: $to
+            subject: $subject
+            allText: $allText
+            body: $body
+          ) {
+            emails {
+              id
+              sent
+              sentShort
+              from
+              fromCustodian
+              to
+              toCustodians
+              cc
+              bcc
+              subject
+              body
+            }
+            total
+          }
+        }
+      `
+      return request(`${server}/graphql/`, query, getters.getQuery)
+        .then((data) => {
+          if (append) {
+            commit('appendEmail', data.getEmail.emails)
+          } else {
+            commit('setEmail', data.getEmail.emails)
+          }
+          commit('setEmailTotal', data.getEmail.total)
+          commit('setEmailLoading', false)
+        })
+        .catch((e) => console.error(e))
+    },
+
     // querySlice
+
     // wordCloudSlice
     getInitialDataAsync: ({ commit }) => {
       commit('setCustodiansLoading', true)
       commit('setEmailSentByDayLoading', true)
       commit('setWordCloudLoading', true)
+      const server = process.env.VUE_APP_X2_SERVER
       const query = gql`
         {
           getWordCloud {
@@ -260,7 +413,6 @@ export default new Vuex.Store({
           }
         }
       `
-      const server = process.env.VUE_APP_X2_SERVER
       return request(`${server}/graphql/`, query)
         .then(async (data) => {
           // await sleep(5000)
@@ -273,51 +425,5 @@ export default new Vuex.Store({
         })
         .catch((e) => console.error(e))
     },
-  },
-  state: {
-    // appSettingsSlice
-    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
-    themeName: '',
-    // TODO remove
-    densePadding:
-      localStorage.getItem('densePadding') === 'false' ? false : true,
-    themePrimaryColor: localStorage.getItem('themePrimaryColor')
-      ? localStorage.getItem('themePrimaryColor')
-      : '#2196f3',
-    themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
-      ? localStorage.getItem('themeSecondaryColor')
-      : '#f50057',
-
-    // authenticationSlice
-    authenticated: false,
-    username: '',
-
-    // custodiansSlice
-    custodiansLoading: false,
-    custodians: undefined,
-
-    // emailSentByDaySlice
-    emailSentByDayLoading: false,
-    emailSentByDay: undefined,
-
-    // emailSlice
-    emailLoading: false,
-    email: undefined,
-    emailTotal: 0,
-
-    // querySlice
-    sort: 'sent',
-    order: 1,
-    sent: '',
-    from: '',
-    to: '',
-    subject: '',
-    allText: '',
-    body: '',
-    emailListPage: 0,
-
-    // wordCloudSlice
-    wordCloudLoading: false,
-    wordCloud: undefined,
   },
 })

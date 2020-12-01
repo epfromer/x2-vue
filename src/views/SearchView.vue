@@ -3,7 +3,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="computedEmails"
+      :items="email"
       :server-items-length="computedTotalEmails"
       :loading="loading"
       @click:row="rowClick"
@@ -11,13 +11,13 @@
       :page.sync="computedEmailListPage"
       :items-per-page.sync="computedEmailListItemsPerPage"
       must-sort
-      :sort-by.sync="computedQuerySort"
-      :sort-desc.sync="computedQueryOrder"
+      :sort-by.sync="computedSort"
+      :sort-desc.sync="computedOrder"
       show-expand
       item-key="_id"
       :single-expand="true"
       :expanded.sync="expanded"
-      :dense="densePadding"
+      :dense="true"
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
     >
@@ -114,7 +114,7 @@ export default {
         {
           text: 'Sent',
           sortable: true,
-          value: 'sent',
+          value: 'sentShort',
         },
         {
           text: 'From',
@@ -144,67 +144,8 @@ export default {
     //   // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
     //   console.log('intersecting', entries[0].isIntersecting)
     // },
-    encodeQuery(q) {
-      // encode query for URL
-      let params = ''
-      Object.keys(q).forEach((key) => {
-        if (
-          (typeof q[key] == 'string' && q[key]) ||
-          typeof q[key] == 'number'
-        ) {
-          params += '&' + key + '=' + encodeURIComponent(q[key])
-        }
-      })
-      return '?' + params.slice(1)
-    },
-    async doQuery() {
-      // TODO move to vuex
-      const {
-        emailListPage,
-        emailListItemsPerPage,
-        querySort,
-        queryOrder,
-        sent,
-        timeSpan,
-        from,
-        to,
-        subject,
-        allText,
-        body,
-      } = this
-
-      const query = {
-        skip: (emailListPage - 1) * emailListItemsPerPage,
-        limit: emailListItemsPerPage,
-        sort: querySort,
-        order: queryOrder,
-      }
-      if (sent) query.sent = sent
-      if (timeSpan) query.timeSpan = timeSpan
-      if (from) query.from = from
-      if (to) query.to = to
-      if (subject) query.subject = subject
-      if (allText) query.allText = allText
-      if (body) query.body = body
-
-      const encodedQuery = this.encodeQuery(query)
-
-      this.loading = true
-      const url = `${process.env.VUE_APP_X2_SERVER}/email/${encodedQuery}`
-      console.log(url)
-      const resp = await fetch(url)
-      resp
-        .json()
-        .then((resp) => {
-          // prettify email sent dates
-          this.computedEmails = resp.emails.map((email) => ({
-            ...email,
-            sent: email.sent.slice(0, 10) + ' ' + email.sent.slice(11, 19),
-          }))
-          this.computedTotalEmails = resp.total
-        })
-        .catch(() => {}) // TODO: handle errors
-        .then(() => (this.loading = false))
+    doQuery() {
+      console.log('do query')
     },
     rowClick(details) {
       this.$router.push({
@@ -212,20 +153,15 @@ export default {
         params: { id: details._id },
       })
     },
-    handleTimeSpan(sent, span) {
-      this.openFilterDate = false
-      if (sent != undefined) this.computedSent = sent
-      if (span != undefined) this.computedTimeSpan = span
-    },
   },
   computed: {
     ...mapState([
-      'emails',
-      'totalEmails',
+      'emailLoading',
+      'email',
+      'emailTotal',
       'emailListPage',
-      'emailListItemsPerPage',
-      'querySort',
-      'queryOrder',
+      'sort',
+      'order',
       'sent',
       'timeSpan',
       'from',
@@ -243,20 +179,12 @@ export default {
       }
       return ''
     },
-    computedEmails: {
-      get() {
-        return this.emails
-      },
-      set(v) {
-        this.setVuexState({ k: 'emails', v })
-      },
-    },
     computedTotalEmails: {
       get() {
-        return this.totalEmails
+        return this.emailTotal
       },
       set(v) {
-        this.setVuexState({ k: 'totalEmails', v })
+        this.setVuexState({ k: 'emailTotal', v })
       },
     },
     computedEmailListPage: {
@@ -275,20 +203,20 @@ export default {
         this.setVuexState({ k: 'emailListItemsPerPage', v })
       },
     },
-    computedQuerySort: {
+    computedSort: {
       get() {
-        return [this.querySort]
+        return [this.sort]
       },
       set(arr) {
-        this.setVuexState({ k: 'querySort', v: arr[0] })
+        this.setVuexState({ k: 'sort', v: arr[0] })
       },
     },
-    computedQueryOrder: {
+    computedOrder: {
       get() {
-        return [this.queryOrder > 0 ? false : true]
+        return [this.order > 0 ? false : true]
       },
       set(arr) {
-        this.setVuexState({ k: 'queryOrder', v: arr[0] ? -1 : 1 })
+        this.setVuexState({ k: 'order', v: arr[0] ? -1 : 1 })
       },
     },
     computedAllText: {
@@ -305,14 +233,6 @@ export default {
       },
       set(v) {
         this.setVuexState({ k: 'sent', v })
-      },
-    },
-    computedTimeSpan: {
-      get() {
-        return this.timeSpan
-      },
-      set(v) {
-        this.setVuexState({ k: 'timeSpan', v })
       },
     },
     computedFrom: {
@@ -347,13 +267,10 @@ export default {
     computedEmailListItemsPerPage() {
       this.doQuery()
     },
-    computedQuerySort() {
+    computedSort() {
       this.doQuery()
     },
-    computedQueryOrder() {
-      this.doQuery()
-    },
-    computedTimeSpan() {
+    computedOrder() {
       this.doQuery()
     },
     computedAllText() {
