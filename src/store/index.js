@@ -5,19 +5,22 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-function doFetch(commit, loadingIndicator, statType, stateVal) {
-  commit('setVuexState', { k: loadingIndicator, v: true })
-  const url = `${process.env.VUE_APP_X2_SERVER}/${statType}`
-  console.log(url)
-  fetch(url)
-    .then((resp) => resp.json())
-    .then((json) => commit('setVuexState', { k: stateVal, v: json }))
-    .then(commit('setVuexState', { k: loadingIndicator, v: false }))
-    .catch((e) => console.log(e))
-}
-
 export default new Vuex.Store({
   getters: {
+    // appSettingsSlice
+    getDarkMode: (state) => state.darkMode,
+    getThemeName: (state) => state.themeName,
+
+    // authenticationSlice
+    getAuthenticated: (state) => state.authenticated,
+    getUsername: (state) => state.username,
+
+    // custodiansSlice
+    // emailSentByDaySlice
+    // emailSlice
+    // querySlice
+    // wordCloudSlice
+
     getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
     getNextEmail: (state) => (id) => {
       if (!state.emails || !state.emails.length) return undefined
@@ -98,6 +101,47 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    // appSettingsSlice
+    setDarkMode: (state, darkMode) => {
+      state.darkMode = darkMode
+    },
+    setThemeName: (state, themeName) => {
+      state.themeName = themeName
+    },
+
+    // authenticationSlice
+    setAuthenticated: (state, authenticated) => {
+      state.authenticated = authenticated
+    },
+    setUsername: (state, username) => {
+      state.username = username
+    },
+
+    // custodiansSlice
+    // emailSentByDaySlice
+    // emailSlice
+    setEmailLoading: (state, emailLoading) => {
+      state.emailLoading = emailLoading
+    },
+    setEmail: (state, email) => {
+      state.email = _.cloneDeep(email)
+    },
+    appendEmail: (state, email) => {
+      if (state.email) {
+        // console.log('appending email')
+        state.email.push(...email)
+      } else {
+        // console.log('setting email')
+        state.email = _.cloneDeep(email)
+      }
+    },
+    setEmailTotal: (state, emailTotal) => {
+      state.emailTotal = emailTotal
+    },
+
+    // querySlice
+    // wordCloudSlice
+
     setCustodians: (state, custodians) => {
       state.custodians = _.cloneDeep(custodians)
     },
@@ -116,24 +160,6 @@ export default new Vuex.Store({
     setWordCloudLoading: (state, wordCloudLoading) => {
       state.wordCloudLoading = wordCloudLoading
     },
-    setVuexState: (state, { k, v }) => {
-      if (k === 'emails') {
-        state.emails = _.cloneDeep(v)
-      } else if (k === 'wordcloud') {
-        state.wordcloud = _.cloneDeep(v)
-      } else if (k === 'contacts') {
-        state.contacts = _.cloneDeep(v)
-        state.contacts.sort((a, b) => {
-          const aName = a.name.toLowerCase()
-          const bName = b.name.toLowerCase()
-          if (aName < bName) return -1
-          else if (aName < bName) return 1
-          else return 0
-        })
-      } else {
-        state[k] = v
-      }
-    },
     saveAppSettings: (state) => {
       localStorage.setItem('densePadding', state.densePadding)
       localStorage.setItem('darkMode', state.darkMode)
@@ -151,23 +177,61 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // https://vuex.vuejs.org/guide/actions.html
-    fetchEmailSentIfNeeded: ({ commit, state }, invalidateCache) => {
-      if (invalidateCache || (!state.emailSent && !state.emailSentLoading)) {
-        doFetch(commit, 'emailSentLoading', 'emailsent', 'emailSent')
+    // https://vuex.vuejs.org/guide/actions.html - async mutations
+
+    // appSettingsSlice
+    loadAppSettingsAsync: async ({ commit, store }) => {
+      try {
+        let darkMode = false
+        let themeName = defaultThemeName
+        if (typeof Storage !== 'undefined') {
+          if (
+            localStorage.getItem('darkMode') &&
+            localStorage.getItem('darkMode') === 'true'
+          ) {
+            darkMode = true
+          }
+          if (
+            localStorage.getItem('themeName') &&
+            localStorage.getItem('themeName') !== 'null'
+          ) {
+            themeName = localStorage.getItem('themeName')
+          }
+        } else {
+          const value = await AsyncStorage.getItem('darkMode')
+          if (value === 'true') darkMode = true
+          value = await AsyncStorage.getItem('themeName')
+          if (value) themeName = value
+        }
+        commit('setDarkMode', darkMode)
+        commit('setThemeName', themeName)
+      } catch (e) {
+        console.error(e)
       }
     },
-    fetchWordCloudIfNeeded: ({ commit, state }, invalidateCache) => {
-      if (invalidateCache || (!state.wordCloud && !state.wordCloudLoading)) {
-        doFetch(commit, 'wordCloudLoading', 'wordcloud', 'wordCloud')
+    setDarkModeAsync: async ({ commit }, darkMode) => {
+      if (typeof Storage !== 'undefined') {
+        localStorage.setItem('darkMode', String(darkMode))
+      } else {
+        await AsyncStorage.setItem('darkMode', String(darkMode))
       }
+      commit('setDarkMode', darkMode)
     },
-    fetchContactsIfNeeded: ({ commit, state }, invalidateCache) => {
-      if (invalidateCache || (!state.contacts && !state.contactsLoading)) {
-        state.contactsLoading = true
-        doFetch(commit, 'contactsLoading', 'contacts', 'contacts')
+    setThemeNameAsync: async ({ commit }, themeName) => {
+      if (typeof Storage !== 'undefined') {
+        localStorage.setItem('themeName', themeName)
+      } else {
+        await AsyncStorage.setItem('themeName', themeName)
       }
+      commit('setThemeName', themeName)
     },
+
+    // authenticationSlice
+    // custodiansSlice
+    // emailSentByDaySlice
+    // emailSlice
+    // querySlice
+    // wordCloudSlice
     getInitialDataAsync: ({ commit }) => {
       commit('setCustodiansLoading', true)
       commit('setEmailSentByDayLoading', true)
@@ -211,45 +275,49 @@ export default new Vuex.Store({
     },
   },
   state: {
-    custodiansLoading: false,
-    custodians: undefined,
-    emailSentByDayLoading: false,
-    emailSentByDay: undefined,
-    emailSentLoading: false,
-    emailSent: undefined,
-    wordCloudLoading: false,
-    wordCloud: undefined,
-    contactsLoading: false,
-    contacts: undefined,
-
-    // search results
-    emails: [],
-    totalEmails: 0,
-
-    // email list
-    emailListPage: 1,
-    emailListItemsPerPage: 5,
-
-    // query
-    querySort: 'sent',
-    queryOrder: 1,
-    sent: '',
-    timeSpan: 0,
-    from: '',
-    to: '',
-    subject: '',
-    allText: '',
-    body: '',
-
-    // app settings
+    // appSettingsSlice
+    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
+    themeName: '',
+    // TODO remove
     densePadding:
       localStorage.getItem('densePadding') === 'false' ? false : true,
-    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
     themePrimaryColor: localStorage.getItem('themePrimaryColor')
       ? localStorage.getItem('themePrimaryColor')
       : '#2196f3',
     themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
       ? localStorage.getItem('themeSecondaryColor')
       : '#f50057',
+
+    // authenticationSlice
+    authenticated: false,
+    username: '',
+
+    // custodiansSlice
+    custodiansLoading: false,
+    custodians: undefined,
+
+    // emailSentByDaySlice
+    emailSentByDayLoading: false,
+    emailSentByDay: undefined,
+
+    // emailSlice
+    emailLoading: false,
+    email: undefined,
+    emailTotal: 0,
+
+    // querySlice
+    sort: 'sent',
+    order: 1,
+    sent: '',
+    from: '',
+    to: '',
+    subject: '',
+    allText: '',
+    body: '',
+    emailListPage: 0,
+
+    // wordCloudSlice
+    wordCloudLoading: false,
+    wordCloud: undefined,
   },
 })

@@ -107,7 +107,7 @@ export default {
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }
       fetch(url, payload)
-        .then(() => this.fetchContactsIfNeeded(true))
+        // .then(() => this.fetchContactsIfNeeded(true))
         .catch(() => {}) // TODO: handle errors
     },
   },
