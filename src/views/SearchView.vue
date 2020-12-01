@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapState } from 'vuex'
+import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
 import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
@@ -115,6 +115,7 @@ export default {
           text: 'Sent',
           sortable: true,
           value: 'sentShort',
+          width: '110px',
         },
         {
           text: 'From',
@@ -138,7 +139,13 @@ export default {
     FilterDate,
   },
   methods: {
-    ...mapMutations(['setVuexState']),
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations([
+      'setVuexState',
+      'setEmailListPage',
+      'setOrder',
+      'setSort',
+    ]),
     // TODO SearchViewInfinite.vue
     // onIntersect(entries, observer) {
     //   // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
@@ -208,7 +215,10 @@ export default {
         return [this.sort]
       },
       set(arr) {
-        this.setVuexState({ k: 'sort', v: arr[0] })
+        this.setEmailListPage(0)
+        this.setOrder(1)
+        this.setSort(arr[0] === 'sentShort' ? 'sent' : arr[0])
+        this.getEmailAsync()
       },
     },
     computedOrder: {
@@ -216,7 +226,9 @@ export default {
         return [this.order > 0 ? false : true]
       },
       set(arr) {
-        this.setVuexState({ k: 'order', v: arr[0] ? -1 : 1 })
+        this.setEmailListPage(0)
+        this.setOrder(arr[0] ? -1 : 1)
+        this.getEmailAsync()
       },
     },
     computedAllText: {

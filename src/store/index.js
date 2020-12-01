@@ -221,6 +221,33 @@ export default new Vuex.Store({
     },
 
     // querySlice
+    setSort: (state, sort) => {
+      state.sort = sort
+    },
+    setOrder: (state, order) => {
+      state.order = order
+    },
+    setSent: (state, sent) => {
+      state.sent = sent
+    },
+    setFrom: (state, from) => {
+      state.from = from
+    },
+    setTo: (state, to) => {
+      state.to = to
+    },
+    setSubject: (state, subject) => {
+      state.subject = subject
+    },
+    setAllText: (state, allText) => {
+      state.allText = allText
+    },
+    setBody: (state, body) => {
+      state.body = body
+    },
+    setEmailListPage: (state, emailListPage) => {
+      state.emailListPage = emailListPage
+    },
     clearSearch: (state) => {
       state.sent = ''
       state.timeSpan = 0
