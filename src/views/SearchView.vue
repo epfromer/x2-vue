@@ -21,7 +21,7 @@
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
     >
-      <!-- <template v-slot:body.prepend>
+      <template v-slot:body.prepend>
         <tr>
           <td colspan="1">
             <v-btn @click="() => (openFilterDate = true)" text>
@@ -70,7 +70,7 @@
           class="mx-4"
           data-testid="computedAllText"
         ></v-text-field>
-      </template> -->
+      </template>
       <template v-slot:expanded-item="{ headers }">
         <td :colspan="headers.length">{{ expandedBody }}</td>
       </template>
