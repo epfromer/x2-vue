@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     goToRoute() {
-      this.$router.push({ name: this.route }).catch((err) => {})
+      this.$router.push({ name: this.route }).catch((e) => console.error(e))
     },
   },
 }

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.push({ name: this.link })
+      this.$router.push({ name: this.link }).catch((e) => console.error(e))
     },
   },
 }

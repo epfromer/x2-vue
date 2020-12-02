@@ -35,7 +35,7 @@ export default {
     handleClick(word) {
       this.clearSearch()
       this.setVuexState({ k: 'allText', v: word })
-      this.$router.push({ name: 'SearchView' }).catch((err) => {})
+      this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },
 }

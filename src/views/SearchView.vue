@@ -154,10 +154,12 @@ export default {
       }
     },
     rowClick(details) {
-      this.$router.push({
-        name: 'EmailDetailView',
-        params: { id: details._id },
-      })
+      this.$router
+        .push({
+          name: 'EmailDetailView',
+          params: { id: details._id },
+        })
+        .catch((e) => console.error(e))
     },
     onDateClear() {
       this.datePickerOpen = false
