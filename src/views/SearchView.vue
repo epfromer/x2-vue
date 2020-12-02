@@ -24,8 +24,8 @@
       <template slot="body.prepend">
         <tr>
           <th colspan="1">
-            <v-btn @click="() => (openFilterDate = true)" text>
-              <v-icon>calendar_today</v-icon>
+            <v-btn @click="() => (datePickerOpen = true)" text>
+              <v-icon>date_range</v-icon>
             </v-btn>
           </th>
           <th key="sent">
@@ -77,17 +77,11 @@
     </v-data-table>
     <!-- <div v-intersect="onIntersect" /> -->
     <FilterDate
-      :open="openFilterDate"
-      :date="sent ? sent : '2000-10-04'"
-      :span="timeSpan"
-      :onClear="() => handleTimeSpan('', 0)"
-      :onClose="(sent, span) => handleTimeSpan(sent, span)"
+      :open="datePickerOpen"
+      :date="sent ? sent : FILTER_DATE"
+      :onClear="onDateClear"
+      :onClose="onDateClose"
     />
-    <button
-      hidden
-      @click="() => handleTimeSpan('2001-01-01', 1)"
-      data-testid="handleTimeSpan"
-    ></button>
     <button
       hidden
       @click="() => rowClick({ _id: 'foo' })"
@@ -102,18 +96,19 @@ import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
 // TODO EXPANDED BODY
-// TODO DATE DIALOG
 // TODO INFINITE SCROLL
 // TODO COMPARE TO NG, REACT
 
-const DEBOUNCE_MS = 500
+const DEBOUNCE_MS = 1000
+const FILTER_DATE = '2000-10-04'
 const EXPANDED_BODY_LENGTH = 1000
 
 export default {
   data() {
     return {
+      FILTER_DATE: FILTER_DATE,
       loading: false,
-      openFilterDate: false,
+      datePickerOpen: false,
       expanded: [],
       headers: [
         {
@@ -166,6 +161,16 @@ export default {
         name: 'EmailDetailView',
         params: { id: details._id },
       })
+    },
+    onDateClear() {
+      this.datePickerOpen = false
+      this.setSent('')
+      this.getEmailAsync()
+    },
+    onDateClose(date) {
+      this.datePickerOpen = false
+      this.setSent(date)
+      this.getEmailAsync()
     },
   },
   computed: {
