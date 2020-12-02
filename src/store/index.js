@@ -251,13 +251,15 @@ export default new Vuex.Store({
       state.emailListPage = emailListPage
     },
     clearSearch: (state) => {
+      state.sort = 'sent'
+      state.order = 1
       state.sent = ''
-      state.timeSpan = 0
       state.from = ''
       state.to = ''
       state.subject = ''
       state.allText = ''
       state.body = ''
+      state.emailListPage = 0
     },
 
     // wordCloudSlice

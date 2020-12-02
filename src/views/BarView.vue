@@ -46,6 +46,7 @@ export default {
       this.clearSearch()
       const name = value.slice(0, value.search(/,/))
       search === 'from' ? this.setFrom(name) : this.setTo(name)
+      this.getEmailAsync()
       this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
   },
