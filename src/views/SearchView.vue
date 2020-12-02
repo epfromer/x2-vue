@@ -5,7 +5,7 @@
       :headers="headers"
       :items="email"
       :server-items-length="computedTotalEmails"
-      :loading="loading"
+      :loading="emailLoading"
       @click:row="rowClick"
       class="elevation-1"
       :page.sync="computedEmailListPage"
@@ -21,48 +21,48 @@
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
     >
-      <template v-slot:body.prepend>
+      <template slot="body.prepend">
         <tr>
-          <td colspan="1">
+          <th colspan="1">
             <v-btn @click="() => (openFilterDate = true)" text>
               <v-icon>calendar_today</v-icon>
             </v-btn>
-          </td>
-          <td>
+          </th>
+          <th key="sent">
             <v-text-field
               v-model="computedSent"
               label="Filter Sent"
               clearable
               data-testid="computedSent"
             ></v-text-field>
-          </td>
-          <td>
+          </th>
+          <th>
             <v-text-field
               v-model="computedFrom"
               label="Filter From"
               clearable
               data-testid="computedFrom"
             ></v-text-field>
-          </td>
-          <td>
+          </th>
+          <th>
             <v-text-field
               v-model="computedTo"
               label="Filter To"
               clearable
               data-testid="computedTo"
             ></v-text-field>
-          </td>
-          <td>
+          </th>
+          <th>
             <v-text-field
               v-model="computedSubject"
               label="Filter Subject"
               clearable
               data-testid="computedSubject"
             ></v-text-field>
-          </td>
+          </th>
         </tr>
-      </template> -->
-      <!-- <template v-slot:top>
+      </template>
+      <template v-slot:top>
         <v-text-field
           v-model="computedAllText"
           label="Filter (all text fields)"
@@ -71,9 +71,9 @@
           data-testid="computedAllText"
         ></v-text-field>
       </template>
-      <template v-slot:expanded-item="{ headers }">
+      <!--<template v-slot:expanded-item="{ headers }">
         <td :colspan="headers.length">{{ expandedBody }}</td>
-      </template>
+      </template>-->
     </v-data-table>
     <!-- <div v-intersect="onIntersect" /> -->
     <FilterDate
@@ -100,6 +100,11 @@
 import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
 import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
+
+// TODO EXPANDED BODY
+// TODO DATE DIALOG
+// TODO INFINITE SCROLL
+// TODO COMPARE TO NG, REACT
 
 const DEBOUNCE_MS = 500
 const EXPANDED_BODY_LENGTH = 1000
@@ -141,19 +146,21 @@ export default {
   methods: {
     ...mapActions(['getEmailAsync']),
     ...mapMutations([
+      'setAllText',
       'setVuexState',
       'setEmailListPage',
+      'setFrom',
       'setOrder',
+      'setSent',
       'setSort',
+      'setSubject',
+      'setTo',
     ]),
     // TODO SearchViewInfinite.vue
     // onIntersect(entries, observer) {
     //   // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
     //   console.log('intersecting', entries[0].isIntersecting)
     // },
-    doQuery() {
-      console.log('do query')
-    },
     rowClick(details) {
       this.$router.push({
         name: 'EmailDetailView',
@@ -186,6 +193,7 @@ export default {
       }
       return ''
     },
+    // TODO - NEED THIS?
     computedTotalEmails: {
       get() {
         return this.emailTotal
@@ -194,6 +202,7 @@ export default {
         this.setVuexState({ k: 'emailTotal', v })
       },
     },
+    // TODO - NEED THIS?
     computedEmailListPage: {
       get() {
         return this.emailListPage
@@ -202,6 +211,7 @@ export default {
         this.setVuexState({ k: 'emailListPage', v })
       },
     },
+    // TODO - NEED THIS?
     computedEmailListItemsPerPage: {
       get() {
         return this.emailListItemsPerPage
@@ -236,7 +246,7 @@ export default {
         return this.allText
       },
       set(v) {
-        this.setVuexState({ k: 'allText', v })
+        this.setAllText(v)
       },
     },
     computedSent: {
@@ -244,7 +254,7 @@ export default {
         return this.sent
       },
       set(v) {
-        this.setVuexState({ k: 'sent', v })
+        this.setSent(v)
       },
     },
     computedFrom: {
@@ -252,7 +262,7 @@ export default {
         return this.from
       },
       set(v) {
-        this.setVuexState({ k: 'from', v })
+        this.setFrom(v)
       },
     },
     computedTo: {
@@ -260,7 +270,7 @@ export default {
         return this.to
       },
       set(v) {
-        this.setVuexState({ k: 'to', v })
+        this.setTo(v)
       },
     },
     computedSubject: {
@@ -268,21 +278,17 @@ export default {
         return this.subject
       },
       set(v) {
-        this.setVuexState({ k: 'subject', v })
+        this.setSubject(v)
       },
     },
   },
   watch: {
+    // TODO - NEED THIS?
     computedEmailListPage() {
       this.doQuery()
     },
+    // TODO - NEED THIS?
     computedEmailListItemsPerPage() {
-      this.doQuery()
-    },
-    computedSort() {
-      this.doQuery()
-    },
-    computedOrder() {
       this.doQuery()
     },
     computedAllText() {
@@ -302,8 +308,7 @@ export default {
     },
   },
   created() {
-    this.debouncedQuery = _.debounce(() => this.doQuery(), DEBOUNCE_MS)
-    this.doQuery()
+    this.debouncedQuery = _.debounce(this.getEmailAsync, DEBOUNCE_MS)
   },
 }
 </script>
