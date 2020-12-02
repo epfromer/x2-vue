@@ -4,18 +4,18 @@
     <v-data-table
       :headers="headers"
       :items="email"
-      :server-items-length="computedTotalEmails"
+      :server-items-length="emailTotal"
       :loading="emailLoading"
       @click:row="rowClick"
       class="elevation-1"
       must-sort
+      hide-default-footer
       :sort-by.sync="computedSort"
       :sort-desc.sync="computedOrder"
       show-expand
       :expanded.sync="expanded"
       item-key="id"
       :dense="true"
-      :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
     >
       <template slot="body.prepend">
@@ -74,7 +74,7 @@
         </td>
       </template>
     </v-data-table>
-    <!-- <div v-intersect="onIntersect" /> -->
+    <div v-intersect="onIntersect" />
     <FilterDate
       :open="datePickerOpen"
       :date="sent ? sent : FILTER_DATE"
@@ -91,10 +91,11 @@
 
 <script>
 import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
+import { defaultLimit } from '../store/constants'
 import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
-// TODO INFINITE SCROLL
+// TODO search history
 // TODO COMPARE TO NG, REACT
 
 export default {
@@ -138,7 +139,6 @@ export default {
     ...mapActions(['getEmailAsync']),
     ...mapMutations([
       'setAllText',
-      'setVuexState',
       'setEmailListPage',
       'setFrom',
       'setOrder',
@@ -147,11 +147,12 @@ export default {
       'setSubject',
       'setTo',
     ]),
-    // TODO SearchViewInfinite.vue
-    // onIntersect(entries, observer) {
-    //   // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-    //   console.log('intersecting', entries[0].isIntersecting)
-    // },
+    onIntersect(entries, observer, isIntersecting) {
+      if (isIntersecting && this.hasMore) {
+        this.setEmailListPage(this.emailListPage + 1)
+        this.getEmailAsync(true)
+      }
+    },
     rowClick(details) {
       this.$router.push({
         name: 'EmailDetailView',
@@ -168,6 +169,9 @@ export default {
       this.setSent(date)
       this.getEmailAsync()
     },
+    hasMore() {
+      return (this.emailListPage + 1) * this.defaultLimit < this.totalEmails
+    },
   },
   computed: {
     ...mapState([
@@ -178,41 +182,11 @@ export default {
       'sort',
       'order',
       'sent',
-      'timeSpan',
       'from',
       'to',
       'subject',
       'allText',
-      'densePadding',
-      'darkMode',
     ]),
-    // TODO - NEED THIS?
-    computedTotalEmails: {
-      get() {
-        return this.emailTotal
-      },
-      set(v) {
-        this.setVuexState({ k: 'emailTotal', v })
-      },
-    },
-    // TODO - NEED THIS?
-    // computedEmailListPage: {
-    //   get() {
-    //     return this.emailListPage
-    //   },
-    //   set(v) {
-    //     this.setVuexState({ k: 'emailListPage', v })
-    //   },
-    // },
-    // TODO - NEED THIS?
-    // computedEmailListItemsPerPage: {
-    //   get() {
-    //     return this.emailListItemsPerPage
-    //   },
-    //   set(v) {
-    //     this.setVuexState({ k: 'emailListItemsPerPage', v })
-    //   },
-    // },
     computedSort: {
       get() {
         return [this.sort]
@@ -276,14 +250,6 @@ export default {
     },
   },
   watch: {
-    // TODO - NEED THIS?
-    // computedEmailListPage() {
-    //   this.doQuery()
-    // },
-    // TODO - NEED THIS?
-    // computedEmailListItemsPerPage() {
-    //   this.doQuery()
-    // },
     computedAllText() {
       this.debouncedQuery()
     },

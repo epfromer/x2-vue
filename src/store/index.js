@@ -4,6 +4,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { defaultLimit } from './constants'
 
+const sleep = (ms = 0) => new Promise((r) => setTimeout(r, ms))
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -209,10 +211,10 @@ export default new Vuex.Store({
     },
     appendEmail: (state, email) => {
       if (state.email) {
-        // console.log('appending email')
+        // console.log('append: appending email')
         state.email.push(...email)
       } else {
-        // console.log('setting email')
+        // console.log('append: setting email')
         state.email = _.cloneDeep(email)
       }
     },
@@ -396,7 +398,8 @@ export default new Vuex.Store({
         }
       `
       return request(`${server}/graphql/`, query, getters.getQuery)
-        .then((data) => {
+        .then(async (data) => {
+          // await sleep(5000)
           if (append) {
             commit('appendEmail', data.getEmail.emails)
           } else {
