@@ -85,7 +85,7 @@ export default {
         plotOptions: {
           bar: {
             events: {
-              click: (e) => handleClick(search, e.point.category),
+              click: (e) => this.handleClick(this.search, e.point.category),
             },
           },
         },

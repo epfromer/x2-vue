@@ -82,7 +82,7 @@ export default {
               y: datum.value,
               color: datum.color,
               events: {
-                click: (e) => handleClick(search, datum.name),
+                click: (e) => this.handleClick(this.search, datum.name),
               },
             })),
           },

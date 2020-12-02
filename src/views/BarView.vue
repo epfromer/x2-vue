@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import BarHighcharts from '@/components/Highcharts/BarHighcharts.vue'
 
 export default {
@@ -40,11 +40,13 @@ export default {
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),
   },
   methods: {
-    // ...mapMutations(['clearSearch', 'setVuexState']),
-    handleClick(word) {
-      // this.clearSearch()
-      // this.setVuexState({ k: 'allText', v: word })
-      // this.$router.push({ name: 'SearchView' }).catch((err) => {})
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations(['clearSearch', 'setFrom', 'setTo']),
+    handleClick(search, value) {
+      this.clearSearch()
+      const name = value.slice(0, value.search(/,/))
+      search === 'from' ? this.setFrom(name) : this.setTo(name)
+      this.$router.push({ name: 'SearchView' }).catch((err) => {})
     },
   },
 }
