@@ -8,15 +8,12 @@
       :loading="emailLoading"
       @click:row="rowClick"
       class="elevation-1"
-      :page.sync="computedEmailListPage"
-      :items-per-page.sync="computedEmailListItemsPerPage"
       must-sort
       :sort-by.sync="computedSort"
       :sort-desc.sync="computedOrder"
       show-expand
-      item-key="_id"
-      :single-expand="true"
       :expanded.sync="expanded"
+      item-key="id"
       :dense="true"
       :footer-props="{ itemsPerPageOptions: [5, 10, 25, 50, 100] }"
       data-testid="datatable"
@@ -71,9 +68,11 @@
           data-testid="computedAllText"
         ></v-text-field>
       </template>
-      <!--<template v-slot:expanded-item="{ headers }">
-        <td :colspan="headers.length">{{ expandedBody }}</td>
-      </template>-->
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          {{ item.body.slice(0, EXPANDED_BODY_LENGTH) }}
+        </td>
+      </template>
     </v-data-table>
     <!-- <div v-intersect="onIntersect" /> -->
     <FilterDate
@@ -95,18 +94,15 @@ import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
 import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
-// TODO EXPANDED BODY
 // TODO INFINITE SCROLL
 // TODO COMPARE TO NG, REACT
-
-const DEBOUNCE_MS = 1000
-const FILTER_DATE = '2000-10-04'
-const EXPANDED_BODY_LENGTH = 1000
 
 export default {
   data() {
     return {
-      FILTER_DATE: FILTER_DATE,
+      DEBOUNCE_MS: 1000,
+      FILTER_DATE: '2000-10-04',
+      EXPANDED_BODY_LENGTH: 1000,
       loading: false,
       datePickerOpen: false,
       expanded: [],
@@ -190,14 +186,6 @@ export default {
       'densePadding',
       'darkMode',
     ]),
-
-    // row is expanded, display a portion of email body
-    expandedBody() {
-      if (this.expanded.length) {
-        return this.expanded[0].body.slice(0, EXPANDED_BODY_LENGTH)
-      }
-      return ''
-    },
     // TODO - NEED THIS?
     computedTotalEmails: {
       get() {
@@ -208,23 +196,23 @@ export default {
       },
     },
     // TODO - NEED THIS?
-    computedEmailListPage: {
-      get() {
-        return this.emailListPage
-      },
-      set(v) {
-        this.setVuexState({ k: 'emailListPage', v })
-      },
-    },
+    // computedEmailListPage: {
+    //   get() {
+    //     return this.emailListPage
+    //   },
+    //   set(v) {
+    //     this.setVuexState({ k: 'emailListPage', v })
+    //   },
+    // },
     // TODO - NEED THIS?
-    computedEmailListItemsPerPage: {
-      get() {
-        return this.emailListItemsPerPage
-      },
-      set(v) {
-        this.setVuexState({ k: 'emailListItemsPerPage', v })
-      },
-    },
+    // computedEmailListItemsPerPage: {
+    //   get() {
+    //     return this.emailListItemsPerPage
+    //   },
+    //   set(v) {
+    //     this.setVuexState({ k: 'emailListItemsPerPage', v })
+    //   },
+    // },
     computedSort: {
       get() {
         return [this.sort]
@@ -289,13 +277,13 @@ export default {
   },
   watch: {
     // TODO - NEED THIS?
-    computedEmailListPage() {
-      this.doQuery()
-    },
+    // computedEmailListPage() {
+    //   this.doQuery()
+    // },
     // TODO - NEED THIS?
-    computedEmailListItemsPerPage() {
-      this.doQuery()
-    },
+    // computedEmailListItemsPerPage() {
+    //   this.doQuery()
+    // },
     computedAllText() {
       this.debouncedQuery()
     },
@@ -313,7 +301,7 @@ export default {
     },
   },
   created() {
-    this.debouncedQuery = _.debounce(this.getEmailAsync, DEBOUNCE_MS)
+    this.debouncedQuery = _.debounce(this.getEmailAsync, this.DEBOUNCE_MS)
   },
 }
 </script>
