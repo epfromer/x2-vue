@@ -2,7 +2,7 @@ import request, { gql } from 'graphql-request'
 import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { defaultLimit } from './constants'
+import { defaultLimit, defaultThemeName } from './constants'
 
 const sleep = (ms = 0) => new Promise((r) => setTimeout(r, ms))
 
@@ -11,17 +11,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // appSettingsSlice
-    darkMode: localStorage.getItem('darkMode') === 'true' ? true : false,
-    themeName: '',
-    // TODO remove
-    densePadding:
-      localStorage.getItem('densePadding') === 'false' ? false : true,
-    themePrimaryColor: localStorage.getItem('themePrimaryColor')
-      ? localStorage.getItem('themePrimaryColor')
-      : '#2196f3',
-    themeSecondaryColor: localStorage.getItem('themeSecondaryColor')
-      ? localStorage.getItem('themeSecondaryColor')
-      : '#f50057',
+    darkMode: false,
+    themeName: defaultThemeName,
 
     // authenticationSlice
     authenticated: false,

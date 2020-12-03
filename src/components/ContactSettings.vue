@@ -90,7 +90,6 @@ export default {
     ColorPicker,
   },
   methods: {
-    ...mapMutations(['setVuexState', 'saveAppSettings']),
     ...mapActions(['fetchContactsIfNeeded']),
     selectColor(id, color) {
       this.contactId = id

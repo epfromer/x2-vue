@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark color="primary" :dense="Boolean(densePadding)">
+  <v-app-bar app dark color="primary" :dense="true">
     <v-app-bar-nav-icon @click.stop="() => setDrawerOpen(true)" />
     <v-toolbar-title>X2 Vue</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -41,8 +41,10 @@
 
 <script>
 // https://material.io/resources/icons/?style=baseline
-import { mapMutations, mapState } from 'vuex'
+// https://vuetifyjs.com/en/features/theme/
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import SettingsButton from './SettingsButton.vue'
+import { getTheme } from '../../utils/appThemes'
 
 export default {
   props: {
@@ -56,15 +58,20 @@ export default {
     SettingsButton,
   },
   computed: {
-    ...mapState(['darkMode', 'densePadding']),
+    ...mapState(['darkMode', 'themeName']),
+  },
+  mounted() {
+    const theme = getTheme(this.themeName)
+    this.$vuetify.theme.themes.dark.primary = theme.primary
+    this.$vuetify.theme.themes.dark.secondary = theme.secondary
+    this.$vuetify.theme.themes.light.primary = theme.primary
+    this.$vuetify.theme.themes.light.secondary = theme.secondary
   },
   methods: {
-    ...mapMutations(['setVuexState', 'saveAppSettings']),
-    // TODO https://vuetifyjs.com/en/features/theme/
+    ...mapActions(['setDarkModeAsync']),
     setDark() {
       const dark = !this.darkMode
-      this.setVuexState({ k: 'darkMode', v: dark })
-      this.saveAppSettings()
+      this.setDarkModeAsync(dark)
       this.$vuetify.theme.dark = dark
     },
   },

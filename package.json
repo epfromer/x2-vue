@@ -11,7 +11,7 @@
     "build": "vue-cli-service build",
     "start": "node server.js",
     "test": "vue-cli-service test:unit",
-    "watch": "vue-cli-service serve --open",
+    "watch": "vue-cli-service serve --open --port 6001",
     "yarn": "yarn"
   },
   "devDependencies": {
