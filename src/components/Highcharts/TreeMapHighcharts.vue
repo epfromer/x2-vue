@@ -62,7 +62,7 @@ export default {
           series: {
             cursor: 'pointer',
             events: {
-              click: (e) => this.handleClick(e.point.name),
+              click: (e) => this.handleClick(this.search, e.point.name),
             },
           },
         },
