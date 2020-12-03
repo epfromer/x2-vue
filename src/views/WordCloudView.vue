@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import WordCloudHighcharts from '@/components/Highcharts/WordCloudHighcharts.vue'
 
 export default {
@@ -32,10 +32,12 @@ export default {
     ...mapState(['wordCloudLoading', 'wordCloud']),
   },
   methods: {
-    ...mapMutations(['clearSearch', 'setVuexState']),
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations(['clearSearch', 'setAllText']),
     handleClick(word) {
       this.clearSearch()
-      this.setVuexState({ k: 'allText', v: word })
+      this.setAllText(word)
+      this.getEmailAsync()
       this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },

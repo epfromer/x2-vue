@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import ChordHighcharts from '@/components/Highcharts/ChordHighcharts.vue'
 
 export default {
@@ -34,10 +34,13 @@ export default {
     ...mapGetters(['getEmailSentByCustodian']),
   },
   methods: {
-    ...mapMutations(['clearSearch', 'setVuexState']),
-    handleClick(word) {
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations(['clearSearch', 'setFrom', 'setTo']),
+    handleClick(from, to) {
       this.clearSearch()
-      this.setVuexState({ k: 'allText', v: word })
+      from ? this.setFrom(from.slice(0, from.search(/,/))) : ''
+      to ? this.setTo(to.slice(0, to.search(/,/))) : ''
+      this.getEmailAsync()
       this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },

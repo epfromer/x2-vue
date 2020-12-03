@@ -68,7 +68,7 @@ export default {
               linkFormat: '{point.fromNode.name} \u2192 {point.toNode.name}',
             },
             events: {
-              click: (e) => this.handleClick(e.point.from, e.point.to),
+              click: (e) => this.handleClick(e.point.id, ''),
             },
             marker: {
               radius: 20,

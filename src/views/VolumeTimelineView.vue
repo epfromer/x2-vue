@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import VolumeTimelineHighcharts from '@/components/Highcharts/VolumeTimelineHighcharts.vue'
 
 export default {
@@ -32,10 +32,12 @@ export default {
     ...mapState(['emailSentByDayLoading', 'emailSentByDay']),
   },
   methods: {
-    ...mapMutations(['clearSearch', 'setVuexState']),
-    handleClick(word) {
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations(['clearSearch', 'setSent']),
+    handleClick(date) {
       this.clearSearch()
-      this.setVuexState({ k: 'allText', v: word })
+      this.setSent(date)
+      this.getEmailAsync()
       this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },
