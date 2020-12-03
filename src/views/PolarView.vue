@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import PolarHighcharts from '@/components/Highcharts/PolarHighcharts.vue'
 
 export default {
@@ -40,11 +40,14 @@ export default {
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),
   },
   methods: {
-    // ...mapMutations(['clearSearch', 'setVuexState']),
-    handleClick(word) {
-      // this.clearSearch()
-      // this.setVuexState({ k: 'allText', v: word })
-      // this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
+    ...mapActions(['getEmailAsync']),
+    ...mapMutations(['clearSearch', 'setFrom', 'setTo']),
+    handleClick(search, value) {
+      this.clearSearch()
+      const name = value.slice(0, value.search(/,/))
+      search === 'from' ? this.setFrom(name) : this.setTo(name)
+      this.getEmailAsync()
+      this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },
 }

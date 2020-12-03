@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import EventTimelineHighcharts from '@/components/Highcharts/EventTimelineHighcharts.vue'
 
 export default {
@@ -31,10 +31,14 @@ export default {
     ...mapState(['custodiansLoading', 'custodians']),
   },
   methods: {
-    ...mapMutations(['clearSearch', 'setVuexState']),
-    handleClick(word) {
+    ...mapMutations(['clearSearch', 'setAllText', 'setFrom', 'setTo']),
+    ...mapActions(['getEmailAsync']),
+    handleClick(search, value) {
       this.clearSearch()
-      this.setVuexState({ k: 'allText', v: word })
+      if (search === 'allText') this.setAllText(value)
+      else if (search === 'from') this.setFrom(value)
+      else if (search === 'to') this.setTo(value)
+      this.getEmailAsync()
       this.$router.push({ name: 'SearchView' }).catch((e) => console.error(e))
     },
   },

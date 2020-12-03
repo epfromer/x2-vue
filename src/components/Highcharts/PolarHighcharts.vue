@@ -82,7 +82,7 @@ export default {
           color: datum.color,
           pointPlacement: 'between',
           events: {
-            click: () => handleClick(search, datum.name),
+            click: () => this.handleClick(this.search, datum.name),
           },
         })),
       }
