@@ -6,7 +6,7 @@
       :items="email"
       :server-items-length="emailTotal"
       :loading="emailLoading"
-      @click:row="rowClick"
+      @click:row="onRowClick"
       class="elevation-1"
       must-sort
       hide-default-footer
@@ -20,10 +20,23 @@
     >
       <template slot="body.prepend">
         <tr>
-          <th colspan="1">
-            <v-btn @click="() => (datePickerOpen = true)" text>
-              <v-icon>date_range</v-icon>
-            </v-btn>
+          <th>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn @click="onHistoryClick" v-on="on" text>
+                  <v-icon>history</v-icon>
+                </v-btn>
+              </template>
+              <span>Search History</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn @click="() => (datePickerOpen = true)" v-on="on" text>
+                  <v-icon>date_range</v-icon>
+                </v-btn>
+              </template>
+              <span>Select date</span>
+            </v-tooltip>
           </th>
           <th key="sent">
             <v-text-field
@@ -83,8 +96,8 @@
     />
     <button
       hidden
-      @click="() => rowClick({ _id: 'foo' })"
-      data-testid="rowClick"
+      @click="() => onRowClick({ _id: 'foo' })"
+      data-testid="onRowClick"
     ></button>
   </div>
 </template>
@@ -96,7 +109,6 @@ import FilterDate from '../components/emaillist/FilterDate'
 import _ from 'lodash'
 
 // TODO search history
-// TODO COMPARE TO NG, REACT
 
 export default {
   data() {
@@ -153,7 +165,12 @@ export default {
         this.getEmailAsync(true)
       }
     },
-    rowClick(details) {
+    onHistoryClick() {
+      this.$router
+        .push({ name: 'SearchHistoryView' })
+        .catch((e) => console.error(e))
+    },
+    onRowClick(details) {
       this.$router
         .push({
           name: 'EmailDetailView',

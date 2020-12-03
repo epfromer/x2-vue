@@ -9,7 +9,7 @@ import HomeView from '../views/HomeView.vue'
 import NetworkGraphView from '../views/NetworkGraphView.vue'
 import PieView from '../views/PieView.vue'
 import PolarView from '../views/PolarView.vue'
-import SavedSearchView from '../views/SavedSearchView.vue'
+import SearchHistoryView from '../views/SearchHistoryView.vue'
 import SearchView from '../views/SearchView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
 import VolumeTimelineView from '../views/VolumeTimelineView.vue'
@@ -31,9 +31,9 @@ export const routes = [
     props: true,
   },
   {
-    path: '/SavedSearchView',
-    name: 'SavedSearchView',
-    component: SavedSearchView,
+    path: '/SearchHistoryView',
+    name: 'SearchHistoryView',
+    component: SearchHistoryView,
   },
   { path: '/ChordView', name: 'ChordView', component: ChordView },
   { path: '/PieView', name: 'PieView', component: PieView },
