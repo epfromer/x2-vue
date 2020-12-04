@@ -5,7 +5,6 @@
     <v-main>
       <router-view />
     </v-main>
-    <AppFooter />
   </v-app>
 </template>
 
@@ -13,7 +12,6 @@
 import { mapActions } from 'vuex'
 import AppDrawer from './components/app/AppDrawer'
 import AppToolbar from './components/app/AppToolbar'
-import AppFooter from './components/app/AppFooter'
 
 export default {
   name: 'App',
@@ -23,14 +21,18 @@ export default {
   mounted() {
     this.getInitialDataAsync()
     this.getEmailAsync()
+    this.loadAppSettingsAsync()
   },
   components: {
     AppDrawer,
     AppToolbar,
-    AppFooter,
   },
   methods: {
-    ...mapActions(['getInitialDataAsync', 'getEmailAsync']),
+    ...mapActions([
+      'getInitialDataAsync',
+      'getEmailAsync',
+      'loadAppSettingsAsync',
+    ]),
   },
 }
 </script>

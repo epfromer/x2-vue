@@ -60,19 +60,21 @@ export default {
   computed: {
     ...mapState(['darkMode', 'themeName']),
   },
-  mounted() {
-    const theme = getTheme(this.themeName)
-    this.$vuetify.theme.themes.dark.primary = theme.primary
-    this.$vuetify.theme.themes.dark.secondary = theme.secondary
-    this.$vuetify.theme.themes.light.primary = theme.primary
-    this.$vuetify.theme.themes.light.secondary = theme.secondary
-  },
   methods: {
     ...mapActions(['setDarkModeAsync']),
     setDark() {
       const dark = !this.darkMode
       this.setDarkModeAsync(dark)
       this.$vuetify.theme.dark = dark
+    },
+  },
+  watch: {
+    themeName() {
+      const theme = getTheme(this.themeName)
+      this.$vuetify.theme.themes.dark.primary = theme.primary
+      this.$vuetify.theme.themes.dark.secondary = theme.secondary
+      this.$vuetify.theme.themes.light.primary = theme.primary
+      this.$vuetify.theme.themes.light.secondary = theme.secondary
     },
   },
 }

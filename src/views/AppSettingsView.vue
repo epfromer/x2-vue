@@ -1,14 +1,13 @@
 <template>
-  <v-container fluid> </v-container>
+  <v-container fluid> <theme-picker /></v-container>
 </template>
 
 <script>
+import ThemePicker from '@/components/ThemePicker.vue'
 import { mapMutations, mapState } from 'vuex'
-import ColorPicker from '../components/ColorPicker'
-import ContactSettings from '../components/ContactSettings'
 
 export default {
-  components: {},
+  components: { ThemePicker },
   methods: {
     ...mapMutations([]),
   },
