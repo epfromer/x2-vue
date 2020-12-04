@@ -9,7 +9,7 @@
         <v-icon>build</v-icon>
       </v-btn>
     </template>
-    <span>Search History</span>
+    <span>Settings</span>
   </v-tooltip>
 </template>
 

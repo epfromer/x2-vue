@@ -1,11 +1,6 @@
 <template>
   <v-dialog @click:outside="handleClose" v-model="isOpen" width="308">
-    <v-color-picker
-      hide-inputs
-      class="ma-2"
-      v-model="color"
-      show-swatches
-    ></v-color-picker>
+    <v-color-picker hide-inputs v-model="color" show-swatches></v-color-picker>
     <button hidden @click="() => handleClose()">test</button>
   </v-dialog>
 </template>
@@ -51,6 +46,7 @@ export default {
       get() {
         return this.open
       },
+      set() {},
     },
   },
 }
