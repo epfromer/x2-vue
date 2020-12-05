@@ -4,7 +4,6 @@
       <v-col cols="auto">
         <v-btn
           @click="startImport"
-          text
           class="button"
           elevation="2"
           color="secondary"

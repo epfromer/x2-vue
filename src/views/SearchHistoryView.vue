@@ -2,7 +2,6 @@
   <v-container fluid>
     <v-btn
       @click="onClearHistory"
-      text
       class="button"
       elevation="2"
       color="secondary"
