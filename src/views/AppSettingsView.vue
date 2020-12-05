@@ -24,4 +24,3 @@ export default {
   components: { ThemePicker, CustodianSettings, ImportLog },
 }
 </script>
-

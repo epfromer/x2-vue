@@ -1,25 +1,40 @@
 <template>
   <div>
-    <v-btn
-      @click="startImport"
-      text
-      class="button"
-      elevation="2"
-      color="secondary"
-    >
-      Import Email
-    </v-btn>
-    <v-simple-table dense height="300px">
-      <template v-slot:default>
-        <tbody>
-          <tr v-for="logEntry in log" :key="logEntry.id">
-            <td>
-              {{ logEntry.entry }}
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <v-row>
+      <v-col cols="auto">
+        <v-btn
+          @click="startImport"
+          text
+          class="button"
+          elevation="2"
+          color="secondary"
+        >
+          Import Email
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-checkbox
+          v-model="scrollIntoView"
+          label="Auto-scroll to latest entries"
+          color="secondary"
+        ></v-checkbox>
+      </v-col>
+    </v-row>
+    <div v-if="!log.length" class="text">No log entries</div>
+    <div v-if="log.length">
+      <v-simple-table dense height="300px">
+        <template v-slot:default>
+          <tbody>
+            <tr v-for="logEntry in log" :key="logEntry.id">
+              <td>
+                {{ logEntry.timestamp + ' ' + logEntry.entry }}
+              </td>
+            </tr>
+            <div id="lastrow"></div>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </div>
   </div>
 </template>
 
@@ -32,6 +47,7 @@ export default {
     return {
       log: [],
       importInterval: undefined,
+      scrollIntoView: true,
     }
   },
   mounted() {
@@ -46,9 +62,6 @@ export default {
     }
   },
   methods: {
-    foo() {
-      return JSON.stringify(this.log)
-    },
     getImportStatus() {
       const server = process.env.VUE_APP_X2_SERVER
       const query = gql`
@@ -63,6 +76,8 @@ export default {
       request(`${server}/graphql/`, query)
         .then((data) => {
           this.log = data.getImportStatus
+          let e = document.querySelector(`#lastrow`)
+          if (e && this.scrollIntoView) e.scrollIntoView({ behavior: 'smooth' })
         })
         .catch((e) => console.error(e))
     },
@@ -83,5 +98,9 @@ export default {
 .button {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.text {
+  margin-left: 15px;
+  padding-bottom: 15px;
 }
 </style>
