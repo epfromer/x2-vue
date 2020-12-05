@@ -1,6 +1,14 @@
 <template>
   <v-container fluid>
-    <v-btn @click="onClearHistory" text> Clear History </v-btn>
+    <v-btn
+      @click="onClearHistory"
+      text
+      class="button"
+      elevation="2"
+      color="secondary"
+    >
+      Clear History
+    </v-btn>
     <v-data-table
       :headers="headers"
       :items="log"
@@ -103,3 +111,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
