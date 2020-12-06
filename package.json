@@ -42,6 +42,7 @@
     "vuetify-loader": "^1.6.0"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.13.4",
     "core-js": "^3.8.0",
     "express": "^4.17.1",
     "highcharts": "^8.2.2",
