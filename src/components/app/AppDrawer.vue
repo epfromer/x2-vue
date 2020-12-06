@@ -16,14 +16,6 @@
         :name="item.name"
         :route="item.route"
       />
-      <v-divider></v-divider>
-      <NaviListItem
-        v-for="item in tertiaryListItems"
-        :key="item.name"
-        :icon="item.icon"
-        :name="item.name"
-        :route="item.route"
-      />
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -35,30 +27,31 @@ export default {
   data() {
     return {
       mainListItems: [
-        { icon: 'dashboard', name: 'Dashboard', route: 'HomeView' },
-        { icon: 'email', name: 'Search', route: 'SearchView' },
+        { icon: 'home', name: 'Home', route: 'HomeView' },
+        { icon: 'search', name: 'Search', route: 'SearchView' },
       ],
       secondaryListItems: [
-        { icon: 'pie_chart', name: 'Chord', route: 'ChordView' },
-        { icon: 'pie_chart', name: 'Word Cloud', route: 'WordCloudView' },
-        { icon: 'pie_chart', name: 'Network Graph', route: 'NetworkGraphView' },
+        { icon: 'autorenew', name: 'Chord', route: 'ChordView' },
+        { icon: 'cloud', name: 'Word Cloud', route: 'WordCloudView' },
         {
-          icon: 'pie_chart',
+          icon: 'device_hub',
+          name: 'Network Graph',
+          route: 'NetworkGraphView',
+        },
+        {
+          icon: 'timeline',
           name: 'Volume Timeline',
           route: 'VolumeTimelineView',
         },
-        { icon: 'pie_chart', name: 'Tree Map', route: 'TreeMapView' },
+        { icon: 'view_quilt', name: 'Tree Map', route: 'TreeMapView' },
         {
-          icon: 'pie_chart',
+          icon: 'timeline',
           name: 'Event Timeline',
           route: 'EventTimelineView',
         },
-      ],
-      tertiaryListItems: [
-        { icon: 'search', name: 'Saved Searches', route: 'SavedSearchView' },
-        { icon: 'find_in_page', name: '2001', route: 'Search' },
-        { icon: 'find_in_page', name: '"From: Ken Lay', route: 'Search' },
-        { icon: 'find_in_page', name: 'text: foo', route: 'Search' },
+        { icon: 'bar_chart', name: 'Bar', route: 'BarView' },
+        { icon: 'pie_chart', name: 'Polar', route: 'PolarView' },
+        { icon: 'pie_chart', name: 'Pie', route: 'PieView' },
       ],
     }
   },
