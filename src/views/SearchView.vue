@@ -105,7 +105,7 @@
 <script>
 import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
 import { defaultLimit } from '../store/constants'
-import FilterDate from '../components/emaillist/FilterDate'
+import FilterDate from '@/components/emaillist/FilterDate'
 import _ from 'lodash'
 
 // TODO search history

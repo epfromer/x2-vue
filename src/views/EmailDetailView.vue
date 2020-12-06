@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="elevation-1" data-testid="emailcard">
-      <EmailCardActions :id="email.id" />
+      <EmailCardActions :id="id" />
       <v-card-title><span v-html="highlight(email.subject)" /></v-card-title>
       <v-card-text class="text--primary">
         <div>Sent: <span v-html="highlight(email.sent)" /></div>
@@ -16,7 +16,7 @@
           "
         />
       </v-card-text>
-      <EmailCardActions :id="email.id" />
+      <EmailCardActions :id="id" />
     </v-card>
   </div>
 </template>
@@ -55,7 +55,6 @@ export default {
       }
     },
     async doFetch() {
-      console.log('do fetch')
       this.loading = true
       const server = process.env.VUE_APP_X2_SERVER
       const query = gql`
