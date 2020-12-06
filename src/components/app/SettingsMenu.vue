@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-menu offset-y>
+    <v-menu bottom left>
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on"> gravatar </v-btn>
       </template>
@@ -9,8 +9,21 @@
           <v-list-item-title>{{ name }}</v-list-item-title>
         </v-list-item>
         <v-divider />
-        <v-list-item v-for="(item, index) in items" :key="index">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item link @click="() => goToRoute('AppSettingsView')">
+          <v-list-item-action>
+            <v-icon>settings</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="signOut">
+          <v-list-item-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sign Out</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -23,13 +36,15 @@ export default {
     return {
       authenticated: true,
       name: 'epfromer@gmail.com',
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
     }
+  },
+  methods: {
+    goToRoute(name) {
+      this.$router.push({ name }).catch((e) => console.error(e))
+    },
+    signOut() {
+      console.log('sign out')
+    },
   },
 }
 </script>

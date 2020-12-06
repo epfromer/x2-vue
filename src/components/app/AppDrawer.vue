@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer v-model="isOpen" app>
     <v-list>
-      <NaviListItem
+      <navi-list-item
         v-for="item in mainListItems"
         :key="item.name"
         :icon="item.icon"
@@ -9,7 +9,7 @@
         :route="item.route"
       />
       <v-divider></v-divider>
-      <NaviListItem
+      <navi-list-item
         v-for="item in secondaryListItems"
         :key="item.name"
         :icon="item.icon"
@@ -22,7 +22,7 @@
 
 <script>
 // https://material.io/resources/icons/?style=baseline
-import NaviListItem from '../app/NaviListItem'
+import NaviListItem from './NaviListItem.vue'
 export default {
   data() {
     return {
