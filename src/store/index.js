@@ -142,19 +142,24 @@ export default new Vuex.Store({
       if (state.body) query.body = state.body
       return query
     },
-    getEmailById: (state) => (id) => state.emails.find((e) => e._id === id),
+    getEmailById: (state) => (id) => {
+      if (!state.email || !state.email.length) return undefined
+      return state.email.find((e) => e.id === id)
+    },
     getNextEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i < state.emails.length - 1 ? state.emails[i + 1] : undefined
+      if (!state.email || !state.email.length) return undefined
+      const i = state.email.findIndex((e) => e.id === id)
+      return i < state.email.length - 1 ? state.email[i + 1] : undefined
     },
     getPreviousEmail: (state) => (id) => {
-      if (!state.emails || !state.emails.length) return undefined
-      const i = state.emails.findIndex((e) => e._id === id)
-      return i > 0 ? state.emails[i - 1] : undefined
+      if (!state.email || !state.email.length) return undefined
+      const i = state.email.findIndex((e) => e.id === id)
+      return i > 0 ? state.email[i - 1] : undefined
     },
-    getEmailIndex: (state) => (id) =>
-      state.emails.findIndex((e) => e._id === id) + 1,
+    getEmailIndex: (state) => (id) => {
+      if (!state.email || !state.email.length) return undefined
+      return state.email.findIndex((e) => e.id === id) + 1
+    },
 
     // wordCloudSlice
     getWordCloudLoading: (state) => state.wordCloudLoading,

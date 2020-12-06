@@ -15,8 +15,11 @@
 
 <script>
 export default {
-  props: {},
-  computed: {},
-  methods: {},
+  data() {
+    return {
+      authenticated: true,
+      username: 'epfromer@gmail.com',
+    }
+  },
 }
 </script>

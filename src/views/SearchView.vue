@@ -174,7 +174,7 @@ export default {
       this.$router
         .push({
           name: 'EmailDetailView',
-          params: { id: details._id },
+          params: { id: details.id },
         })
         .catch((e) => console.error(e))
     },

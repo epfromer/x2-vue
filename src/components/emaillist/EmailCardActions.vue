@@ -45,21 +45,21 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   props: { id: { type: String } },
   computed: {
-    ...mapState(['emails']),
+    ...mapState(['email']),
     ...mapGetters(['getPreviousEmail', 'getNextEmail', 'getEmailIndex']),
     previousEmailId() {
       const email = this.getPreviousEmail(this.id)
-      return email ? email._id : null
+      return email ? email.id : null
     },
     nextEmailId() {
       const email = this.getNextEmail(this.id)
-      return email ? email._id : null
+      return email ? email.id : null
     },
     emailIndex() {
       return this.getEmailIndex(this.id)
     },
     totalEmails() {
-      return this.emails.length
+      return this.email ? this.email.length : 0
     },
   },
 }

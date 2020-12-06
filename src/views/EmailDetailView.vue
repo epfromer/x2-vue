@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="elevation-1" data-testid="emailcard">
-      <EmailCardActions :id="email._id" />
+      <EmailCardActions :id="email.id" />
       <v-card-title><span v-html="highlight(email.subject)" /></v-card-title>
       <v-card-text class="text--primary">
         <div>Sent: <span v-html="highlight(email.sent)" /></div>
@@ -16,54 +16,74 @@
           "
         />
       </v-card-text>
-      <EmailCardActions :id="email._id" />
+      <EmailCardActions :id="email.id" />
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import request, { gql } from 'graphql-request'
 import EmailCardActions from '../components/emaillist/EmailCardActions'
 
 export default {
   data() {
     return {
       loading: false,
+      id: '',
       email: {},
     }
   },
   mounted() {
-    const email = this.getEmailById(this.$route.params.id)
-    if (email) {
-      this.email = email
-    } else {
-      this.doFetch()
-    }
+    this.getEmail(this.$route.params.id)
   },
   beforeRouteUpdate(to, from, next) {
-    const email = this.getEmailById(to.params.id)
-    if (email) {
-      this.email = email
-    } else {
-      this.doFetch()
-    }
+    this.getEmail(to.params.id)
     next()
   },
   components: {
     EmailCardActions,
   },
   methods: {
+    getEmail(id) {
+      this.id = id
+      const email = this.getEmailById(this.id)
+      if (email) {
+        this.email = email
+      } else {
+        this.doFetch()
+      }
+    },
     async doFetch() {
+      console.log('do fetch')
       this.loading = true
-      const url = `${process.env.VUE_APP_X2_SERVER}/email/${this.$route.params.id}`
-      console.log(url)
-      const resp = await fetch(url)
-      resp
-        .json()
-        .then((resp) => (this.email = resp))
-        .catch(() => {}) // TODO: handle errors
-        .then(() => (this.loading = false))
-      // .then(() => console.log('fetch complete'))
+      const server = process.env.VUE_APP_X2_SERVER
+      const query = gql`
+        query getEmail($id: ID) {
+          getEmail(id: $id) {
+            emails {
+              id
+              sent
+              sentShort
+              from
+              fromCustodian
+              to
+              toCustodians
+              cc
+              bcc
+              subject
+              body
+            }
+            total
+          }
+        }
+      `
+      request(`${server}/graphql/`, query, { id: this.id })
+        .then((data) => {
+          this.email = data.getEmail.emails[0]
+          this.loading = false
+        })
+        .catch((e) => console.error(e))
     },
     highlight(str) {
       let s = str
@@ -79,7 +99,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getEmailById']),
-    ...mapState(['emails', 'allText', 'to', 'from', 'subject', 'body']),
+    ...mapState(['allText', 'to', 'from', 'subject', 'body']),
     highlightedTerms() {
       const terms = []
       if (this.allText) terms.push(this.allText)
