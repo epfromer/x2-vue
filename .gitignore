@@ -9,7 +9,9 @@ coverage
 # local env files
 .env
 .env.local
-.env.*.local
+.env.*.
+
+auth_config.json
 
 # Log files
 npm-debug.log*
