@@ -4,11 +4,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 
-import { domain, clientId } from '../auth_config.json'
 import { Auth0Plugin } from './auth'
 Vue.use(Auth0Plugin, {
-  domain,
-  clientId,
+  domain: process.env.VUE_APP_AUTH0_DOMAIN,
+  clientId: process.env.VUE_APP_AUTH0_CLIENTID,
   onRedirectCallback: (appState) => {
     router.push(
       appState && appState.targetUrl
