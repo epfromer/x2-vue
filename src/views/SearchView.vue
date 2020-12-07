@@ -108,8 +108,6 @@ import { defaultLimit } from '../store/constants'
 import FilterDate from '@/components/emaillist/FilterDate'
 import _ from 'lodash'
 
-// TODO search history
-
 export default {
   data() {
     return {
