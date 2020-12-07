@@ -1,12 +1,16 @@
 <template>
   <div class="text-center">
     <v-menu bottom left>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on"> gravatar </v-btn>
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" depressed v-on="on">
+          <v-avatar size="36px">
+            <img :src="$auth.user.picture" />
+          </v-avatar>
+        </v-btn>
       </template>
       <v-list>
         <v-list-item>
-          <v-list-item-title>{{ name }}</v-list-item-title>
+          <v-list-item-title>{{ $auth.user.name }}</v-list-item-title>
         </v-list-item>
         <v-divider />
         <v-list-item link @click="() => goToRoute('AppSettingsView')">
@@ -33,9 +37,7 @@
 <script>
 export default {
   data() {
-    return {
-      name: 'epfromer@gmail.com',
-    }
+    return {}
   },
   methods: {
     goToRoute(name) {
