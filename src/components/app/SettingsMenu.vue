@@ -34,7 +34,6 @@
 export default {
   data() {
     return {
-      authenticated: true,
       name: 'epfromer@gmail.com',
     }
   },
@@ -43,7 +42,9 @@ export default {
       this.$router.push({ name }).catch((e) => console.error(e))
     },
     signOut() {
-      console.log('sign out')
+      this.$auth.logout({
+        returnTo: window.location.origin,
+      })
     },
   },
 }

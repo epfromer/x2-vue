@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div v-if="authenticated">
+    <div v-if="!$auth.loading && $auth.isAuthenticated">
       <settings-menu />
     </div>
-    <div v-if="!authenticated">
+    <div v-if="!$auth.loading && !$auth.isAuthenticated">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn
-            v-on="on"
-            @click="() => $router.push(`/AppSettingsView`).catch((err) => {})"
-            icon
-          >
+          <v-btn v-on="on" @click="signIn" icon>
             <v-icon>build</v-icon>
           </v-btn>
         </template>
@@ -24,14 +20,15 @@
 import SettingsMenu from './SettingsMenu'
 
 export default {
-  data() {
-    return {
-      authenticated: true,
-      username: 'epfromer@gmail.com',
-    }
-  },
   components: {
     SettingsMenu,
+  },
+  methods: {
+    signIn() {
+      this.$auth.loginWithRedirect({
+        appState: { targetUrl: '/AppSettingsView' },
+      })
+    },
   },
 }
 </script>
