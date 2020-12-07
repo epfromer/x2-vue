@@ -50,7 +50,7 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import BarHighcharts from '@/components/Highcharts/BarHighcharts.vue'
-import BarChartJS from '@/components/ChartJS/BarChartJS.vue'
+import BarChartJS from '@/components/ChartJS/BarChartJS'
 
 export default {
   components: { BarHighcharts, BarChartJS },

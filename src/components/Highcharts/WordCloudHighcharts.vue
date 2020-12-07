@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     createChart() {
+      if (!this.chartData || !this.chartData.length) return
       this.config = {
         chart: {
           backgroundColor: this.theme.isDark ? '#121212' : 'white',
@@ -88,7 +89,7 @@ export default {
       this.createChart()
     },
     chartData() {
-      if (this.chartData && this.chartData.length) this.createChart()
+      this.createChart()
     },
   },
 }

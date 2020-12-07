@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     createChart() {
+      if (!this.chartData || !this.chartData.length) return
       this.config = {
         chart: {
           polar: true,
@@ -93,7 +94,7 @@ export default {
       this.createChart()
     },
     chartData() {
-      if (this.chartData && this.chartData.length) this.createChart()
+      this.createChart()
     },
   },
 }

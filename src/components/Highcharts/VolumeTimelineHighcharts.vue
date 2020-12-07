@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     createChart() {
+      if (!this.chartData || !this.chartData.length) return
       this.config = {
         chart: {
           zoomType: 'x',
@@ -115,7 +116,7 @@ export default {
       this.createChart()
     },
     chartData() {
-      if (this.chartData && this.chartData.length) this.createChart()
+      this.createChart()
     },
   },
 }
