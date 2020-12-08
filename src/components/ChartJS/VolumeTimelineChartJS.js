@@ -1,8 +1,8 @@
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 import { mapState } from 'vuex'
 
 export default {
-  extends: Line,
+  extends: Bar,
   data() {
     return {
       config: null,
@@ -15,10 +15,6 @@ export default {
     },
     chartData: {
       type: Array,
-      required: true,
-    },
-    search: {
-      type: String,
       required: true,
     },
     handleClick: {
@@ -37,13 +33,21 @@ export default {
   methods: {
     createChart() {
       if (!this.chartData || !this.chartData.length) return
+      const dailyTotals = this.chartData.map((stat) => ({
+        time: stat.sent,
+        value: stat.total,
+      }))
       const data = {
-        labels: this.chartData.map((datum) => datum.name),
+        labels: dailyTotals.map((d) => d.time),
         datasets: [
           {
-            label: false,
-            backgroundColor: this.chartData.map((datum) => datum.color),
-            data: this.chartData.map((datum) => datum.value),
+            label: this.title,
+            data: dailyTotals.map((d) => d.value),
+            fill: 'none',
+            backgroundColor: '#c43a31',
+            pointRadius: 2,
+            borderWidth: 1,
+            lineTension: 0,
           },
         ],
       }
@@ -61,12 +65,20 @@ export default {
         },
         onClick: (e, item) => {
           if (item && item.length > 0) {
-            handleClick(search, this.chartData[item[0]._index].name)
+            this.handleClick(
+              new Date(dailyTotals[item[0]._index].time)
+                .toISOString()
+                .slice(0, 10)
+            )
           }
         },
         scales: {
           xAxes: [
             {
+              type: 'time',
+              time: {
+                unit: 'month',
+              },
               ticks: {
                 fontColor: this.theme.isDark ? 'white' : 'black',
               },
