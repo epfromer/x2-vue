@@ -1,5 +1,5 @@
 <template>
-  <v-chart :options="polar" />
+  <v-chart v-if="config" :options="config" @click="onClick" />
 </template>
 
 <style>
@@ -15,59 +15,18 @@
 </style>
 
 <script>
+// https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
+
+import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
+import echarts from 'echarts'
 import 'echarts/lib/chart/line'
-import 'echarts/lib/component/polar'
+import 'echarts/lib/chart/pie'
 
 export default {
   data() {
-    let data = []
-
-    for (let i = 0; i <= 360; i++) {
-      let t = (i / 180) * Math.PI
-      let r = Math.sin(2 * t) * Math.cos(2 * t)
-      data.push([r, i])
-    }
-
     return {
-      polar: {
-        title: {
-          text: this.title,
-          left: 'center',
-          textStyle: {
-            color: this.theme.isDark ? 'white' : 'black',
-          },
-        },
-        legend: {
-          data: ['line'],
-        },
-        polar: {
-          center: ['50%', '54%'],
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-          },
-        },
-        angleAxis: {
-          type: 'value',
-          startAngle: 0,
-        },
-        radiusAxis: {
-          min: 0,
-        },
-        series: [
-          {
-            coordinateSystem: 'polar',
-            name: 'line',
-            type: 'line',
-            showSymbol: false,
-            data: data,
-          },
-        ],
-        animationDuration: 2000,
-      },
+      config: null,
     }
   },
   props: {
@@ -91,6 +50,77 @@ export default {
   inject: ['theme'],
   components: {
     'v-chart': ECharts,
+  },
+  computed: {
+    ...mapState(['darkMode']),
+  },
+  mounted() {
+    this.createChart()
+  },
+  methods: {
+    onClick(e) {
+      this.handleClick(this.search, e.data.name)
+    },
+    createChart() {
+      if (!this.chartData || !this.chartData.length) return
+      const cData = []
+      this.chartData.forEach((datum) => {
+        cData.push({
+          name: datum.name,
+          value: datum.value,
+          itemStyle: {
+            normal: {
+              color: datum.color,
+              lineStyle: {
+                color: datum.color,
+              },
+              areaStyle: {
+                color: datum.color,
+              },
+            },
+          },
+        })
+      })
+      this.config = {
+        title: {
+          text: this.title,
+          top: 20,
+          left: 'center',
+          textStyle: {
+            color: this.theme.isDark ? '#121212' : 'white',
+          },
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)',
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: '55%',
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+            data: cData,
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: () => Math.random() * 200,
+          },
+        ],
+      }
+    },
+  },
+  watch: {
+    darkMode() {
+      this.createChart()
+    },
+    chartData() {
+      this.createChart()
+    },
   },
 }
 </script>

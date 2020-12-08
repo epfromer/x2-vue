@@ -43,6 +43,25 @@
           />
         </v-col>
       </v-row>
+      <div class="headline">ECharts</div>
+      <v-row>
+        <v-col cols="12" md="6">
+          <pie-e-charts
+            title="Senders"
+            search="from"
+            :chartData="getEmailSenders"
+            :handleClick="handleClick"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <pie-e-charts
+            title="Receivers"
+            search="to"
+            :chartData="getEmailReceivers"
+            :handleClick="handleClick"
+          />
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -51,9 +70,10 @@
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import PieHighcharts from '@/components/Highcharts/PieHighcharts.vue'
 import PieChartJS from '@/components/ChartJS/PieChartJS'
+import PieECharts from '@/components/ECharts/PieECharts'
 
 export default {
-  components: { PieHighcharts, PieChartJS },
+  components: { PieHighcharts, PieChartJS, PieECharts },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
