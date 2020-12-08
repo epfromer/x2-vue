@@ -64,20 +64,6 @@
           description="Enron fraud and litigation events."
           link="EventTimelineView"
       /></v-col>
-      <v-col cols="12" sm="6" md="3">
-        <HomeCard
-          image="/polar.png"
-          title="Polar"
-          description="Enron custodian email volume."
-          link="PolarView"
-      /></v-col>
-      <v-col cols="12" sm="6" md="3">
-        <HomeCard
-          image="/search.png"
-          title="Search"
-          description="Full text search."
-          link="SearchView"
-      /></v-col>
     </v-row>
   </v-container>
 </template>

@@ -8,7 +8,6 @@ import EventTimelineView from '../views/EventTimelineView.vue'
 import HomeView from '../views/HomeView.vue'
 import NetworkGraphView from '../views/NetworkGraphView.vue'
 import PieView from '../views/PieView.vue'
-import PolarView from '../views/PolarView.vue'
 import SearchHistoryView from '../views/SearchHistoryView.vue'
 import SearchView from '../views/SearchView.vue'
 import TreeMapView from '../views/TreeMapView.vue'
@@ -58,11 +57,6 @@ export const routes = [
     path: '/BarView',
     name: 'BarView',
     component: BarView,
-  },
-  {
-    path: '/PolarView',
-    name: 'PolarView',
-    component: PolarView,
   },
   { path: '/', name: 'HomeView', component: HomeView },
 ]

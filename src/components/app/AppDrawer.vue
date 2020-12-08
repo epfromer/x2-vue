@@ -50,7 +50,6 @@ export default {
           route: 'EventTimelineView',
         },
         { icon: 'bar_chart', name: 'Bar', route: 'BarView' },
-        { icon: 'pie_chart', name: 'Polar', route: 'PolarView' },
         { icon: 'pie_chart', name: 'Pie', route: 'PieView' },
       ],
     }

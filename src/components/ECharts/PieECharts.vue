@@ -8,10 +8,10 @@
  * you may need to set percentage values as follows (also
  * don't forget to provide a size for the container).
  */
-.echarts {
+/* .echarts {
   width: 100%;
   height: 100%;
-}
+} */
 </style>
 
 <script>
@@ -20,9 +20,6 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/polar'
 
 export default {
-  components: {
-    'v-chart': ECharts,
-  },
   data() {
     let data = []
 
@@ -35,7 +32,11 @@ export default {
     return {
       polar: {
         title: {
-          text: 'foo',
+          text: this.title,
+          left: 'center',
+          textStyle: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
         },
         legend: {
           data: ['line'],
@@ -68,6 +69,28 @@ export default {
         animationDuration: 2000,
       },
     }
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    chartData: {
+      type: Array,
+      required: true,
+    },
+    search: {
+      type: String,
+      required: true,
+    },
+    handleClick: {
+      type: Function,
+      required: true,
+    },
+  },
+  inject: ['theme'],
+  components: {
+    'v-chart': ECharts,
   },
 }
 </script>
