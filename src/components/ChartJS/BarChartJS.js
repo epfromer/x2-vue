@@ -61,7 +61,7 @@ export default {
         },
         onClick: (e, item) => {
           if (item && item.length > 0) {
-            handleClick(search, this.chartData[item[0]._index].name)
+            this.handleClick(this.search, this.chartData[item[0]._index].name)
           }
         },
         scales: {
