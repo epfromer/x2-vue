@@ -24,6 +24,25 @@
           />
         </v-col>
       </v-row>
+      <div class="headline">ChartJS</div>
+      <v-row>
+        <v-col cols="12" md="6">
+          <polar-chart-j-s
+            title="Senders"
+            search="from"
+            :chartData="getEmailSenders"
+            :handleClick="handleClick"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <polar-chart-j-s
+            title="Receivers"
+            search="to"
+            :chartData="getEmailReceivers"
+            :handleClick="handleClick"
+          />
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -31,9 +50,10 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import PolarHighcharts from '@/components/Highcharts/PolarHighcharts.vue'
+import PolarChartJS from '@/components/ChartJS/PolarChartJS'
 
 export default {
-  components: { PolarHighcharts },
+  components: { PolarHighcharts, PolarChartJS },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
