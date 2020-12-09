@@ -16,6 +16,7 @@ import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
 import echarts from 'echarts'
 import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/title'
 
 export default {
   data() {
@@ -75,6 +76,7 @@ export default {
       this.config = {
         title: {
           text: this.title,
+          left: 'center',
           textStyle: {
             color: this.theme.isDark ? 'white' : 'black',
           },
