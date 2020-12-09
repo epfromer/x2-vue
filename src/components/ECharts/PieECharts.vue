@@ -75,10 +75,8 @@ export default {
       this.config = {
         title: {
           text: this.title,
-          top: 20,
-          left: 'center',
           textStyle: {
-            color: this.theme.isDark ? '#121212' : 'white',
+            color: this.theme.isDark ? 'white' : 'black',
           },
         },
         tooltip: {

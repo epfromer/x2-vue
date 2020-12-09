@@ -89,6 +89,9 @@ export default {
             type: 'shadow',
           },
         },
+        grid: {
+          containLabel: true,
+        },
         xAxis: {
           axisLabel: {
             color: this.theme.isDark ? 'white' : 'black',
@@ -97,6 +100,7 @@ export default {
         yAxis: {
           data: cData.map((datum) => datum.name),
           axisLabel: {
+            width: 200,
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
