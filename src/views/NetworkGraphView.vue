@@ -30,10 +30,6 @@ import NetworkGraphHighcharts from '@/components/Highcharts/NetworkGraphHighchar
 import NetworkGraphECharts from '@/components/ECharts/NetworkGraphECharts'
 
 export default {
-  data() {
-    return {}
-  },
-  inject: ['theme'],
   components: {
     NetworkGraphHighcharts,
     NetworkGraphECharts,

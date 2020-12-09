@@ -20,10 +20,6 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import EventTimelineHighcharts from '@/components/Highcharts/EventTimelineHighcharts.vue'
 
 export default {
-  data() {
-    return {}
-  },
-  inject: ['theme'],
   components: {
     EventTimelineHighcharts,
   },

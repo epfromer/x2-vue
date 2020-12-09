@@ -74,7 +74,6 @@ import BarECharts from '@/components/ECharts/BarECharts'
 
 export default {
   components: { BarHighcharts, BarChartJS, BarECharts, BarECharts },
-  methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),

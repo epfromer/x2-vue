@@ -54,7 +54,6 @@ import TreeMapECharts from '@/components/ECharts/TreeMapECharts.vue'
 
 export default {
   components: { TreeMapHighcharts, TreeMapECharts },
-  methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),

@@ -12,6 +12,13 @@
         :nodes="getEmailSentByCustodian.nodes"
         :handleClick="handleClick"
       />
+      <div class="headline">ECharts</div>
+      <chord-e-charts
+        title="Custodian Interaction"
+        :chartData="getEmailSentByCustodian.data"
+        :nodes="getEmailSentByCustodian.nodes"
+        :handleClick="handleClick"
+      />
     </div>
     <button hidden @click="() => handleSelect('foo')">handleSelect</button>
   </v-container>
@@ -19,15 +26,13 @@
 
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
-import ChordHighcharts from '@/components/Highcharts/ChordHighcharts.vue'
+import ChordHighcharts from '@/components/Highcharts/ChordHighcharts'
+import ChordECharts from '@/components/ECharts/ChordECharts'
 
 export default {
-  data() {
-    return {}
-  },
-  inject: ['theme'],
   components: {
     ChordHighcharts,
+    ChordECharts,
   },
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),

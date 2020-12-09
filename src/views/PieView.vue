@@ -74,7 +74,6 @@ import PieECharts from '@/components/ECharts/PieECharts'
 
 export default {
   components: { PieHighcharts, PieChartJS, PieECharts },
-  methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),

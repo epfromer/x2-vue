@@ -35,10 +35,6 @@ import VolumeTimelineChartJS from '@/components/ChartJS/VolumeTimelineChartJS'
 import VolumeTimelineECharts from '@/components/ECharts/VolumeTimelineECharts.vue'
 
 export default {
-  data() {
-    return {}
-  },
-  inject: ['theme'],
   components: {
     VolumeTimelineHighcharts,
     VolumeTimelineChartJS,

@@ -21,10 +21,6 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import WordCloudHighcharts from '@/components/Highcharts/WordCloudHighcharts.vue'
 
 export default {
-  data() {
-    return {}
-  },
-  inject: ['theme'],
   components: {
     WordCloudHighcharts,
   },
