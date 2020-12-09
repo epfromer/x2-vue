@@ -61,6 +61,12 @@ export default {
             fontColor: this.theme.isDark ? 'white' : 'black',
           },
         },
+        pieceLabel: {
+          render: 'label',
+          fontColor: '#000',
+          position: 'outside',
+          segment: true,
+        },
         onClick: (e, item) => {
           if (item && item.length > 0) {
             this.handleClick(this.search, this.chartData[item[0]._index].name)
