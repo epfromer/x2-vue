@@ -17,6 +17,12 @@
         :chartData="emailSentByDay"
         :handleClick="handleClick"
       />
+      <div class="headline">ECharts</div>
+      <volume-timeline-e-charts
+        title="Email Volume per Day"
+        :chartData="emailSentByDay"
+        :handleClick="handleClick"
+      />
     </div>
     <button hidden @click="() => handleSelect('foo')">handleSelect</button>
   </v-container>
@@ -26,13 +32,18 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 import VolumeTimelineHighcharts from '@/components/Highcharts/VolumeTimelineHighcharts.vue'
 import VolumeTimelineChartJS from '@/components/ChartJS/VolumeTimelineChartJS'
+import VolumeTimelineECharts from '@/components/ECharts/VolumeTimelineECharts.vue'
 
 export default {
   data() {
     return {}
   },
   inject: ['theme'],
-  components: { VolumeTimelineHighcharts, VolumeTimelineChartJS },
+  components: {
+    VolumeTimelineHighcharts,
+    VolumeTimelineChartJS,
+    VolumeTimelineECharts,
+  },
   computed: {
     ...mapState(['emailSentByDayLoading', 'emailSentByDay']),
   },
