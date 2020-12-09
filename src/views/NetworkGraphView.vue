@@ -12,6 +12,13 @@
         :nodes="getEmailSentByCustodian.nodes"
         :handleClick="handleClick"
       />
+      <div class="headline">ECharts</div>
+      <network-graph-e-charts
+        title="Custodian Interaction"
+        :chartData="getEmailSentByCustodian.data"
+        :nodes="getEmailSentByCustodian.nodes"
+        :handleClick="handleClick"
+      />
     </div>
     <button hidden @click="() => handleSelect('foo')">handleSelect</button>
   </v-container>
@@ -20,6 +27,7 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import NetworkGraphHighcharts from '@/components/Highcharts/NetworkGraphHighcharts.vue'
+import NetworkGraphECharts from '@/components/ECharts/NetworkGraphECharts'
 
 export default {
   data() {
@@ -28,6 +36,7 @@ export default {
   inject: ['theme'],
   components: {
     NetworkGraphHighcharts,
+    NetworkGraphECharts,
   },
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
