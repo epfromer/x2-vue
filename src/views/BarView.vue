@@ -43,6 +43,25 @@
           />
         </v-col>
       </v-row>
+      <div class="headline">ECharts</div>
+      <v-row>
+        <v-col cols="12" md="6">
+          <bar-e-charts
+            title="Senders"
+            search="from"
+            :chartData="getEmailSenders"
+            :handleClick="handleClick"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <bar-e-charts
+            title="Receivers"
+            search="to"
+            :chartData="getEmailReceivers"
+            :handleClick="handleClick"
+          />
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -51,9 +70,10 @@
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import BarHighcharts from '@/components/Highcharts/BarHighcharts.vue'
 import BarChartJS from '@/components/ChartJS/BarChartJS'
+import BarECharts from '@/components/ECharts/BarECharts'
 
 export default {
-  components: { BarHighcharts, BarChartJS },
+  components: { BarHighcharts, BarChartJS, BarECharts, BarECharts },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),

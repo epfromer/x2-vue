@@ -15,7 +15,7 @@
 import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
 import echarts from 'echarts'
-import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/bar'
 
 export default {
   data() {
@@ -57,49 +57,53 @@ export default {
     },
     createChart() {
       if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData.map((datum) => ({
-        name: datum.name,
-        value: datum.value,
-        itemStyle: {
-          normal: {
-            color: datum.color,
-            lineStyle: {
+      const cData = this.chartData
+        .map((datum) => ({
+          name: datum.name,
+          value: datum.value,
+          itemStyle: {
+            normal: {
               color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
+              lineStyle: {
+                color: datum.color,
+              },
+              areaStyle: {
+                color: datum.color,
+              },
             },
           },
-        },
-      }))
+        }))
+        .reverse()
       this.config = {
         title: {
           text: this.title,
           top: 20,
           left: 'center',
           textStyle: {
-            color: this.theme.isDark ? '#121212' : 'white',
+            color: this.theme.isDark ? 'white' : 'black',
           },
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c} ({d}%)',
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+          },
+        },
+        xAxis: {
+          axisLabel: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
+        },
+        yAxis: {
+          data: cData.map((datum) => datum.name),
+          axisLabel: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
         },
         series: [
           {
-            type: 'pie',
-            radius: '55%',
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            },
+            type: 'bar',
             data: cData,
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: () => Math.random() * 200,
           },
         ],
       }
