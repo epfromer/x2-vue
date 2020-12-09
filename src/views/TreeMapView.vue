@@ -24,6 +24,25 @@
           />
         </v-col>
       </v-row>
+      <div class="headline">ECharts</div>
+      <v-row>
+        <v-col cols="12" md="6">
+          <tree-map-e-charts
+            title="Senders"
+            search="from"
+            :chartData="getEmailSenders"
+            :handleClick="handleClick"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <tree-map-e-charts
+            title="Receivers"
+            search="to"
+            :chartData="getEmailReceivers"
+            :handleClick="handleClick"
+          />
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -31,9 +50,10 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import TreeMapHighcharts from '@/components/Highcharts/TreeMapHighcharts.vue'
+import TreeMapECharts from '@/components/ECharts/TreeMapECharts.vue'
 
 export default {
-  components: { TreeMapHighcharts },
+  components: { TreeMapHighcharts, TreeMapECharts },
   methods: {},
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),

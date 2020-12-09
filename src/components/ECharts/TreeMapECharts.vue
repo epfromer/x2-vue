@@ -2,20 +2,13 @@
   <v-chart v-if="config" :options="config" @click="onClick" autoresize />
 </template>
 
-<style>
-.echarts {
-  width: 100%;
-  height: 500px;
-}
-</style>
-
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
 import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
 import echarts from 'echarts'
-import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/treemap'
 
 export default {
   data() {
@@ -57,47 +50,37 @@ export default {
     },
     createChart() {
       if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData.map((datum) => ({
-        name: datum.name,
-        value: datum.value,
-        itemStyle: {
-          normal: {
-            color: datum.color,
-            lineStyle: {
+      const cData = this.chartData
+        .map((datum) => ({
+          name: datum.name,
+          value: datum.value,
+          itemStyle: {
+            normal: {
               color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
+              lineStyle: {
+                color: datum.color,
+              },
+              areaStyle: {
+                color: datum.color,
+              },
             },
           },
-        },
-      }))
+        }))
+        .reverse()
       this.config = {
         title: {
           text: this.title,
+          show: true,
+          top: 20,
+          left: 'center',
           textStyle: {
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c} ({d}%)',
-        },
         series: [
           {
-            type: 'pie',
-            radius: '55%',
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            },
+            type: 'treemap',
             data: cData,
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: () => Math.random() * 200,
           },
         ],
       }

@@ -21,7 +21,7 @@
           data-testid="chord"
           image="/chord.png"
           title="Chord"
-          description="Enron custodian communication."
+          description="Enron custodian interaction."
           link="ChordView"
         />
       </v-col>
@@ -45,7 +45,7 @@
         ><HomeCard
           image="/networkgraph.png"
           title="Network Graph"
-          description="Enron custodian communication."
+          description="Enron custodian interaction."
           link="NetworkGraphView"
         />
       </v-col>

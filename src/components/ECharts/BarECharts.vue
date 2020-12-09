@@ -2,13 +2,6 @@
   <v-chart v-if="config" :options="config" @click="onClick" autoresize />
 </template>
 
-<style>
-.echarts {
-  width: 100%;
-  height: 600px;
-}
-</style>
-
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
@@ -53,7 +46,7 @@ export default {
   },
   methods: {
     onClick(e) {
-      this.handleClick(this.search, e.data.name)
+      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
     },
     createChart() {
       if (!this.chartData || !this.chartData.length) return
