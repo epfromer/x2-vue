@@ -78,7 +78,10 @@ export default {
         tooltip: {},
         legend: [
           {
-            bottom: 0,
+            orient: 'vertical',
+            x: 'left',
+            y: 'center',
+            padding: [0, 0, 0, 0],
             data: chartNodes.map((a) => a.name),
             textStyle: {
               color: this.theme.isDark ? 'white' : 'black',
@@ -91,9 +94,8 @@ export default {
             top: 50,
             left: 50,
             right: 50,
-            bottom: 250,
             type: 'graph',
-            layout: 'force',
+            layout: 'circular',
             data: chartNodes,
             links: this.chartData,
             categories: chartNodes,
@@ -105,9 +107,6 @@ export default {
             lineStyle: {
               color: 'source',
               curveness: 0.3,
-            },
-            force: {
-              repulsion: 1000,
             },
           },
         ],
