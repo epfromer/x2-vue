@@ -8,7 +8,7 @@
 import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
 import echarts from 'echarts'
-import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/graph'
 import 'echarts/lib/component/title'
 
 export default {
@@ -50,24 +50,23 @@ export default {
       if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
     },
     createChart() {
-      if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData
-        .map((datum) => ({
-          name: datum.name,
-          value: datum.value,
-          itemStyle: {
-            normal: {
-              color: datum.color,
-              lineStyle: {
-                color: datum.color,
-              },
-              areaStyle: {
-                color: datum.color,
-              },
-            },
+      if (!this.chartData || !this.nodes.length) return
+      const chartNodes = this.nodes.map((node) => ({
+        id: node.id,
+        name: node.id,
+        category: node.id,
+        x: null,
+        y: null,
+        draggable: true,
+        itemStyle: {
+          color: node.color,
+        },
+        label: {
+          normal: {
+            show: true,
           },
-        }))
-        .reverse()
+        },
+      }))
       this.config = {
         title: {
           text: this.title,
@@ -76,31 +75,40 @@ export default {
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow',
+        tooltip: {},
+        legend: [
+          {
+            bottom: 0,
+            data: chartNodes.map((a) => a.name),
+            textStyle: {
+              color: this.theme.isDark ? 'white' : 'black',
+            },
           },
-        },
-        grid: {
-          containLabel: true,
-        },
-        xAxis: {
-          axisLabel: {
-            color: this.theme.isDark ? 'white' : 'black',
-          },
-        },
-        yAxis: {
-          data: cData.map((datum) => datum.name),
-          axisLabel: {
-            width: 200,
-            color: this.theme.isDark ? 'white' : 'black',
-          },
-        },
+        ],
         series: [
           {
-            type: 'bar',
-            data: cData,
+            name: this.title,
+            top: 50,
+            left: 50,
+            right: 50,
+            bottom: 250,
+            type: 'graph',
+            layout: 'force',
+            data: chartNodes,
+            links: this.chartData,
+            categories: chartNodes,
+            roam: true,
+            label: {
+              position: 'bottom',
+              formatter: '{b}',
+            },
+            lineStyle: {
+              color: 'source',
+              curveness: 0.3,
+            },
+            force: {
+              repulsion: 1000,
+            },
           },
         ],
       }
