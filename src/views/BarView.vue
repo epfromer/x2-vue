@@ -59,11 +59,15 @@
             search="to"
             :chartData="getEmailReceivers()"
             :handleClick="handleClick"
-            data-testid="barecharts"
           />
         </v-col>
       </v-row>
     </div>
+    <button
+      hidden
+      @click="() => handleClick('to', 'foo')"
+      data-testid="handleClick"
+    ></button>
   </v-container>
 </template>
 

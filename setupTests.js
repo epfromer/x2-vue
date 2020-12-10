@@ -7,33 +7,32 @@ import {
   testWordCloud,
 } from '@/store/testData'
 import { render } from '@testing-library/vue'
-import _ from 'lodash'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import Vuex from 'vuex'
 
-require('jest-fetch-mock').enableMocks()
-
+Vue.use(Vuex)
 Vue.use(Vuetify)
 
 // https://testing-library.com/docs/vue-testing-library/intro
 
-const getStore = (customStore) => {
+const getStore = () => {
   const mockStore = store
-  mockStore.commit('setWordCloud', testWordCloud)
-  mockStore.commit('setCustodians', testCustodians)
-  mockStore.commit('setEmailSentByDay', testEmailSentByDay)
-  mockStore.commit('setEmail', testEmail)
-  return _.merge(mockStore, customStore)
+  mockStore.state.wordCloud = testWordCloud
+  mockStore.state.custodians = testCustodians
+  mockStore.state.emailSentByDay = testEmailSentByDay
+  mockStore.state.email = testEmail
+  return mockStore
 }
 
-export function renderComp(comp, props = {}, customStore = {}, isDark = false) {
+export function renderComp(comp, props = {}, isDark = false) {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')
 
   return render(comp, {
     container: document.body.appendChild(root),
+    store: getStore(),
     vuetify: new Vuetify(),
-    store: getStore(customStore),
     props,
     routes,
     provide: () => ({ theme: { isDark } }),
