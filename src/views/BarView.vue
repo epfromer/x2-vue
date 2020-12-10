@@ -11,7 +11,7 @@
           <bar-highcharts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -19,7 +19,7 @@
           <bar-highcharts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -30,7 +30,7 @@
           <bar-chart-j-s
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -38,7 +38,7 @@
           <bar-chart-j-s
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -49,7 +49,7 @@
           <bar-e-charts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -57,8 +57,9 @@
           <bar-e-charts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
+            data-testid="barecharts"
           />
         </v-col>
       </v-row>
@@ -91,9 +92,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.title {
-  padding-bottom: 10px;
-}
-</style>

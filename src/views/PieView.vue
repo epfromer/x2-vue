@@ -11,7 +11,7 @@
           <pie-highcharts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -19,7 +19,7 @@
           <pie-highcharts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -30,7 +30,7 @@
           <pie-chart-j-s
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -38,7 +38,7 @@
           <pie-chart-j-s
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -49,7 +49,7 @@
           <pie-e-charts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -57,7 +57,7 @@
           <pie-e-charts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>

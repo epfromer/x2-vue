@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import { fireEvent } from '@testing-library/vue'
 import { renderComp } from '../../../setupTests'
-import WordCloudView from '../WordCloudView'
+import BarView from '../BarView'
 
 test('handleSelect', async () => {
   const customStore = {
@@ -10,8 +10,9 @@ test('handleSelect', async () => {
       clearSearch: jest.fn(),
     },
   }
-  const { getByText } = renderComp(WordCloudView, {}, customStore)
-  await fireEvent.click(getByText(/handleSelect/i))
+  const { getByTestId } = renderComp(BarView, {}, customStore)
+  const button = getByTestId(/barecharts/i)
+  await fireEvent.click(button)
   expect(customStore.mutations.clearSearch).toBeCalledTimes(1)
   expect(customStore.mutations.setVuexState).toBeCalledTimes(1)
 })

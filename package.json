@@ -10,7 +10,7 @@
     "postinstall": "yarn build",
     "build": "vue-cli-service build",
     "start": "node server.js",
-    "test": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit --watch",
     "watch": "vue-cli-service serve --open --port 6001",
     "yarn": "yarn"
   },

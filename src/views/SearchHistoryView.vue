@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import request, { gql } from 'graphql-request'
 
 export default {
