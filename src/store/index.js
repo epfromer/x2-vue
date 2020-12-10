@@ -1,14 +1,10 @@
 import request, { gql } from 'graphql-request'
 import _ from 'lodash'
-import Vue from 'vue'
-import Vuex from 'vuex'
 import { defaultLimit, defaultThemeName } from './constants'
 
-const sleep = (ms = 0) => new Promise((r) => setTimeout(r, ms))
+export const sleep = (ms = 0) => new Promise((r) => setTimeout(r, ms))
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
   state: {
     // appSettingsSlice
     darkMode: false,
@@ -55,8 +51,7 @@ export default new Vuex.Store({
     // authenticationSlice
 
     // custodiansSlice
-    getEmailSenders: (state) => {
-      const custodians = state.custodians.custodians
+    getEmailSenders: (state) => () => {
       const data = []
       if (state.custodians) {
         state.custodians.forEach((custodian) => {
@@ -71,8 +66,7 @@ export default new Vuex.Store({
       }
       return data
     },
-    getEmailReceivers: (state) => {
-      const custodians = state.custodians.custodians
+    getEmailReceivers: (state) => () => {
       const data = []
       if (state.custodians) {
         state.custodians.forEach((custodian) => {
@@ -87,7 +81,7 @@ export default new Vuex.Store({
       }
       return data
     },
-    getEmailSentByCustodian: (state) => {
+    getEmailSentByCustodian: (state) => () => {
       const custodianNameFromId = (id) => {
         if (state.custodians && state.custodians) {
           const c = state.custodians.find((c) => c.id === id)
@@ -126,8 +120,7 @@ export default new Vuex.Store({
     // emailSlice
 
     // querySlice
-    getTo: (state) => state.emailLoading,
-    getQuery: (state) => {
+    getQuery: (state) => () => {
       const query = {
         skip: state.emailListPage * defaultLimit,
         limit: defaultLimit,
@@ -162,8 +155,6 @@ export default new Vuex.Store({
     },
 
     // wordCloudSlice
-    getWordCloudLoading: (state) => state.wordCloudLoading,
-    getWordCloud: (state) => state.wordCloud,
   },
   mutations: {
     // appSettingsSlice
@@ -270,7 +261,7 @@ export default new Vuex.Store({
     // https://vuex.vuejs.org/guide/actions.html - async mutations
 
     // appSettingsSlice
-    loadAppSettingsAsync: async ({ commit, store }) => {
+    loadAppSettingsAsync: async ({ commit }) => {
       try {
         let darkMode = false
         let themeName = defaultThemeName
@@ -454,4 +445,4 @@ export default new Vuex.Store({
         .catch((e) => console.error(e))
     },
   },
-})
+}

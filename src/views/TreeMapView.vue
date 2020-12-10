@@ -11,7 +11,7 @@
           <tree-map-highcharts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -19,7 +19,7 @@
           <tree-map-highcharts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -30,7 +30,7 @@
           <tree-map-e-charts
             title="Senders"
             search="from"
-            :chartData="getEmailSenders"
+            :chartData="getEmailSenders()"
             :handleClick="handleClick"
           />
         </v-col>
@@ -38,7 +38,7 @@
           <tree-map-e-charts
             title="Receivers"
             search="to"
-            :chartData="getEmailReceivers"
+            :chartData="getEmailReceivers()"
             :handleClick="handleClick"
           />
         </v-col>

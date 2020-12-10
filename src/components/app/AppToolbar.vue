@@ -5,7 +5,7 @@
     <v-spacer></v-spacer>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" @click="setDark" icon>
+        <v-btn v-on="on" @click="toggleDark" icon>
           <v-icon>{{ darkMode ? 'brightness_7' : 'brightness_4' }}</v-icon>
         </v-btn>
       </template>
@@ -42,9 +42,8 @@
 <script>
 // https://material.io/resources/icons/?style=baseline
 // https://vuetifyjs.com/en/features/theme/
-import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import SettingsButton from './SettingsButton.vue'
-import { getTheme } from '../../utils/appThemes'
 
 export default {
   props: {
@@ -58,23 +57,12 @@ export default {
     SettingsButton,
   },
   computed: {
-    ...mapState(['darkMode', 'themeName']),
+    ...mapState(['darkMode']),
   },
   methods: {
     ...mapActions(['setDarkModeAsync']),
-    setDark() {
-      const dark = !this.darkMode
-      this.setDarkModeAsync(dark)
-      this.$vuetify.theme.dark = dark
-    },
-  },
-  watch: {
-    themeName() {
-      const theme = getTheme(this.themeName)
-      this.$vuetify.theme.themes.dark.primary = theme.primary
-      this.$vuetify.theme.themes.dark.secondary = theme.secondary
-      this.$vuetify.theme.themes.light.primary = theme.primary
-      this.$vuetify.theme.themes.light.secondary = theme.secondary
+    toggleDark() {
+      this.setDarkModeAsync(!this.darkMode)
     },
   },
 }

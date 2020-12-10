@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapState, mapActions } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 import { defaultLimit } from '../store/constants'
 import FilterDate from '@/components/emaillist/FilterDate'
 import _ from 'lodash'

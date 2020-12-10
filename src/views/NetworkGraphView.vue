@@ -8,15 +8,15 @@
       <div class="headline">Highcharts</div>
       <network-graph-highcharts
         title="Custodian Interaction"
-        :chartData="getEmailSentByCustodian.data"
-        :nodes="getEmailSentByCustodian.nodes"
+        :chartData="getEmailSentByCustodian().data"
+        :nodes="getEmailSentByCustodian().nodes"
         :handleClick="handleClick"
       />
       <div class="headline">ECharts</div>
       <network-graph-e-charts
         title="Custodian Interaction"
-        :chartData="getEmailSentByCustodian.data"
-        :nodes="getEmailSentByCustodian.nodes"
+        :chartData="getEmailSentByCustodian().data"
+        :nodes="getEmailSentByCustodian().nodes"
         :handleClick="handleClick"
       />
     </div>

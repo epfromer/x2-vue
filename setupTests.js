@@ -1,27 +1,38 @@
 import { routes } from '@/router'
-import { store } from '@/store/mockStore'
+import store from '@/store'
+import {
+  testCustodians,
+  testEmail,
+  testEmailSentByDay,
+  testWordCloud,
+} from '@/store/testData'
 import { render } from '@testing-library/vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import _ from 'lodash'
+import Vuex from 'vuex'
 
-require('jest-fetch-mock').enableMocks()
-
+Vue.use(Vuex)
 Vue.use(Vuetify)
 
 // https://testing-library.com/docs/vue-testing-library/intro
 
-export function renderComp(comp, props = {}, customStore = {}, isDark = false) {
+const getStore = () => {
+  const mockStore = store
+  mockStore.state.wordCloud = testWordCloud
+  mockStore.state.custodians = testCustodians
+  mockStore.state.emailSentByDay = testEmailSentByDay
+  mockStore.state.email = testEmail
+  return mockStore
+}
+
+export function renderComp(comp, props = {}, isDark = false) {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')
 
-  const newStore = { ...store }
-  _.merge(newStore, customStore)
-
   return render(comp, {
     container: document.body.appendChild(root),
+    store: getStore(),
     vuetify: new Vuetify(),
-    store: newStore,
     props,
     routes,
     provide: () => ({ theme: { isDark } }),
