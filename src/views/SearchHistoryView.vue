@@ -5,6 +5,7 @@
       class="button"
       elevation="2"
       color="secondary"
+      data-testid="onClearHistory"
     >
       Clear History
     </v-btn>
@@ -17,7 +18,7 @@
       must-sort
       item-key="id"
       :dense="true"
-      data-testid="datatable"
+      data-testid="onSearchHistory"
     >
     </v-data-table>
   </v-container>

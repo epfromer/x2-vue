@@ -16,7 +16,6 @@
       :expanded.sync="expanded"
       item-key="id"
       :dense="true"
-      data-testid="datatable"
     >
       <template slot="body.prepend">
         <tr>
@@ -106,7 +105,7 @@
     />
     <button
       hidden
-      @click="() => onRowClick({ _id: 'foo' })"
+      @click="() => onRowClick({ id: 'f3281cc4-90a9-4dcb-86bd-d705fc847985' })"
       data-testid="handleClick"
     ></button>
   </div>
