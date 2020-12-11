@@ -28,7 +28,10 @@ const getStore = () => {
 export function renderComp(comp, props = {}, isDark = false) {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')
-
+  window.IntersectionObserver = jest.fn(function () {
+    this.observe = jest.fn()
+    this.unobserve = jest.fn()
+  })
   return render(comp, {
     container: document.body.appendChild(root),
     store: getStore(),

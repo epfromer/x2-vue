@@ -24,7 +24,11 @@
         :handleClick="handleClick"
       />
     </div>
-    <button hidden @click="() => handleSelect('foo')">handleSelect</button>
+    <button
+      hidden
+      @click="() => handleClick('1999-01-07')"
+      data-testid="handleClick"
+    ></button>
   </v-container>
 </template>
 

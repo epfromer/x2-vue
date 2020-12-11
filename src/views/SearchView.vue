@@ -23,7 +23,12 @@
           <th>
             <v-tooltip top>
               <template v-slot:activator="{ on }">
-                <v-btn @click="onHistoryClick" v-on="on" text>
+                <v-btn
+                  data-testid="onHistoryClick"
+                  @click="onHistoryClick"
+                  v-on="on"
+                  text
+                >
                   <v-icon>history</v-icon>
                 </v-btn>
               </template>
@@ -31,7 +36,12 @@
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-btn @click="() => (datePickerOpen = true)" v-on="on" text>
+                <v-btn
+                  data-testid="openDatePicker"
+                  @click="() => (datePickerOpen = true)"
+                  v-on="on"
+                  text
+                >
                   <v-icon>date_range</v-icon>
                 </v-btn>
               </template>
@@ -97,7 +107,7 @@
     <button
       hidden
       @click="() => onRowClick({ _id: 'foo' })"
-      data-testid="onRowClick"
+      data-testid="handleClick"
     ></button>
   </div>
 </template>

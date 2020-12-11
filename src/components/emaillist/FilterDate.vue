@@ -8,8 +8,8 @@
         <v-btn text @click="handleClose"> Ok </v-btn>
       </v-card-actions>
     </v-card>
-    <button hidden @click="handleClear">handleClear</button>
-    <button hidden @click="handleClose">handleClose</button>
+    <button hidden data-testid="handleClear" @click="handleClear"></button>
+    <button hidden data-testid="handleClose" @click="handleClose"></button>
   </v-dialog>
 </template>
 
