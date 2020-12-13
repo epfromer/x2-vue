@@ -386,7 +386,7 @@ export default {
           }
         }
       `
-      return request(`${server}/graphql/`, query, getters.getQuery)
+      return request(`${server}/graphql/`, query, getters.getQuery())
         .then(async (data) => {
           // await sleep(5000)
           if (append) {
