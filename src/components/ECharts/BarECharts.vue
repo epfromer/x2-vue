@@ -7,7 +7,6 @@
 
 import { mapState, mapMutations } from 'vuex'
 import ECharts from 'vue-echarts'
-import echarts from 'echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/title'
 
