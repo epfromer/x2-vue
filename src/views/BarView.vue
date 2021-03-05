@@ -46,25 +46,6 @@
       <div class="headline">ECharts</div>
       <v-row>
         <v-col cols="12" md="6">
-          <demo
-            title="Senders"
-            search="from"
-            :chartData="getEmailSenders()"
-            :handleClick="handleClick"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <demo
-            title="Receivers"
-            search="to"
-            :chartData="getEmailReceivers()"
-            :handleClick="handleClick"
-          />
-        </v-col>
-      </v-row>
-      <div class="headline">ECharts</div>
-      <v-row>
-        <v-col cols="12" md="6">
           <bar-e-charts
             title="Senders"
             search="from"
@@ -98,7 +79,7 @@ import BarECharts from '@/components/ECharts/BarECharts'
 import Demo from '@/components/ECharts/Demo'
 
 export default {
-  components: { BarHighcharts, BarChartJS, BarECharts, BarECharts, Demo },
+  components: { BarHighcharts, BarChartJS, BarECharts },
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),
