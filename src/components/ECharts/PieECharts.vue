@@ -10,14 +10,10 @@ import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { PieChart } from 'echarts/charts'
 import {
-  GridComponent,
-  PolarComponent,
   GeoComponent,
   TooltipComponent,
-  LegendComponent,
   TitleComponent,
   VisualMapComponent,
-  DatasetComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
@@ -25,14 +21,10 @@ const { use } = echarts
 
 use([
   PieChart,
-  GridComponent,
-  PolarComponent,
   GeoComponent,
   TooltipComponent,
-  LegendComponent,
   TitleComponent,
   VisualMapComponent,
-  DatasetComponent,
   CanvasRenderer,
 ])
 
@@ -75,8 +67,11 @@ export default {
           fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif',
         },
         title: {
-          text: 'Traffic Sources',
+          text: this.title,
           left: 'center',
+          textStyle: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
         },
         tooltip: {
           trigger: 'item',
@@ -85,6 +80,9 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
+          textStyle: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
           data: [
             'Direct',
             'Email',
@@ -95,7 +93,7 @@ export default {
         },
         series: [
           {
-            name: 'Traffic Sources',
+            name: this.title,
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
@@ -120,6 +118,14 @@ export default {
   },
   mounted() {
     this.createChart()
+  },
+  watch: {
+    darkMode() {
+      this.createChart()
+    },
+    chartData() {
+      this.createChart()
+    },
   },
 }
 </script>
