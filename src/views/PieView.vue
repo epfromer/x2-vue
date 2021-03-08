@@ -5,24 +5,6 @@
       indeterminate
     ></v-progress-linear>
     <div v-if="custodians">
-      <v-row>
-        <v-col cols="12" md="6">
-          <Foo
-            title="Senders"
-            search="from"
-            :chartData="getEmailSenders()"
-            :handleClick="handleClick"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <Foo
-            title="Receivers"
-            search="to"
-            :chartData="getEmailReceivers()"
-            :handleClick="handleClick"
-          />
-        </v-col>
-      </v-row>
       <div class="headline">Highcharts</div>
       <v-row>
         <v-col cols="12" md="6">
@@ -94,10 +76,9 @@ import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import PieHighcharts from '@/components/Highcharts/PieHighcharts.vue'
 import PieChartJS from '@/components/ChartJS/PieChartJS'
 import PieECharts from '@/components/ECharts/PieECharts'
-import Foo from '@/components/ECharts/Foo'
 
 export default {
-  components: { PieHighcharts, PieChartJS, PieECharts, Foo },
+  components: { PieHighcharts, PieChartJS, PieECharts },
   computed: {
     ...mapState(['custodiansLoading', 'custodians']),
     ...mapGetters(['getEmailSenders', 'getEmailReceivers']),

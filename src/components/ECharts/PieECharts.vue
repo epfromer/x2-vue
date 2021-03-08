@@ -1,30 +1,14 @@
 <template>
-  <v-chart
-    v-if="config"
-    :options="config"
-    :init-options="initOptions"
-    @click="onClick"
-    ref="pie"
-    autoresize
-  />
+  <div class="chart">
+    <v-chart :option="config" :init-options="initOptions" autoresize />
+  </div>
 </template>
 
 <script>
-// https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
-
 import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
-import {
-  BarChart,
-  LineChart,
-  PieChart,
-  MapChart,
-  RadarChart,
-  ScatterChart,
-  EffectScatterChart,
-  LinesChart,
-} from 'echarts/charts'
+import { PieChart } from 'echarts/charts'
 import {
   GridComponent,
   PolarComponent,
@@ -35,19 +19,12 @@ import {
   VisualMapComponent,
   DatasetComponent,
 } from 'echarts/components'
-import { CanvasRenderer, SVGRenderer } from 'echarts/renderers'
+import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
 use([
-  BarChart,
-  LineChart,
   PieChart,
-  MapChart,
-  RadarChart,
-  ScatterChart,
-  EffectScatterChart,
-  LinesChart,
   GridComponent,
   PolarComponent,
   GeoComponent,
@@ -57,14 +34,15 @@ use([
   VisualMapComponent,
   DatasetComponent,
   CanvasRenderer,
-  SVGRenderer,
 ])
 
 export default {
   data() {
     return {
       config: null,
-      initOptions: { renderer: 'canvas' },
+      initOptions: {
+        renderer: 'canvas',
+      },
     }
   },
   props: {
@@ -90,31 +68,8 @@ export default {
   computed: {
     ...mapState(['darkMode']),
   },
-  mounted() {
-    this.createChart()
-  },
   methods: {
-    onClick(e) {
-      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
-    },
     createChart() {
-      console.log('create chart')
-      if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData.map((datum) => ({
-        name: datum.name,
-        value: datum.value,
-        itemStyle: {
-          normal: {
-            color: datum.color,
-            lineStyle: {
-              color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
-            },
-          },
-        },
-      }))
       this.config = {
         textStyle: {
           fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif',
@@ -161,45 +116,16 @@ export default {
           },
         ],
       }
-      // this.config = {
-      //   title: {
-      //     text: this.title,
-      //     left: 'center',
-      //     textStyle: {
-      //       color: this.theme.isDark ? 'white' : 'black',
-      //     },
-      //   },
-      //   tooltip: {
-      //     trigger: 'item',
-      //     formatter: '{b}: {c} ({d}%)',
-      //   },
-      //   series: [
-      //     {
-      //       type: 'pie',
-      //       radius: '55%',
-      //       emphasis: {
-      //         itemStyle: {
-      //           shadowBlur: 10,
-      //           shadowOffsetX: 0,
-      //           shadowColor: 'rgba(0, 0, 0, 0.5)',
-      //         },
-      //       },
-      //       data: cData,
-      //       animationType: 'scale',
-      //       animationEasing: 'elasticOut',
-      //       animationDelay: () => Math.random() * 200,
-      //     },
-      //   ],
-      // }
     },
   },
-  watch: {
-    darkMode() {
-      this.createChart()
-    },
-    chartData() {
-      this.createChart()
-    },
+  mounted() {
+    this.createChart()
   },
 }
 </script>
+
+<style scoped>
+.chart {
+  height: 500px;
+}
+</style>
