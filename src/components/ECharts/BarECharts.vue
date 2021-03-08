@@ -3,15 +3,15 @@
     v-if="config"
     :option="config"
     :init-options="initOptions"
-    autoresize
     @click="onClick"
+    autoresize
   />
 </template>
 
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'

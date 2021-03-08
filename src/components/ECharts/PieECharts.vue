@@ -1,27 +1,70 @@
 <template>
-  <v-chart v-if="config" :options="config" @click="onClick" autoresize />
+  <v-chart
+    v-if="config"
+    :options="config"
+    :init-options="initOptions"
+    @click="onClick"
+    ref="pie"
+    autoresize
+  />
 </template>
-
-<style>
-.echarts {
-  width: 100%;
-  height: 500px;
-}
-</style>
 
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
-import { mapState, mapMutations } from 'vuex'
-import ECharts from 'vue-echarts'
-import echarts from 'echarts'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/component/title'
+import { mapState } from 'vuex'
+import VChart from 'vue-echarts'
+import * as echarts from 'echarts/core'
+import {
+  BarChart,
+  LineChart,
+  PieChart,
+  MapChart,
+  RadarChart,
+  ScatterChart,
+  EffectScatterChart,
+  LinesChart,
+} from 'echarts/charts'
+import {
+  GridComponent,
+  PolarComponent,
+  GeoComponent,
+  TooltipComponent,
+  LegendComponent,
+  TitleComponent,
+  VisualMapComponent,
+  DatasetComponent,
+} from 'echarts/components'
+import { CanvasRenderer, SVGRenderer } from 'echarts/renderers'
+
+const { use } = echarts
+
+use([
+  BarChart,
+  LineChart,
+  PieChart,
+  MapChart,
+  RadarChart,
+  ScatterChart,
+  EffectScatterChart,
+  LinesChart,
+  GridComponent,
+  PolarComponent,
+  GeoComponent,
+  TooltipComponent,
+  LegendComponent,
+  TitleComponent,
+  VisualMapComponent,
+  DatasetComponent,
+  CanvasRenderer,
+  SVGRenderer,
+])
 
 export default {
   data() {
     return {
       config: null,
+      initOptions: { renderer: 'canvas' },
     }
   },
   props: {
@@ -43,9 +86,7 @@ export default {
     },
   },
   inject: ['theme'],
-  components: {
-    'v-chart': ECharts,
-  },
+  components: { VChart },
   computed: {
     ...mapState(['darkMode']),
   },
@@ -57,6 +98,7 @@ export default {
       if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
     },
     createChart() {
+      console.log('create chart')
       if (!this.chartData || !this.chartData.length) return
       const cData = this.chartData.map((datum) => ({
         name: datum.name,
@@ -74,21 +116,41 @@ export default {
         },
       }))
       this.config = {
+        textStyle: {
+          fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif',
+        },
         title: {
-          text: this.title,
+          text: 'Traffic Sources',
           left: 'center',
-          textStyle: {
-            color: this.theme.isDark ? 'white' : 'black',
-          },
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}: {c} ({d}%)',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+          data: [
+            'Direct',
+            'Email',
+            'Ad Networks',
+            'Video Ads',
+            'Search Engines',
+          ],
         },
         series: [
           {
+            name: 'Traffic Sources',
             type: 'pie',
             radius: '55%',
+            center: ['50%', '60%'],
+            data: [
+              { value: 335, name: 'Direct' },
+              { value: 310, name: 'Email' },
+              { value: 234, name: 'Ad Networks' },
+              { value: 135, name: 'Video Ads' },
+              { value: 1548, name: 'Search Engines' },
+            ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -96,13 +158,39 @@ export default {
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
               },
             },
-            data: cData,
-            animationType: 'scale',
-            animationEasing: 'elasticOut',
-            animationDelay: () => Math.random() * 200,
           },
         ],
       }
+      // this.config = {
+      //   title: {
+      //     text: this.title,
+      //     left: 'center',
+      //     textStyle: {
+      //       color: this.theme.isDark ? 'white' : 'black',
+      //     },
+      //   },
+      //   tooltip: {
+      //     trigger: 'item',
+      //     formatter: '{b}: {c} ({d}%)',
+      //   },
+      //   series: [
+      //     {
+      //       type: 'pie',
+      //       radius: '55%',
+      //       emphasis: {
+      //         itemStyle: {
+      //           shadowBlur: 10,
+      //           shadowOffsetX: 0,
+      //           shadowColor: 'rgba(0, 0, 0, 0.5)',
+      //         },
+      //       },
+      //       data: cData,
+      //       animationType: 'scale',
+      //       animationEasing: 'elasticOut',
+      //       animationDelay: () => Math.random() * 200,
+      //     },
+      //   ],
+      // }
     },
   },
   watch: {
