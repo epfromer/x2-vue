@@ -1,37 +1,26 @@
 <template>
-  <div class="chart">
-    <v-chart
-      :option="config"
-      :init-options="initOptions"
-      @click="onClick"
-      autoresize
-    />
-  </div>
+  <v-chart
+    class="chart"
+    :option="config"
+    :init-options="initOptions"
+    @click="onClick"
+    autoresize
+  />
 </template>
 
 <script>
+// https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
+
 import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { PieChart } from 'echarts/charts'
-import {
-  GeoComponent,
-  TooltipComponent,
-  TitleComponent,
-  VisualMapComponent,
-} from 'echarts/components'
+import { TooltipComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
-use([
-  PieChart,
-  GeoComponent,
-  TooltipComponent,
-  TitleComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-])
+use([PieChart, TooltipComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
@@ -64,6 +53,9 @@ export default {
   components: { VChart },
   computed: {
     ...mapState(['darkMode']),
+  },
+  mounted() {
+    this.createChart()
   },
   methods: {
     onClick(e) {
@@ -125,9 +117,6 @@ export default {
         ],
       }
     },
-  },
-  mounted() {
-    this.createChart()
   },
   watch: {
     darkMode() {

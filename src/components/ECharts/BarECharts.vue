@@ -1,13 +1,11 @@
 <template>
-  <div class="chart">
-    <v-chart
-      v-if="config"
-      :option="config"
-      :init-options="initOptions"
-      @click="onClick"
-      autoresize
-    />
-  </div>
+  <v-chart
+    class="chart"
+    :option="config"
+    :init-options="initOptions"
+    @click="onClick"
+    autoresize
+  />
 </template>
 
 <script>
@@ -17,26 +15,12 @@ import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import {
-  GridComponent,
-  LegendComponent,
-  TitleComponent,
-  VisualMapComponent,
-  DatasetComponent,
-} from 'echarts/components'
+import { LegendComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
-use([
-  BarChart,
-  GridComponent,
-  LegendComponent,
-  TitleComponent,
-  VisualMapComponent,
-  DatasetComponent,
-  CanvasRenderer,
-])
+use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
