@@ -1,11 +1,13 @@
 <template>
-  <v-chart
-    v-if="config"
-    :option="config"
-    :init-options="initOptions"
-    @click="onClick"
-    autoresize
-  />
+  <div class="chart">
+    <v-chart
+      v-if="config"
+      :option="config"
+      :init-options="initOptions"
+      @click="onClick"
+      autoresize
+    />
+  </div>
 </template>
 
 <script>
@@ -80,14 +82,12 @@ export default {
           name: datum.name,
           value: datum.value,
           itemStyle: {
-            normal: {
+            color: datum.color,
+            lineStyle: {
               color: datum.color,
-              lineStyle: {
-                color: datum.color,
-              },
-              areaStyle: {
-                color: datum.color,
-              },
+            },
+            areaStyle: {
+              color: datum.color,
             },
           },
         }))
@@ -140,3 +140,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.chart {
+  height: 500px;
+}
+</style>
