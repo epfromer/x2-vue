@@ -15,12 +15,22 @@ import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import { LegendComponent, TitleComponent } from 'echarts/components'
+import {
+  LegendComponent,
+  TitleComponent,
+  DataZoomSliderComponent,
+} from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
-use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
+use([
+  BarChart,
+  LegendComponent,
+  TitleComponent,
+  DataZoomSliderComponent,
+  CanvasRenderer,
+])
 
 export default {
   data() {
@@ -89,6 +99,14 @@ export default {
         grid: {
           containLabel: true,
         },
+        dataZoom: [
+          {
+            type: 'inside',
+          },
+          {
+            type: 'slider',
+          },
+        ],
         xAxis: {
           data: this.chartData.map((datum) => datum.sent),
           silent: false,
