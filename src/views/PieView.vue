@@ -26,21 +26,25 @@
       </v-row>
       <div class="headline">ChartJS</div>
       <v-row>
-        <v-col cols="12" md="6">
-          <pie-chart-j-s
-            title="Senders"
-            search="from"
-            :chartData="getEmailSenders()"
-            :handleClick="handleClick"
-          />
+        <v-col align="center" justify="center" cols="12" md="6">
+          <div class="chartjs">
+            <pie-chart-j-s
+              title="Senders"
+              search="from"
+              :chartData="getEmailSenders()"
+              :handleClick="handleClick"
+            />
+          </div>
         </v-col>
-        <v-col cols="12" md="6">
-          <pie-chart-j-s
-            title="Receivers"
-            search="to"
-            :chartData="getEmailReceivers()"
-            :handleClick="handleClick"
-          />
+        <v-col align="center" justify="center" cols="12" md="6">
+          <div class="chartjs">
+            <pie-chart-j-s
+              title="Receivers"
+              search="to"
+              :chartData="getEmailReceivers()"
+              :handleClick="handleClick"
+            />
+          </div>
         </v-col>
       </v-row>
       <div class="headline">ECharts</div>
@@ -100,5 +104,8 @@ export default {
 <style scoped>
 .title {
   padding-bottom: 10px;
+}
+.chartjs {
+  width: 400px;
 }
 </style>
