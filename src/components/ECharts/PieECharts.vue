@@ -1,6 +1,11 @@
 <template>
   <div class="chart">
-    <v-chart :option="config" :init-options="initOptions" autoresize />
+    <v-chart
+      :option="config"
+      :init-options="initOptions"
+      @click="onClick"
+      autoresize
+    />
   </div>
 </template>
 
@@ -61,7 +66,24 @@ export default {
     ...mapState(['darkMode']),
   },
   methods: {
+    onClick(e) {
+      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
+    },
     createChart() {
+      if (!this.chartData || !this.chartData.length) return
+      const cData = this.chartData.map((datum) => ({
+        name: datum.name,
+        value: datum.value,
+        itemStyle: {
+          color: datum.color,
+          lineStyle: {
+            color: datum.color,
+          },
+          areaStyle: {
+            color: datum.color,
+          },
+        },
+      }))
       this.config = {
         textStyle: {
           fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif',
@@ -83,13 +105,7 @@ export default {
           textStyle: {
             color: this.theme.isDark ? 'white' : 'black',
           },
-          data: [
-            'Direct',
-            'Email',
-            'Ad Networks',
-            'Video Ads',
-            'Search Engines',
-          ],
+          data: this.chartData.map((datum) => datum.name),
         },
         series: [
           {
@@ -97,13 +113,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: 'Direct' },
-              { value: 310, name: 'Email' },
-              { value: 234, name: 'Ad Networks' },
-              { value: 135, name: 'Video Ads' },
-              { value: 1548, name: 'Search Engines' },
-            ],
+            data: cData,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
