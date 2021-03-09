@@ -1,32 +1,20 @@
 <template>
-  <v-chart
-    class="chart"
-    :option="config"
-    :init-options="initOptions"
-    @click="onClick"
-    autoresize
-  />
+  <v-chart v-if="config" :options="config" @click="onClick" autoresize />
 </template>
 
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
-import { mapState } from 'vuex'
-import VChart from 'vue-echarts'
-import * as echarts from 'echarts/core'
-import { BarChart } from 'echarts/charts'
-import { LegendComponent, TitleComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
-
-const { use } = echarts
-
-use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
+import { mapState, mapMutations } from 'vuex'
+import ECharts from 'vue-echarts'
+import echarts from 'echarts'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/component/dataZoom'
 
 export default {
   data() {
     return {
       config: null,
-      initOptions: { renderer: 'canvas' },
     }
   },
   props: {
@@ -44,7 +32,9 @@ export default {
     },
   },
   inject: ['theme'],
-  components: { VChart },
+  components: {
+    'v-chart': ECharts,
+  },
   computed: {
     ...mapState(['darkMode']),
   },
@@ -53,25 +43,10 @@ export default {
   },
   methods: {
     onClick(e) {
-      if (e.name) this.handleClick(e.name)
+      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
     },
     createChart() {
       if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData
-        .map((datum) => ({
-          name: datum.name,
-          value: datum.value,
-          itemStyle: {
-            color: datum.color,
-            lineStyle: {
-              color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
-            },
-          },
-        }))
-        .reverse()
       this.config = {
         title: {
           text: this.title,
@@ -86,9 +61,14 @@ export default {
             type: 'shadow',
           },
         },
-        grid: {
-          containLabel: true,
-        },
+        dataZoom: [
+          {
+            type: 'inside',
+          },
+          {
+            type: 'slider',
+          },
+        ],
         xAxis: {
           data: this.chartData.map((datum) => datum.sent),
           silent: false,
@@ -129,9 +109,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.chart {
-  height: 500px;
-}
-</style>
