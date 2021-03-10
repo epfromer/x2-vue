@@ -38,7 +38,7 @@
     "sass-loader": "^10.1.0",
     "vue-cli-plugin-vuetify": "^2.0.8",
     "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.7.2"
+    "vuetify-loader": "^1.6.0"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",
@@ -54,9 +54,9 @@
     "serve-static": "^1.14.1",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
-    "vue-echarts": "6.0.0-rc.3",
+    "vue-echarts": "6.0.0-beta.7",
     "vue-router": "^3.5.1",
-    "vuetify": "^2.4.6",
+    "vuetify": "^2.4.5",
     "vuex": "^3.6.2"
   },
   "eslintConfig": {
