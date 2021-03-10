@@ -1,20 +1,32 @@
 <template>
-  <v-chart v-if="config" :options="config" @click="onClick" autoresize />
+  <v-chart
+    class="chart"
+    :option="config"
+    :init-options="initOptions"
+    @click="onClick"
+    autoresize
+  />
 </template>
 
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
-import { mapState, mapMutations } from 'vuex'
-import ECharts from 'vue-echarts'
-import echarts from 'echarts'
-import 'echarts/lib/chart/graph'
-import 'echarts/lib/component/title'
+import { mapState } from 'vuex'
+import VChart from 'vue-echarts'
+import * as echarts from 'echarts/core'
+import { GraphChart } from 'echarts/charts'
+import { LegendComponent, TitleComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+const { use } = echarts
+
+use([GraphChart, LegendComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
     return {
       config: null,
+      initOptions: { renderer: 'canvas' },
     }
   },
   props: {
@@ -36,9 +48,7 @@ export default {
     },
   },
   inject: ['theme'],
-  components: {
-    'v-chart': ECharts,
-  },
+  components: { VChart },
   computed: {
     ...mapState(['darkMode']),
   },
@@ -47,10 +57,12 @@ export default {
   },
   methods: {
     onClick(e) {
-      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
+      if (e.data && e.data.source && e.data.target) {
+        this.handleClick(e.data.source, e.data.target)
+      }
     },
     createChart() {
-      if (!this.chartData || !this.nodes.length) return
+      if (!this.chartData || !this.chartData.length) return
       const chartNodes = this.nodes.map((node) => ({
         id: node.id,
         name: node.id,
@@ -62,9 +74,7 @@ export default {
           color: node.color,
         },
         label: {
-          normal: {
-            show: true,
-          },
+          show: true,
         },
       }))
       this.config = {
@@ -75,10 +85,21 @@ export default {
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
-        tooltip: {},
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+          },
+        },
+        grid: {
+          containLabel: true,
+        },
         legend: [
           {
-            bottom: 0,
+            orient: 'vertical',
+            x: 'left',
+            y: 'center',
+            padding: [0, 0, 0, 0],
             data: chartNodes.map((a) => a.name),
             textStyle: {
               color: this.theme.isDark ? 'white' : 'black',
@@ -124,3 +145,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.chart {
+  height: 500px;
+}
+</style>
