@@ -1,20 +1,32 @@
 <template>
-  <v-chart v-if="config" :options="config" @click="onClick" autoresize />
+  <v-chart
+    class="chart"
+    :option="config"
+    :init-options="initOptions"
+    @click="onClick"
+    autoresize
+  />
 </template>
 
 <script>
 // https://github.com/ecomfe/vue-echarts/blob/master/src/demo/Demo.vue
 
-import { mapState, mapMutations } from 'vuex'
-import ECharts from 'vue-echarts'
-import echarts from 'echarts'
-import 'echarts/lib/chart/graph'
-import 'echarts/lib/component/title'
+import { mapState } from 'vuex'
+import VChart from 'vue-echarts'
+import * as echarts from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { LegendComponent, TitleComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+const { use } = echarts
+
+use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
     return {
       config: null,
+      initOptions: { renderer: 'canvas' },
     }
   },
   props: {
@@ -26,8 +38,8 @@ export default {
       type: Array,
       required: true,
     },
-    nodes: {
-      type: Array,
+    search: {
+      type: String,
       required: true,
     },
     handleClick: {
@@ -36,9 +48,7 @@ export default {
     },
   },
   inject: ['theme'],
-  components: {
-    'v-chart': ECharts,
-  },
+  components: { VChart },
   computed: {
     ...mapState(['darkMode']),
   },
@@ -50,23 +60,22 @@ export default {
       if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
     },
     createChart() {
-      if (!this.chartData || !this.nodes.length) return
-      const chartNodes = this.nodes.map((node) => ({
-        id: node.id,
-        name: node.id,
-        category: node.id,
-        x: null,
-        y: null,
-        draggable: true,
-        itemStyle: {
-          color: node.color,
-        },
-        label: {
-          normal: {
-            show: true,
+      if (!this.chartData || !this.chartData.length) return
+      const cData = this.chartData
+        .map((datum) => ({
+          name: datum.name,
+          value: datum.value,
+          itemStyle: {
+            color: datum.color,
+            lineStyle: {
+              color: datum.color,
+            },
+            areaStyle: {
+              color: datum.color,
+            },
           },
-        },
-      }))
+        }))
+        .reverse()
       this.config = {
         title: {
           text: this.title,
@@ -75,39 +84,31 @@ export default {
             color: this.theme.isDark ? 'white' : 'black',
           },
         },
-        tooltip: {},
-        legend: [
-          {
-            orient: 'vertical',
-            x: 'left',
-            y: 'center',
-            padding: [0, 0, 0, 0],
-            data: chartNodes.map((a) => a.name),
-            textStyle: {
-              color: this.theme.isDark ? 'white' : 'black',
-            },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
           },
-        ],
+        },
+        grid: {
+          containLabel: true,
+        },
+        xAxis: {
+          axisLabel: {
+            color: this.theme.isDark ? 'white' : 'black',
+          },
+        },
+        yAxis: {
+          data: cData.map((datum) => datum.name),
+          axisLabel: {
+            width: 200,
+            color: this.theme.isDark ? 'white' : 'black',
+          },
+        },
         series: [
           {
-            name: this.title,
-            top: 50,
-            left: 50,
-            right: 50,
-            type: 'graph',
-            layout: 'circular',
-            data: chartNodes,
-            links: this.chartData,
-            categories: chartNodes,
-            roam: true,
-            label: {
-              position: 'bottom',
-              formatter: '{b}',
-            },
-            lineStyle: {
-              color: 'source',
-              curveness: 0.3,
-            },
+            type: 'bar',
+            data: cData,
           },
         ],
       }
@@ -123,3 +124,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.chart {
+  height: 500px;
+}
+</style>
