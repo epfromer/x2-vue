@@ -14,13 +14,13 @@
 import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
-import { BarChart } from 'echarts/charts'
+import { GraphChart } from 'echarts/charts'
 import { LegendComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
-use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
+use([GraphChart, LegendComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
@@ -38,8 +38,8 @@ export default {
       type: Array,
       required: true,
     },
-    search: {
-      type: String,
+    nodes: {
+      type: Array,
       required: true,
     },
     handleClick: {
@@ -57,25 +57,26 @@ export default {
   },
   methods: {
     onClick(e) {
-      if (e.data && e.data.name) this.handleClick(this.search, e.data.name)
+      if (e.data && e.data.source && e.data.target) {
+        this.handleClick(e.data.source, e.data.target)
+      }
     },
     createChart() {
       if (!this.chartData || !this.chartData.length) return
-      const cData = this.chartData
-        .map((datum) => ({
-          name: datum.name,
-          value: datum.value,
-          itemStyle: {
-            color: datum.color,
-            lineStyle: {
-              color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
-            },
-          },
-        }))
-        .reverse()
+      const chartNodes = this.nodes.map((node) => ({
+        id: node.id,
+        name: node.id,
+        category: node.id,
+        x: null,
+        y: null,
+        draggable: true,
+        itemStyle: {
+          color: node.color,
+        },
+        label: {
+          show: true,
+        },
+      }))
       this.config = {
         title: {
           text: this.title,
@@ -93,22 +94,38 @@ export default {
         grid: {
           containLabel: true,
         },
-        xAxis: {
-          axisLabel: {
-            color: this.theme.isDark ? 'white' : 'black',
+        legend: [
+          {
+            orient: 'vertical',
+            x: 'left',
+            y: 'center',
+            padding: [0, 0, 0, 0],
+            data: chartNodes.map((a) => a.name),
+            textStyle: {
+              color: this.theme.isDark ? 'white' : 'black',
+            },
           },
-        },
-        yAxis: {
-          data: cData.map((datum) => datum.name),
-          axisLabel: {
-            width: 200,
-            color: this.theme.isDark ? 'white' : 'black',
-          },
-        },
+        ],
         series: [
           {
-            type: 'bar',
-            data: cData,
+            name: this.title,
+            top: 50,
+            left: 50,
+            right: 50,
+            type: 'graph',
+            layout: 'circular',
+            data: chartNodes,
+            links: this.chartData,
+            categories: chartNodes,
+            roam: true,
+            label: {
+              position: 'bottom',
+              formatter: '{b}',
+            },
+            lineStyle: {
+              color: 'source',
+              curveness: 0.3,
+            },
           },
         ],
       }
