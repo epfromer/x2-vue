@@ -15,12 +15,16 @@ import { mapState } from 'vuex'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import { LegendComponent, TitleComponent } from 'echarts/components'
+import {
+  GridComponent,
+  LegendComponent,
+  TitleComponent,
+} from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
 const { use } = echarts
 
-use([BarChart, LegendComponent, TitleComponent, CanvasRenderer])
+use([BarChart, GridComponent, LegendComponent, TitleComponent, CanvasRenderer])
 
 export default {
   data() {
@@ -65,20 +69,13 @@ export default {
         .map((datum) => ({
           name: datum.name,
           value: datum.value,
-          itemStyle: {
-            color: datum.color,
-            lineStyle: {
-              color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
-            },
-          },
+          itemStyle: { color: datum.color },
         }))
         .reverse()
       this.config = {
         title: {
           text: this.title,
+          top: 20,
           left: 'center',
           textStyle: {
             color: this.theme.isDark ? 'white' : 'black',

@@ -66,15 +66,7 @@ export default {
       const cData = this.chartData.map((datum) => ({
         name: datum.name,
         value: datum.value,
-        itemStyle: {
-          color: datum.color,
-          lineStyle: {
-            color: datum.color,
-          },
-          areaStyle: {
-            color: datum.color,
-          },
-        },
+        itemStyle: { color: datum.color },
       }))
       this.config = {
         textStyle: {
