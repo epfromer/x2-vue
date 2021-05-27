@@ -18,6 +18,7 @@ import { BarChart } from 'echarts/charts'
 import {
   LegendComponent,
   TitleComponent,
+  DataZoomComponent,
   DataZoomSliderComponent,
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -28,6 +29,7 @@ use([
   BarChart,
   LegendComponent,
   TitleComponent,
+  DataZoomComponent,
   DataZoomSliderComponent,
   CanvasRenderer,
 ])
@@ -71,15 +73,7 @@ export default {
         .map((datum) => ({
           name: datum.name,
           value: datum.value,
-          itemStyle: {
-            color: datum.color,
-            lineStyle: {
-              color: datum.color,
-            },
-            areaStyle: {
-              color: datum.color,
-            },
-          },
+          itemStyle: {  color: datum.color },
         }))
         .reverse()
       this.config = {
